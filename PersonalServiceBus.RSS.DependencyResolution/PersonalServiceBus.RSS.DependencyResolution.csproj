@@ -51,10 +51,6 @@
       <Project>{9D2E2B5F-FC98-469D-88B7-E72904F17336}</Project>
       <Name>PersonalServiceBus.RSS.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PersonalServiceBus.RSS\PersonalServiceBus.RSS.csproj">
-      <Project>{6D628AB1-118F-415B-B9C6-2CA627962C50}</Project>
-      <Name>PersonalServiceBus.RSS</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

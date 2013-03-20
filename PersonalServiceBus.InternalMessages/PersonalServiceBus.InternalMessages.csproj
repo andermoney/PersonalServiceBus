@@ -43,6 +43,7 @@
     </Compile>
     <Compile Include="Videos\GetVideo.cs">
       <ItemGuid>d4a2019a-0591-45ea-96f9-ea41e97a4a8f</ItemGuid>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fa391d7d5-df7f-4259-914d-782ccec2938c</SourceModelReference>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

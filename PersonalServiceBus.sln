@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18C914
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email", "PersonalServiceBus.Email\PersonalServiceBus.Email.csproj", "{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS", "PersonalServiceBus.RSS\PersonalServiceBus.RSS.csproj", "{6D628AB1-118F-415B-B9C6-2CA627962C50}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email.Core", "PersonalServiceBus.Email.Core\PersonalServiceBus.Email.Core.csproj", "{3F18421F-7DEB-4A39-85DF-D21960E3606A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email.Infrastructure", "PersonalServiceBus.Email.Infrastructure\PersonalServiceBus.Email.Infrastructure.csproj", "{C53EDB01-6561-4EEA-B503-C5889ED8635C}"
@@ -50,10 +48,6 @@ Global
 		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D628AB1-118F-415B-B9C6-2CA627962C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D628AB1-118F-415B-B9C6-2CA627962C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D628AB1-118F-415B-B9C6-2CA627962C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D628AB1-118F-415B-B9C6-2CA627962C50}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F18421F-7DEB-4A39-85DF-D21960E3606A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F18421F-7DEB-4A39-85DF-D21960E3606A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F18421F-7DEB-4A39-85DF-D21960E3606A}.Release|Any CPU.ActiveCfg = Release|Any CPU
