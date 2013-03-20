@@ -41,6 +41,9 @@
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/c:\users\jake.anderson.triton-tek\documents\visual studio 2010\Projects\PersonalServiceBus\PersonalServiceBus.slnbldr%252f7202e367-ef87-45a3-9628-5110bff42ec4</SourceModelReference>
       <ItemGuid>8fd17bb0-5dce-45d4-b8b3-c8d134dc8f40</ItemGuid>
     </Compile>
+    <Compile Include="Videos\GetVideo.cs">
+      <ItemGuid>d4a2019a-0591-45ea-96f9-ea41e97a4a8f</ItemGuid>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
