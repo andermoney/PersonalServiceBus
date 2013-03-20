@@ -36,7 +36,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NServiceBus">
+      <HintPath>..\packages\NServiceBus.3.2.0\lib\net40\NServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Core">
+      <HintPath>..\packages\NServiceBus.3.2.0\lib\net40\NServiceBus.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -88,7 +97,7 @@
       <ItemGuid>7972a5e5-a810-4bb2-b65e-1da679ad7321</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoSender.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f528ee0e6-cd41-4e4f-8f63-bb789deca03b</SourceModelReference>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fa391d7d5-df7f-4259-914d-782ccec2938c</SourceModelReference>
       <ItemGuid>e9eb0985-0aab-4450-92ff-3f6ec849a9c6</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\MessageConventions.cs">
