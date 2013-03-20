@@ -1,7 +1,18 @@
-﻿namespace PersonalServiceBus.RSS.Components.Videos
+﻿using System;
+using NServiceBus;
+using PersonalServiceBus.Contract.Videos;
+
+
+namespace PersonalServiceBus.RSS1.Components.Videos
 {
-    public partial class FoundVideoProcessor
-    {
-         
-    }
+	public partial class FoundVideoProcessor
+	{
+		
+        partial void HandleImplementation(VideoFound message)
+        {
+            // Implement your handler logic here.
+            Console.WriteLine("Videos received " + message.GetType().Name);
+        }
+
+	}
 }

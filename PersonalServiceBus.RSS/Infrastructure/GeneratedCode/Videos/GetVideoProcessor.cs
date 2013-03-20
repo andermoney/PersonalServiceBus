@@ -3,7 +3,7 @@ using NServiceBus;
 using PersonalServiceBus.InternalMessages.Videos;
 
 
-namespace PersonalServiceBus.RSS.Components.Videos
+namespace PersonalServiceBus.RSS1.Components.Videos
 {
     public partial class GetVideoProcessor : IHandleMessages<GetVideo>
     {

@@ -3,7 +3,7 @@ using NServiceBus;
 using PersonalServiceBus.Contract.Videos;
 
 
-namespace PersonalServiceBus.RSS.Components.Videos
+namespace PersonalServiceBus.RSS1.Components.Videos
 {
     public partial class FoundVideoProcessor : IHandleMessages<VideoFound>
     {
