@@ -46,6 +46,8 @@
     <Reference Include="NServiceBus.Core">
       <HintPath>..\packages\NServiceBus.3.2.0\lib\net40\NServiceBus.Core.dll</HintPath>
     </Reference>
+    <Reference Include="PersonalServiceBus.Contract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="PersonalServiceBus.InternalMessages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -71,6 +73,15 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Videos\FoundVideoProcessor.cs">
+      <ItemGuid>3912989b-2460-4eb4-83c2-61e9714c03ed</ItemGuid>
+    </Compile>
+    <Compile Include="Components\Videos\GetVideoProcessor.cs">
+      <ItemGuid>b74b1e8d-8ff0-43c5-8a48-17aa6c15b23e</ItemGuid>
+    </Compile>
+    <Compile Include="Components\Videos\GetVideoSender.cs">
+      <ItemGuid>ce5f5e3c-2269-4235-ba3c-5905846eb09c</ItemGuid>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

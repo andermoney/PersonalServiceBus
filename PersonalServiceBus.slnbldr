@@ -24,7 +24,7 @@
                           <elements>
                             <element Id="9447d699-16b2-4a03-8067-4aa2be6ab070" definitionId="f06eaa91-971c-42ee-a7cb-eaa77a97dbdd" definitionName="Event" instanceName="Video Found">
                               <references>
-                                <reference Id="184b51d3-5d02-4611-9ce0-039402f25734" value="solution://d0501c0b-06b8-4720-a6c1-5f41b1b83f1a/f58ae198-9d89-421c-9d41-9969715692b6" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0757e840-a92f-4f7c-ade6-a9bc878796d4&quot;&#xD;&#xA;}" />
+                                <reference Id="184b51d3-5d02-4611-9ce0-039402f25734" value="solution://d0501c0b-06b8-4720-a6c1-5f41b1b83f1a/ff081627-caa1-4fb4-9caf-128c26e5136f" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0757e840-a92f-4f7c-ade6-a9bc878796d4&quot;&#xD;&#xA;}" />
                               </references>
                             </element>
                           </elements>
@@ -41,7 +41,7 @@
                             </element>
                             <element Id="b6bc3d42-4bea-4371-818f-30b079245709" definitionId="c2f83a83-1117-43d5-b427-3ede53888fa4" definitionName="Command" instanceName="Get Video">
                               <references>
-                                <reference Id="d7eeea9f-5444-4679-8c9a-b5c631141348" value="solution://fe86ace8-6126-4963-a6af-f02bfd0e676a/57f9ebee-3e21-49be-8f42-0403ba01c037" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;e0cce5ad-fee6-4711-89d3-01a04457a8f0&quot;&#xD;&#xA;}" />
+                                <reference Id="d7eeea9f-5444-4679-8c9a-b5c631141348" value="solution://fe86ace8-6126-4963-a6af-f02bfd0e676a/d4a2019a-0591-45ea-96f9-ea41e97a4a8f" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;e0cce5ad-fee6-4711-89d3-01a04457a8f0&quot;&#xD;&#xA;}" />
                               </references>
                             </element>
                           </elements>
@@ -127,7 +127,7 @@
                           </properties>
                           <references>
                             <reference Id="a6f26d3a-937e-436a-a04f-a56bacbeb092" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/6bc85549-5960-4a43-81ad-8f79ed639cab" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
-                            <reference Id="8cfe5a4f-f6c1-4b51-901c-cff98aa59d91" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/e8e544d8-b512-4423-939c-f747a2392c3c" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
+                            <reference Id="8cfe5a4f-f6c1-4b51-901c-cff98aa59d91" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/3912989b-2460-4eb4-83c2-61e9714c03ed" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
                           </references>
                           <elements>
                             <collection Id="8f519ce1-00ed-4141-8797-f5ccd7a14e1c" definitionId="318cc384-e8ba-465f-8469-1235fce91ef0" definitionName="Publishes" instanceName="Publishes / Sends" />
@@ -159,7 +159,7 @@
                           </properties>
                           <references>
                             <reference Id="dc7c3d7a-21f7-4e5b-ba8e-b894c8cfd44d" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/e0716e4b-976f-49f0-a314-c66eef9eeba1" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
-                            <reference Id="59cc5267-63a3-4adb-9feb-a676c79cb739" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/1121336a-38ce-460c-a586-7ab1bb176a8d" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
+                            <reference Id="59cc5267-63a3-4adb-9feb-a676c79cb739" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/ce5f5e3c-2269-4235-ba3c-5905846eb09c" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
                           </references>
                           <elements>
                             <collection Id="2d3a99ea-464d-4a9f-9729-718a0c776871" definitionId="318cc384-e8ba-465f-8469-1235fce91ef0" definitionName="Publishes" instanceName="Publishes / Sends">
@@ -194,7 +194,7 @@
                           </properties>
                           <references>
                             <reference Id="c137fcca-a695-455b-aa33-27c8e026ff8e" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/690f9da3-6c93-4833-80fe-2dea58add4d2" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
-                            <reference Id="b26ce295-aa39-489d-83b9-4642902b1631" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/98671793-777f-49c6-b930-034a25aed4f2" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
+                            <reference Id="b26ce295-aa39-489d-83b9-4642902b1631" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/b74b1e8d-8ff0-43c5-8a48-17aa6c15b23e" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
                           </references>
                           <elements>
                             <collection Id="b8b3057c-61e9-49cf-a8f0-11225959af4b" definitionId="318cc384-e8ba-465f-8469-1235fce91ef0" definitionName="Publishes" instanceName="Publishes / Sends" />
