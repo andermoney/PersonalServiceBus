@@ -97,7 +97,7 @@
       <ItemGuid>019ceaec-f320-4b51-b67e-36b59347c4a1</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoSender.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f7de1b279-4915-4316-a9db-36786ed88e88</SourceModelReference>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f530db585-6fda-42e4-9c39-c8b647043914</SourceModelReference>
       <ItemGuid>77490024-fbfb-45a0-991d-431760ccd926</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\MessageConventions.cs">
@@ -252,7 +252,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>32209</DevelopmentServerPort>
+          <DevelopmentServerPort>58206</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
