@@ -78,6 +78,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ConfigureMvcDependencyInjection.cs" />
+    <Compile Include="Infrastructure\GeneratedCode\Videos\FoundVideoProcessor.cs">
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f16174f46-3c49-4e83-9336-8e6360ab7a6a</SourceModelReference>
+      <ItemGuid>6bc85549-5960-4a43-81ad-8f79ed639cab</ItemGuid>
+    </Compile>
+    <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoProcessor.cs">
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252ff90599cb-8a4d-46e4-a4c6-d0b0469377bd</SourceModelReference>
+      <ItemGuid>690f9da3-6c93-4833-80fe-2dea58add4d2</ItemGuid>
+    </Compile>
+    <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoSender.cs">
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fa391d7d5-df7f-4259-914d-782ccec2938c</SourceModelReference>
+      <ItemGuid>e0716e4b-976f-49f0-a314-c66eef9eeba1</ItemGuid>
+    </Compile>
     <Compile Include="Infrastructure\MessageConventions.cs">
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/c:\users\jake.anderson.triton-tek\documents\visual studio 2010\Projects\PersonalServiceBus\PersonalServiceBus.slnbldr%252fe2371054-245c-4a24-9e28-43b382590c0e</SourceModelReference>
       <ItemGuid>d7388010-4cbc-4413-8030-2758e23b3b8f</ItemGuid>
