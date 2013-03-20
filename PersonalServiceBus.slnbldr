@@ -118,7 +118,7 @@
                         </element>
                         <element Id="16174f46-3c49-4e83-9336-8e6360ab7a6a" definitionId="f1e3bdfb-c55d-4600-b1bc-d12c8b27318f" definitionName="Component" instanceName="FoundVideoProcessor">
                           <properties>
-                            <property Id="39a33122-c3a4-4682-a763-6206fa9e53a9" definitionId="304a32af-b6be-4401-a3f1-c30c3d107cf2" definitionName="Namespace" />
+                            <property Id="39a33122-c3a4-4682-a763-6206fa9e53a9" definitionId="304a32af-b6be-4401-a3f1-c30c3d107cf2" definitionName="Namespace" rawValue="PersonalServiceBus.RSS1.Components.Videos" />
                             <property Id="5455d956-fb59-45fe-869f-c0f864d346e0" definitionId="b85a7c13-b983-4252-90ef-9eaf8be1146d" definitionName="AdditionalUsings" rawValue="using PersonalServiceBus.Contract.Videos;&#xD;&#xA;" />
                             <property Id="4f9313b8-02bf-400a-8f8e-60ff31f3e7e0" definitionId="6ff7444a-d751-42e4-9233-98a97c2b95b7" definitionName="Inherits" rawValue=": IHandleMessages&lt;VideoFound&gt;" />
                             <property Id="fca694a2-3510-4240-ad42-c78e03dcf70d" definitionId="f8f807c4-03ba-4cfb-ad60-583be21676c4" definitionName="ClassBody" rawValue="&#xD;&#xA;&#x9;&#x9;public void Handle(VideoFound message)&#xD;&#xA;&#x9;&#x9;{&#xD;&#xA;&#x9;&#x9;&#x9;this.HandleImplementation(message);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;partial void HandleImplementation(VideoFound message);&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;public IBus Bus { get; set; }&#xD;&#xA;" />
@@ -126,8 +126,8 @@
                             <property Id="f27fa584-ae8a-40c7-bcb1-63c0ee7667ab" definitionId="61fc0cf8-b810-4091-8212-5441b8e67513" definitionName="IsSaga" rawValue="False" />
                           </properties>
                           <references>
-                            <reference Id="a6f26d3a-937e-436a-a04f-a56bacbeb092" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/6bc85549-5960-4a43-81ad-8f79ed639cab" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
-                            <reference Id="8cfe5a4f-f6c1-4b51-901c-cff98aa59d91" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/3912989b-2460-4eb4-83c2-61e9714c03ed" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
+                            <reference Id="a6f26d3a-937e-436a-a04f-a56bacbeb092" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/9e5c4145-00aa-469d-ae78-75c3261253df" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
+                            <reference Id="8cfe5a4f-f6c1-4b51-901c-cff98aa59d91" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/f92ca0af-560a-4832-8b12-1cb3c1c4e376" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
                           </references>
                           <elements>
                             <collection Id="8f519ce1-00ed-4141-8797-f5ccd7a14e1c" definitionId="318cc384-e8ba-465f-8469-1235fce91ef0" definitionName="Publishes" instanceName="Publishes / Sends" />
@@ -137,7 +137,7 @@
                                   <properties>
                                     <property Id="980f7fba-c4c6-4ac6-86f0-f99c4c44e62f" definitionId="26053fc0-a090-4d84-bf92-1f55771ab211" definitionName="EventId" rawValue="9447d699-16b2-4a03-8067-4aa2be6ab070" />
                                     <property Id="210915c1-9366-4bb1-9757-15ccde041900" definitionId="d1d77316-ca0b-4f89-a8af-ff8ff631b911" definitionName="EventName" rawValue="Video Found" />
-                                    <property Id="01751f14-8f67-4662-a4c4-614793807c32" definitionId="192747b5-55f3-4627-83e7-31e39ebecacf" definitionName="Namespace" />
+                                    <property Id="01751f14-8f67-4662-a4c4-614793807c32" definitionId="192747b5-55f3-4627-83e7-31e39ebecacf" definitionName="Namespace" rawValue="PersonalServiceBus.RSS1.Components.Videos" />
                                     <property Id="08e168d4-f1cb-476b-8220-a93e837e2568" definitionId="e366fa7e-3f62-48c3-8ce3-e87617597de6" definitionName="PublishesAnEvent" rawValue="False" />
                                     <property Id="88578317-31d1-4d9a-9104-bf0c342a3e60" definitionId="7c9fb6f6-3d66-4e0f-bd15-1c5725c2c5a9" definitionName="EventCodeIdentifier" rawValue="VideoFound" />
                                     <property Id="fb60cf23-d1e3-40a8-9bb7-f28bd8542386" definitionId="79c1f735-fe1b-44d1-afe2-effc12d8474f" definitionName="HandlerFileName" rawValue="VideoFoundHandler.cs" />
@@ -150,7 +150,7 @@
                         </element>
                         <element Id="528ee0e6-cd41-4e4f-8f63-bb789deca03b" definitionId="f1e3bdfb-c55d-4600-b1bc-d12c8b27318f" definitionName="Component" instanceName="Get VideoSender">
                           <properties>
-                            <property Id="f4df7fee-7e60-4781-a566-11d1534ef26a" definitionId="304a32af-b6be-4401-a3f1-c30c3d107cf2" definitionName="Namespace" />
+                            <property Id="f4df7fee-7e60-4781-a566-11d1534ef26a" definitionId="304a32af-b6be-4401-a3f1-c30c3d107cf2" definitionName="Namespace" rawValue="PersonalServiceBus.RSS1.Components.Videos" />
                             <property Id="1d7df170-3c47-4813-b048-bb70cd663dcf" definitionId="b85a7c13-b983-4252-90ef-9eaf8be1146d" definitionName="AdditionalUsings" rawValue="using PersonalServiceBus.InternalMessages.Videos;&#xD;&#xA;" />
                             <property Id="e9eb9e3a-d27a-456e-976d-1b944074ef97" definitionId="6ff7444a-d751-42e4-9233-98a97c2b95b7" definitionName="Inherits" />
                             <property Id="f2db8f07-9e1b-4726-b02b-7dff548552e4" definitionId="f8f807c4-03ba-4cfb-ad60-583be21676c4" definitionName="ClassBody" rawValue="&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;public IBus Bus { get; set; }&#xD;&#xA;&#x9;&#x9;public void Send(GetVideo message)&#xD;&#xA;&#x9;&#x9;{&#xD;&#xA;&#x9;&#x9;&#x9;Bus.Send(message);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#xD;&#xA;" />
@@ -158,8 +158,8 @@
                             <property Id="bcfddd85-fa51-4e48-8eee-e37959f08a54" definitionId="61fc0cf8-b810-4091-8212-5441b8e67513" definitionName="IsSaga" rawValue="False" />
                           </properties>
                           <references>
-                            <reference Id="dc7c3d7a-21f7-4e5b-ba8e-b894c8cfd44d" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/e0716e4b-976f-49f0-a314-c66eef9eeba1" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
-                            <reference Id="59cc5267-63a3-4adb-9feb-a676c79cb739" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/ce5f5e3c-2269-4235-ba3c-5905846eb09c" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
+                            <reference Id="dc7c3d7a-21f7-4e5b-ba8e-b894c8cfd44d" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/2bfc6b8a-ce6a-45d7-9e6a-58207b417c81" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
+                            <reference Id="59cc5267-63a3-4adb-9feb-a676c79cb739" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/3b06a60f-9d31-4174-a495-8e1d2c3031cd" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
                           </references>
                           <elements>
                             <collection Id="2d3a99ea-464d-4a9f-9729-718a0c776871" definitionId="318cc384-e8ba-465f-8469-1235fce91ef0" definitionName="Publishes" instanceName="Publishes / Sends">
@@ -168,10 +168,10 @@
                                   <properties>
                                     <property Id="9796e3b7-b894-4b12-acc4-cf554f2e9aad" definitionId="3c664bf2-ab15-4c03-ba95-1c753da1b1eb" definitionName="CommandId" rawValue="b6bc3d42-4bea-4371-818f-30b079245709" />
                                     <property Id="cc349a11-a5da-4c8b-8815-4d91ba565dfc" definitionId="f428580a-cc0d-48dd-892d-4415510233e4" definitionName="CommandName" rawValue="Get Video" />
-                                    <property Id="f45f04ec-6419-4200-a36e-180734e8a8f7" definitionId="8d360b93-c5cd-4084-97e0-ba1596e571e9" definitionName="Namespace" />
+                                    <property Id="f45f04ec-6419-4200-a36e-180734e8a8f7" definitionId="8d360b93-c5cd-4084-97e0-ba1596e571e9" definitionName="Namespace" rawValue="PersonalServiceBus.RSS1.Components.Videos" />
                                     <property Id="e6428210-4ad3-4f11-b1f8-205abf80fe01" definitionId="59e50f56-3448-4a47-8ff5-a0846dcaa402" definitionName="ComponentName" rawValue="GetVideoSender" />
                                     <property Id="f8070919-59ea-48a9-9a1f-6bcc196c415a" definitionId="1f273940-c91b-4c31-80cb-478aa8a9a4c6" definitionName="SenderNeedsRegistration" rawValue="False" />
-                                    <property Id="03cb10bb-d9a4-4d37-a810-87b1f5b7261a" definitionId="60e718ea-738d-43d5-adad-9ae862e48daf" definitionName="ComponentBaseType" />
+                                    <property Id="03cb10bb-d9a4-4d37-a810-87b1f5b7261a" definitionId="60e718ea-738d-43d5-adad-9ae862e48daf" definitionName="ComponentBaseType" rawValue="IGetVideoSender, PersonalServiceBus.RSS1.Infrastructure.INServiceBusComponent" />
                                   </properties>
                                   <references>
                                     <reference Id="b9e4cbf3-a64e-4820-9610-827d0f767c78" value="solution://fe86ace8-6126-4963-a6af-f02bfd0e676a/d4a2019a-0591-45ea-96f9-ea41e97a4a8f" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{Parent.Parent.CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;49d31b00-2784-4a96-a3e3-baf30bbf0eca&quot;&#xD;&#xA;}" />
@@ -185,7 +185,7 @@
                         </element>
                         <element Id="f90599cb-8a4d-46e4-a4c6-d0b0469377bd" definitionId="f1e3bdfb-c55d-4600-b1bc-d12c8b27318f" definitionName="Component" instanceName="Get VideoProcessor">
                           <properties>
-                            <property Id="c5df35f5-10c8-4350-83de-baf2ba26850c" definitionId="304a32af-b6be-4401-a3f1-c30c3d107cf2" definitionName="Namespace" />
+                            <property Id="c5df35f5-10c8-4350-83de-baf2ba26850c" definitionId="304a32af-b6be-4401-a3f1-c30c3d107cf2" definitionName="Namespace" rawValue="PersonalServiceBus.RSS1.Components.Videos" />
                             <property Id="015a6306-1b92-48a6-aa50-adf249a48b2b" definitionId="b85a7c13-b983-4252-90ef-9eaf8be1146d" definitionName="AdditionalUsings" rawValue="using PersonalServiceBus.InternalMessages.Videos;&#xD;&#xA;" />
                             <property Id="7c785571-3a9c-452b-89c9-2150adcca7ad" definitionId="6ff7444a-d751-42e4-9233-98a97c2b95b7" definitionName="Inherits" rawValue=": IHandleMessages&lt;GetVideo&gt;" />
                             <property Id="67324e64-5370-4e74-90c0-7d22d6551d25" definitionId="f8f807c4-03ba-4cfb-ad60-583be21676c4" definitionName="ClassBody" rawValue="&#xD;&#xA;&#x9;&#x9;public void Handle(GetVideo message)&#xD;&#xA;&#x9;&#x9;{&#xD;&#xA;&#x9;&#x9;&#x9;this.HandleImplementation(message);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;partial void HandleImplementation(GetVideo message);&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;public IBus Bus { get; set; }&#xD;&#xA;" />
@@ -193,8 +193,8 @@
                             <property Id="7f04dc7b-87a0-43e3-a981-e7db604a63b9" definitionId="61fc0cf8-b810-4091-8212-5441b8e67513" definitionName="IsSaga" rawValue="False" />
                           </properties>
                           <references>
-                            <reference Id="c137fcca-a695-455b-aa33-27c8e026ff8e" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/690f9da3-6c93-4833-80fe-2dea58add4d2" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
-                            <reference Id="b26ce295-aa39-489d-83b9-4642902b1631" value="solution://6d628ab1-118f-415b-b9c6-2ca627962c50/b74b1e8d-8ff0-43c5-8a48-17aa6c15b23e" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
+                            <reference Id="c137fcca-a695-455b-aa33-27c8e026ff8e" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/b91b492a-0106-408d-97fe-8d60ac611490" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;0fa0f1e3-2a8d-4e12-b629-9012e20354ad&quot;&#xD;&#xA;}" />
+                            <reference Id="b26ce295-aa39-489d-83b9-4642902b1631" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/bd09e1ed-5d3f-459f-abdf-6911d401bc8f" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{CodeIdentifier}.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;36939d09-f7c3-45f5-881c-3908f1476ab4&quot;&#xD;&#xA;}" />
                           </references>
                           <elements>
                             <collection Id="b8b3057c-61e9-49cf-a8f0-11225959af4b" definitionId="318cc384-e8ba-465f-8469-1235fce91ef0" definitionName="Publishes" instanceName="Publishes / Sends" />
@@ -204,7 +204,7 @@
                                   <properties>
                                     <property Id="b6e53ef5-0406-4a75-9365-5dbfc8cee3bb" definitionId="bb37f0f8-13a2-4b26-8b00-f900c5c42e37" definitionName="CommandId" rawValue="b6bc3d42-4bea-4371-818f-30b079245709" />
                                     <property Id="0f5dcb06-f7df-437c-95f0-6ac28e4a828c" definitionId="30899b31-2dfa-4a01-a00a-e86c90b4bf5d" definitionName="CommandName" rawValue="Get Video" />
-                                    <property Id="dbc42f0d-2f35-4591-8504-b9a0aa5288ff" definitionId="ab1926d8-63cc-4404-89fc-db24e1a18f3d" definitionName="Namespace" />
+                                    <property Id="dbc42f0d-2f35-4591-8504-b9a0aa5288ff" definitionId="ab1926d8-63cc-4404-89fc-db24e1a18f3d" definitionName="Namespace" rawValue="PersonalServiceBus.RSS1.Components.Videos" />
                                     <property Id="ee573ad9-2cbd-4aef-9897-3507d3e6eced" definitionId="9a3afb25-11d0-40d5-a5a7-c580ecf96d28" definitionName="PublishesAnEvent" rawValue="False" />
                                     <property Id="607ebbec-6129-4a10-82df-ef6d1f9f0c74" definitionId="f0e71c5e-3f90-4257-b86d-546f78e97196" definitionName="CommandCodeIdentifier" rawValue="GetVideo" />
                                     <property Id="49caba84-2a3b-467c-b7e6-f177b61c1838" definitionId="02d7bc46-2773-4929-8db8-71a2bba5bfb3" definitionName="StartsSaga" rawValue="False" />
@@ -260,6 +260,59 @@
                                 <property Id="4fa7ab77-f603-453b-b63d-988c028ef27e" definitionId="454d1ac8-4a37-4e4b-aff5-2c2cedb0e1f0" definitionName="ComponentId" rawValue="008262fc-a0cd-4572-8bef-26dcaa9069bc" />
                                 <property Id="bea45623-166d-406c-bce7-56094fc06ea7" definitionId="6c7dbe33-738a-4e67-89ef-8e1972ce111d" definitionName="ComponentName" rawValue="Add VideoProcessor" />
                                 <property Id="7720734a-46dc-4e17-9c5f-96874e6d8eb6" definitionId="2d70af3f-d2a6-41a7-afa3-dcd95cfebb49" definitionName="Order" rawValue="2" />
+                              </properties>
+                            </element>
+                          </elements>
+                        </collection>
+                      </elements>
+                    </view>
+                  </views>
+                </product>
+                <product Id="e6ea2f2b-c5ea-4a60-a84f-51415a77d8fa" definitionId="f3d852c6-be54-479c-9017-e48c2cd8f958" definitionName="AbstractEndpoint" instanceName="RSS" extensionId="e91869eb-ba2e-4420-baad-df72525d4fe5">
+                  <properties>
+                    <property Id="4d475892-09dc-4825-88c2-15a93dc742f7" definitionId="17071a33-b4ef-471f-ae45-542bbc8607bb" definitionName="Namespace" />
+                    <property Id="96578bec-62ff-46a5-8a1f-74d9a8f8cf4b" definitionId="be113726-7324-4586-a721-60f24553455e" definitionName="SLA" />
+                    <property Id="42bb650d-919f-4851-a49f-b7f6fb6bfa1f" definitionId="3c970a61-a6dd-457c-bc7a-deac2d8891fd" definitionName="MessageEndpointMappingsConfig" />
+                    <property Id="28223794-5f78-4c5a-af1d-98171a995b1a" definitionId="ac9c4752-a476-4513-82f2-ddd6d693084e" definitionName="CommandSenderNeedsRegistration" rawValue="False" />
+                    <property Id="2931bf32-348d-449f-8fb2-55c7b3a0acc0" definitionId="c867dd59-8f45-49a0-bca0-bf9edb08b8af" definitionName="MessageConventions" rawValue="namespace PersonalServiceBus.RSS1&#xD;&#xA;{&#xD;&#xA;    public class MessageConventions : IWantToRunBeforeConfiguration&#xD;&#xA;    {&#xD;&#xA;        public void Init()&#xD;&#xA;        {&#xD;&#xA;            Configure.Instance&#xD;&#xA;            .DefiningCommandsAs(t =&gt; t.Namespace != null &amp;&amp; t.Namespace.StartsWith(&quot;PersonalServiceBus.InternalMessages&quot;))&#xD;&#xA;            .DefiningEventsAs(t =&gt; t.Namespace != null &amp;&amp; t.Namespace.StartsWith(&quot;PersonalServiceBus.Contract&quot;));&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;" />
+                    <property Id="121d39a0-12c2-4420-bac9-f2b017bb6b19" definitionId="e6d01a16-d621-40d8-80f1-27ebe65d40c2" definitionName="ErrorQueue" rawValue="error" />
+                    <property Id="f00275c7-6660-4352-b6d7-a7d11e0e2e14" definitionId="9d6fdf06-f740-4f0a-a07b-642169a2cf16" definitionName="ForwardReceivedMessagesTo" rawValue="audit" />
+                    <property Id="5ec0f7a1-cc5d-4471-af13-b5a52cb343f3" definitionId="7f2a6812-2339-43bc-8aa3-10231268c5b1" definitionName="NumberOfWorkerThreads" rawValue="1" />
+                  </properties>
+                  <references>
+                    <reference Id="3f9dd6c4-3af4-425a-af46-7b78d2948a5f" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;PersonalServiceBus.RSS&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;00000000-0000-0000-0000-000000000000&quot;&#xD;&#xA;}" />
+                    <reference Id="7b815dba-9f7b-48ef-8eab-85ba3b5badef" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/de5684c1-7d45-428e-b4bf-e7c87c7ecc4e" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;MessageForwardingInCaseOfFaultConfig.config&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;ca819ca0-d783-4bf2-b309-fc189df05d74&quot;&#xD;&#xA;}" />
+                    <reference Id="7cdd2fd6-20aa-45c1-94a3-135829d18bd7" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/0f8e3424-bb86-405d-b2e9-502d18d98a1b" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;MsmqTransportConfig.config&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;8354d126-51d3-47a5-a49d-9b4a213c121f&quot;&#xD;&#xA;}" />
+                    <reference Id="1ec22906-009a-46ea-9593-f60edca8ab2f" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/68cd745c-90f6-48e8-991c-7a7279e09e2a" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;UnicastBusConfig.config&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;dab92bfc-c0fd-4a2c-8a6f-95049aa5823b&quot;&#xD;&#xA;}" />
+                    <reference Id="13855b51-1111-4c8c-9b92-3600f8dd6691" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/79779327-11ae-4a41-be1b-08a85c36200e" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;MessageConventions.cs&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;dbb8512f-cf2b-4f4a-b31f-e589c75605fe&quot;&#xD;&#xA;}" />
+                    <reference Id="4a7f31dd-28c2-496f-87f8-4c977701466d" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/b37b7de5-dda0-4c75-8776-cc5cae65d0c6" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;Logging.config&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;8c01fc5d-e456-4438-a740-7d0b8c1b2993&quot;&#xD;&#xA;}" />
+                    <reference Id="34e2b8eb-c6c5-4f86-973c-33ee34e648e3" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/d3cc4b0c-fd6d-498c-986a-819dd9d39d0f" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;packages.config&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: false,&#xD;&#xA;  &quot;Id&quot;: &quot;c8cd5796-69ca-4b35-afcb-2ad12107811b&quot;&#xD;&#xA;}" />
+                    <reference Id="53e1dce7-87e7-4a8e-8234-2ee2cc699046" value="solution://2a4233d5-92d6-454e-b514-40f6cfaf84ac/d75d0628-2cab-461f-81a9-69854ad5fd60" kind="Microsoft.VisualStudio.Patterning.Extensibility.References.SolutionArtifactLinkReference" tag="{&#xD;&#xA;  &quot;Tag&quot;: &quot;&quot;,&#xD;&#xA;  &quot;TargetFileName&quot;: &quot;{InstanceName}.endpoints&quot;,&#xD;&#xA;  &quot;SyncNames&quot;: true,&#xD;&#xA;  &quot;Id&quot;: &quot;8966f62e-30eb-44a7-bfd7-93b4175477f9&quot;&#xD;&#xA;}" />
+                  </references>
+                  <views>
+                    <view Id="ae0f12ad-d23b-4238-9e57-83c7f978bcbc" definitionId="00aeed68-3b28-4e59-8b91-cefb9ad308a7" definitionName="DefaultView">
+                      <elements>
+                        <collection Id="1925d52b-5a42-469d-88f2-d0a65f4b254f" definitionId="0a1f4ed3-bea5-4caf-b04d-715f489a0a5d" definitionName="Components" instanceName="Components">
+                          <elements>
+                            <element Id="4f5dc987-5359-49d3-88fe-a7e287665dd3" definitionId="ab45fb7d-330a-473a-9130-337438f76537" definitionName="ComponentLink" instanceName="01. Videos.FoundVideoProcessor">
+                              <properties>
+                                <property Id="9d6d4228-dbca-45ac-9049-7f8cc17b32a3" definitionId="454d1ac8-4a37-4e4b-aff5-2c2cedb0e1f0" definitionName="ComponentId" rawValue="16174f46-3c49-4e83-9336-8e6360ab7a6a" />
+                                <property Id="148ea6ab-f598-4ec5-a27a-796feead7825" definitionId="6c7dbe33-738a-4e67-89ef-8e1972ce111d" definitionName="ComponentName" rawValue="FoundVideoProcessor" />
+                                <property Id="32b3003a-35a1-4075-8cb4-a0b1d9bb092e" definitionId="2d70af3f-d2a6-41a7-afa3-dcd95cfebb49" definitionName="Order" rawValue="1" />
+                              </properties>
+                            </element>
+                            <element Id="6bc5f41a-65a1-45c6-a6fe-75d56133ac07" definitionId="ab45fb7d-330a-473a-9130-337438f76537" definitionName="ComponentLink" instanceName="02. Videos.Get VideoSender">
+                              <properties>
+                                <property Id="9bbe50ed-f555-4a29-be23-afeed10c7344" definitionId="454d1ac8-4a37-4e4b-aff5-2c2cedb0e1f0" definitionName="ComponentId" rawValue="528ee0e6-cd41-4e4f-8f63-bb789deca03b" />
+                                <property Id="95198644-39d0-4b52-9643-e672643201b0" definitionId="6c7dbe33-738a-4e67-89ef-8e1972ce111d" definitionName="ComponentName" rawValue="Get VideoSender" />
+                                <property Id="5c1dda3d-7674-414c-91a4-323b0062d862" definitionId="2d70af3f-d2a6-41a7-afa3-dcd95cfebb49" definitionName="Order" rawValue="2" />
+                              </properties>
+                            </element>
+                            <element Id="fc9b1cca-94da-4f1d-8fe5-8cf0b1f7857b" definitionId="ab45fb7d-330a-473a-9130-337438f76537" definitionName="ComponentLink" instanceName="03. Videos.Get VideoProcessor">
+                              <properties>
+                                <property Id="6eeeb75e-40af-4b9d-8572-9df13aad4078" definitionId="454d1ac8-4a37-4e4b-aff5-2c2cedb0e1f0" definitionName="ComponentId" rawValue="f90599cb-8a4d-46e4-a4c6-d0b0469377bd" />
+                                <property Id="fab121c4-997c-4e03-95c2-4a1e4e6c9aa1" definitionId="6c7dbe33-738a-4e67-89ef-8e1972ce111d" definitionName="ComponentName" rawValue="Get VideoProcessor" />
+                                <property Id="7b92eec0-512f-46d6-b364-5f9860719152" definitionId="2d70af3f-d2a6-41a7-afa3-dcd95cfebb49" definitionName="Order" rawValue="3" />
                               </properties>
                             </element>
                           </elements>
