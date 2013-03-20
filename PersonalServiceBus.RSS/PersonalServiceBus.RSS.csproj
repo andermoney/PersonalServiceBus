@@ -75,12 +75,12 @@
       <ItemGuid>20a40bbc-1bac-44f5-a920-3b5c29aaf600</ItemGuid>
     </Compile>
     <Compile Include="Components\Videos\GetVideoProcessor.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252ff90599cb-8a4d-46e4-a4c6-d0b0469377bd</SourceModelReference>
-      <ItemGuid>fdc7c4a3-8661-4a03-9d04-6ac65f997de2</ItemGuid>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252ff12276bf-f11a-47c3-9c3d-5b974636b13e</SourceModelReference>
+      <ItemGuid>4e23116e-97aa-412d-a70f-278bf8d04c46</ItemGuid>
     </Compile>
     <Compile Include="Components\Videos\GetVideoSender.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f528ee0e6-cd41-4e4f-8f63-bb789deca03b</SourceModelReference>
-      <ItemGuid>02044c9d-11d3-4476-8fe9-0a3d4abea23b</ItemGuid>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f7de1b279-4915-4316-a9db-36786ed88e88</SourceModelReference>
+      <ItemGuid>2e92b9bf-4a6f-4ec9-b194-60319d0b928b</ItemGuid>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -93,12 +93,12 @@
       <ItemGuid>cce96c57-ccf8-4fbc-9c8e-54a2a56f7627</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoProcessor.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252ff90599cb-8a4d-46e4-a4c6-d0b0469377bd</SourceModelReference>
-      <ItemGuid>7972a5e5-a810-4bb2-b65e-1da679ad7321</ItemGuid>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252ff12276bf-f11a-47c3-9c3d-5b974636b13e</SourceModelReference>
+      <ItemGuid>019ceaec-f320-4b51-b67e-36b59347c4a1</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoSender.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fa391d7d5-df7f-4259-914d-782ccec2938c</SourceModelReference>
-      <ItemGuid>e9eb0985-0aab-4450-92ff-3f6ec849a9c6</ItemGuid>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f7de1b279-4915-4316-a9db-36786ed88e88</SourceModelReference>
+      <ItemGuid>77490024-fbfb-45a0-991d-431760ccd926</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\MessageConventions.cs">
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>

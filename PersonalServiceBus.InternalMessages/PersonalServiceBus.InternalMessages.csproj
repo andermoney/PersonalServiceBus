@@ -42,7 +42,8 @@
       <ItemGuid>8fd17bb0-5dce-45d4-b8b3-c8d134dc8f40</ItemGuid>
     </Compile>
     <Compile Include="Videos\GetVideo.cs">
-      <ItemGuid>e00d72ed-af37-4cb5-96d4-e129cb417cf8</ItemGuid>
+      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f9bb222e2-08c4-44b0-9e48-8a581e25d960</SourceModelReference>
+      <ItemGuid>0ffb6af0-dbbe-4ffe-934c-746e151634f9</ItemGuid>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

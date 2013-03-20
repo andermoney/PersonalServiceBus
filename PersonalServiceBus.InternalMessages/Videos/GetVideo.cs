@@ -1,7 +1,8 @@
-﻿namespace PersonalServiceBus.InternalMessages.Videos
+﻿using System;
+
+namespace PersonalServiceBus.InternalMessages.Videos
 {
     public class GetVideo
     {
-         
     }
 }
