@@ -8,8 +8,8 @@
     <ProjectGuid>{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PersonalServiceBus.InternalMessages</RootNamespace>
-    <AssemblyName>PersonalServiceBus.InternalMessages</AssemblyName>
+    <RootNamespace>PersonalServiceBus.RSS.Messages</RootNamespace>
+    <AssemblyName>PersonalServiceBus.RSS.Messages</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
