@@ -70,6 +70,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Feeds\GetFeedItemsProcessor.cs" />
+    <Compile Include="Components\Feeds\GetFeedItemsSender.cs" />
     <Compile Include="Components\Videos\FoundVideoProcessor.cs">
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f16174f46-3c49-4e83-9336-8e6360ab7a6a</SourceModelReference>
       <ItemGuid>20a40bbc-1bac-44f5-a920-3b5c29aaf600</ItemGuid>
@@ -92,20 +94,13 @@
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f16174f46-3c49-4e83-9336-8e6360ab7a6a</SourceModelReference>
       <ItemGuid>cce96c57-ccf8-4fbc-9c8e-54a2a56f7627</ItemGuid>
     </Compile>
-    <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoProcessor.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252ff12276bf-f11a-47c3-9c3d-5b974636b13e</SourceModelReference>
-      <ItemGuid>019ceaec-f320-4b51-b67e-36b59347c4a1</ItemGuid>
-    </Compile>
-    <Compile Include="Infrastructure\GeneratedCode\Videos\GetVideoSender.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f530db585-6fda-42e4-9c39-c8b647043914</SourceModelReference>
-      <ItemGuid>77490024-fbfb-45a0-991d-431760ccd926</ItemGuid>
-    </Compile>
     <Compile Include="Infrastructure\MessageConventions.cs">
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
       <ItemGuid>489f3786-cd3b-4e6d-ae69-9787cad7dbcf</ItemGuid>
     </Compile>
     <Compile Include="Infrastructure\NServiceBusControllerActivator.cs" />
     <Compile Include="Infrastructure\NServiceBusDependencyResolverAdapter.cs" />
+    <Compile Include="Infrastructure\Scheduler.cs" />
     <Compile Include="Infrastructure\WebGlobalInitialization.cs" />
     <Compile Include="Infrastructure\INServiceBusComponent.cs" />
     <Compile Include="Models\AccountModels.cs" />

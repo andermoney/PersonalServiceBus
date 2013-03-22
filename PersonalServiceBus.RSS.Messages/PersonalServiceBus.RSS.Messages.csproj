@@ -36,6 +36,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Feeds\GetFeedItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Videos\AddVideo.cs" />
     <Compile Include="Videos\GetVideo.cs" />

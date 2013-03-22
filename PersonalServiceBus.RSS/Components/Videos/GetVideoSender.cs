@@ -1,7 +1,21 @@
-﻿namespace PersonalServiceBus.RSS.Components.Videos
+﻿using NServiceBus;
+using PersonalServiceBus.RSS.Infrastructure;
+using PersonalServiceBus.RSS.Messages.Videos;
+
+namespace PersonalServiceBus.RSS.Components.Videos
 {
-	public partial class GetVideoSender
-	{
-		
-	}
+    public class GetVideoSender : IGetVideoSender, INServiceBusComponent
+    {
+        public void Send(GetVideo message)
+        {
+            Bus.Send(message);
+        }
+
+        public IBus Bus { get; set; }
+    }
+
+    public interface IGetVideoSender
+    {
+        void Send(GetVideo message);
+    }
 }

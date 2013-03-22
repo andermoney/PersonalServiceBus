@@ -1,17 +1,17 @@
 ﻿using System;
+using NServiceBus;
 using PersonalServiceBus.RSS.Messages.Videos;
-
 
 namespace PersonalServiceBus.RSS.Components.Videos
 {
-	public partial class GetVideoProcessor
+    public class GetVideoProcessor : IHandleMessages<GetVideo>
 	{
-		
-        partial void HandleImplementation(GetVideo message)
+        public void Handle(GetVideo message)
         {
             // Implement your handler logic here.
             Console.WriteLine("Videos received " + message.GetType().Name);
         }
 
+        public IBus Bus { get; set; }
 	}
 }
