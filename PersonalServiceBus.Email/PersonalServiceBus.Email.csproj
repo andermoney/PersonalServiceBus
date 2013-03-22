@@ -83,6 +83,7 @@
       <ItemGuid>4bbeff2f-82b1-47c6-827a-6ff520e2982d</ItemGuid>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,6 +230,7 @@
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/c:\users\jake.anderson.triton-tek\documents\visual studio 2010\Projects\PersonalServiceBus\PersonalServiceBus.slnbldr%252fea748259-478d-4072-b650-fd6cdd578c5c</SourceModelReference>
       <ItemGuid>710b6bfb-1d4a-4f4c-8f1d-47bf4951c64e</ItemGuid>
     </None>
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

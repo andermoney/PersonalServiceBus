@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NServiceBus;
+﻿using NServiceBus;
 
 namespace PersonalServiceBus.RSS.Infrastructure
 {
@@ -10,16 +6,16 @@ namespace PersonalServiceBus.RSS.Infrastructure
     {
         public static IBus InitializeNServiceBus()
         {
-            return NServiceBus.Configure.With()
+            return Configure.With()
                 .Log4Net()
                 .DefaultBuilder()
                 .ForMvc()
                 .XmlSerializer()
                 .MsmqTransport()
-                    .IsTransactional(false)
-                    .PurgeOnStartup(false)
+                .IsTransactional(false)
+                .PurgeOnStartup(false)
                 .UnicastBus()
-                    .ImpersonateSender(false)
+                .ImpersonateSender(false)
                 .CreateBus()
                 .Start();
         }
