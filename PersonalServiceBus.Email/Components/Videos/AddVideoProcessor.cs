@@ -1,6 +1,5 @@
 ﻿using System;
-using NServiceBus;
-using PersonalServiceBus.InternalMessages.Videos;
+using PersonalServiceBus.RSS.Messages.Videos;
 
 
 namespace PersonalServiceBus.Email.Components.Videos

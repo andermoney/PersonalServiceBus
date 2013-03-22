@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using PersonalServiceBus.InternalMessages.Videos;
 using PersonalServiceBus.RSS.Components.Videos;
+using PersonalServiceBus.RSS.Messages.Videos;
 
 namespace PersonalServiceBus.RSS.Controllers
 {

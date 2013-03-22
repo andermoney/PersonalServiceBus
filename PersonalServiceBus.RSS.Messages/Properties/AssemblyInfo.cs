@@ -2,11 +2,11 @@
 using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("PersonalServiceBus.InternalMessages")]
+[assembly: AssemblyTitle("PersonalServiceBus.RSS.Messages")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("PersonalServiceBus.InternalMessages")]
+[assembly: AssemblyProduct("PersonalServiceBus.RSS.Messages")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -1,7 +1,5 @@
-﻿using System;
-using NServiceBus;
-using NServiceBus.Config;
-using PersonalServiceBus.InternalMessages.Videos;
+﻿using NServiceBus;
+using PersonalServiceBus.RSS.Messages.Videos;
 
 namespace PersonalServiceBus.RSS.Components.Videos
 {

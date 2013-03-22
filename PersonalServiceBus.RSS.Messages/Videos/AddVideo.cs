@@ -1,4 +1,4 @@
-﻿namespace PersonalServiceBus.InternalMessages.Videos
+﻿namespace PersonalServiceBus.RSS.Messages.Videos
 {
     public class AddVideo
     {

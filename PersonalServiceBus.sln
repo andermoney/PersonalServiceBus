@@ -5,8 +5,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Contract", "PersonalServiceBus.Contract\PersonalServiceBus.Contract.csproj", "{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.InternalMessages", "PersonalServiceBus.InternalMessages\PersonalServiceBus.InternalMessages.csproj", "{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18C9143F-AD22-4503-A486-D286FB35643F}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.exe = .nuget\NuGet.exe
@@ -29,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Depe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS", "PersonalServiceBus.RSS\PersonalServiceBus.RSS.csproj", "{7323E199-1B5A-47FB-A466-A860EDDE6E71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Messages", "PersonalServiceBus.RSS.Messages\PersonalServiceBus.RSS.Messages.csproj", "{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email.Messages", "PersonalServiceBus.Email.Messages\PersonalServiceBus.Email.Messages.csproj", "{CD163C93-9226-4996-9C3C-06C847DEEB5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,10 +41,6 @@ Global
 		{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +73,14 @@ Global
 		{7323E199-1B5A-47FB-A466-A860EDDE6E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7323E199-1B5A-47FB-A466-A860EDDE6E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7323E199-1B5A-47FB-A466-A860EDDE6E71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

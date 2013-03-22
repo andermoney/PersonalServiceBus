@@ -223,9 +223,9 @@
       <Project>{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}</Project>
       <Name>PersonalServiceBus.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PersonalServiceBus.InternalMessages\PersonalServiceBus.InternalMessages.csproj">
+    <ProjectReference Include="..\PersonalServiceBus.RSS.Messages\PersonalServiceBus.RSS.Messages.csproj">
       <Project>{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}</Project>
-      <Name>PersonalServiceBus.InternalMessages</Name>
+      <Name>PersonalServiceBus.RSS.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
