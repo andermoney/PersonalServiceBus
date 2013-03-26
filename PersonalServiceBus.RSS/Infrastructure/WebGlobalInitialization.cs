@@ -7,19 +7,20 @@ namespace PersonalServiceBus.RSS.Infrastructure
         public static IBus InitializeNServiceBus()
         {
             return Configure.With()
-                .Log4Net()
-                .DefaultBuilder()
-                .ForMvc()
-                .XmlSerializer()
-                .MsmqTransport()
-                .DefineEndpointName("personalservicebus.rss")
-                .IsTransactional(false)
-                .PurgeOnStartup(false)
-                .RunTimeoutManagerWithInMemoryPersistence()
-                .UnicastBus()
-                .ImpersonateSender(false)
-                .CreateBus()
-                .Start();
+                            .Log4Net()
+                            .DefaultBuilder()
+                            .WithRegistry()
+                            .ForMvc()
+                            .XmlSerializer()
+                            .MsmqTransport()
+                            .DefineEndpointName("personalservicebus.rss")
+                            .IsTransactional(false)
+                            .PurgeOnStartup(false)
+                            .RunTimeoutManagerWithInMemoryPersistence()
+                            .UnicastBus()
+                            .ImpersonateSender(false)
+                            .CreateBus()
+                            .Start();
         }
     }
 }
