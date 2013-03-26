@@ -1,0 +1,21 @@
+﻿@model PersonalServiceBus.RSS.Models.AddFeedViewModel
+
+@{
+    ViewBag.Title = "Add Feed";
+}
+
+<h2>Add Feed</h2>
+@if (ViewBag.Response != null && ViewBag.Response.IsError)
+{
+    <span class="error-server">@ViewBag.Response.ErrorMessage</span>
+    <div class="error-detail">@ViewBag.Response.ErrorException</div>    
+}
+@using (Html.BeginForm("AddFeed"))
+{
+    //Html.TextBoxFor(m => m.Name);
+    Html.TextBox("Name");
+    //Html.TextBoxFor(m => m.Category);
+    Html.TextBox("Category");
+    //Html.TextBoxFor(m => m.Url);
+    Html.TextBox("Url");
+}
