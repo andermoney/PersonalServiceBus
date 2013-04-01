@@ -7,7 +7,7 @@ using PersonalServiceBus.RSS.Models;
 
 namespace PersonalServiceBus.RSS.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AsyncController
     {
         public IGetVideoSender GetVideoSender { get; set; }
         public IAddFeedSender AddFeedSender { get; set; }
@@ -36,19 +36,24 @@ namespace PersonalServiceBus.RSS.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddFeed(AddFeedViewModel model)
+        [AsyncTimeout(50000)]
+        public void AddFeedAsync(AddFeedViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return;
+
+            var response = AddFeedSender.Send(new AddFeed());
+
+            AsyncManager.Parameters["errorMessage"] = response.ErrorMessage;
+        }
+
+        public ActionResult AddFeedCompleted(string errorMessage)
         {
             if (!ModelState.IsValid)
                 return View();
 
-            AddFeedResponse response = new AddFeedResponse();
-            AddFeedSender.Send(new AddFeed()).Register<AddFeedResponse>(r =>
-                {
-                    response = r;
-                });
-
-            ViewBag.Response = response;
-            return RedirectToAction("Index");
+            ViewBag.ErrorMessage = errorMessage;
+            return RedirectToAction("Index");            
         }
     }
 }

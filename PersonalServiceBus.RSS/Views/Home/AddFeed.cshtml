@@ -10,12 +10,21 @@
     <span class="error-server">@ViewBag.Response.ErrorMessage</span>
     <div class="error-detail">@ViewBag.Response.ErrorException</div>    
 }
-@using (Html.BeginForm("AddFeed"))
+<div class="form-addfeed">
+@using (Html.BeginForm("AddFeed", "Home"))
 {
-    //Html.TextBoxFor(m => m.Name);
-    Html.TextBox("Name");
-    //Html.TextBoxFor(m => m.Category);
-    Html.TextBox("Category");
-    //Html.TextBoxFor(m => m.Url);
-    Html.TextBox("Url");
+    <span class="form-field">
+    @Html.LabelFor(m => m.Name)
+    @Html.EditorFor(m => m.Name)
+    </span>
+    <span class="form-field">
+    @Html.LabelFor(m => m.Category)
+    @Html.EditorFor(m => m.Category)
+    </span>
+    <span class="form-field">
+    @Html.LabelFor(m => m.Url)
+    @Html.EditorFor(m => m.Url)
+    </span>
+    <input type="submit" />
 }
+</div>

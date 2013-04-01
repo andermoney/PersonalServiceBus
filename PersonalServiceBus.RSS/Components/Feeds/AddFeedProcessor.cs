@@ -20,12 +20,14 @@ namespace PersonalServiceBus.RSS.Components.Feeds
         public void Handle(AddFeed message)
         {
             var status = _feedManager.AddFeed(new Feed());
-            Bus.Reply(new AddFeedResponse
-                {
-                    IsError = status.ErrorLevel > ErrorLevel.Warning,
-                    ErrorMessage = status.ErrorMessage,
-                    ErrorException = status.ErrorException
-                });
+            var response = new AddFeedResponse
+            {
+                IsError = status.ErrorLevel > ErrorLevel.Warning,
+                ErrorMessage = status.ErrorMessage,
+                ErrorException = status.ErrorException
+            };
+            Bus.CurrentMessageContext.Headers.Add("ErrorMessage", string.Format("{0} ({1})", status.ErrorMessage, status.ErrorException));
+            Bus.Return(response.IsError);
         }
     }
 }
