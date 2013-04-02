@@ -4,17 +4,28 @@
 
 <h2>@ViewBag.Message</h2>
 <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span3 feed-list">
-        <!--Sidebar content-->
-        <div class="accordion" id="feed-category-list">
+    <div class="row-fluid">
+        <div class="span3 feed-list">
+            <!--Sidebar content-->
+            <div class="accordion" id="feed-category-list">
+            </div>
+            <a href="#subscribe-modal" role="button" id="subscribe-feed" class="btn btn-primary" data-toggle="modal">Subscribe</a>
+        </div>
+        <div class="span9 feed-view">
+            <!--Body content-->
         </div>
     </div>
-    <div class="span9 feed-view">
-      <!--Body content-->
-    </div>
-  </div>
 </div>
-<p>
-    @Html.ActionLink("Subscribe", "AddFeed")
-</p>
+<div id="subscribe-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="subscribe-modal-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="subscribe-modal-label">Subscribe to new feed</h3>
+    </div>
+    <div class="modal-body">
+        <p>One fine body…</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+    </div>
+</div>

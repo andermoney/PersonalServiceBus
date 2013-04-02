@@ -12,7 +12,7 @@ body {
     color: #696969;
 }
 
-a:link {
+/*a:link {
     color: #034af3;
     text-decoration: underline;
 }
@@ -28,7 +28,7 @@ a:hover {
 
 a:active {
     color: #12eb87;
-}
+}*/
 
 p, ul {
     margin-bottom: 20px;
