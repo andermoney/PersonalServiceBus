@@ -1,9 +1,44 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Feed Reader";
 }
 
 <h2>@ViewBag.Message</h2>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3 feed-list">
+        <!--Sidebar content-->
+        <div class="accordion" id="feed-category-list">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                Collapsible Group Item #1
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                Anim pariatur cliche...
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                Collapsible Group Item #2
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+              <div class="accordion-inner">
+                Anim pariatur cliche...
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="span9 feed-view">
+      <!--Body content-->
+    </div>
+  </div>
+</div>
 <p>
-    <div class="error-message">@ViewBag.ErrorMessage</div>
     @Html.ActionLink("Subscribe", "AddFeed")
 </p>
