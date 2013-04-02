@@ -308,6 +308,7 @@
     <Content Include="Views\Home\AddFeed.cshtml" />
     <None Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Feeds.cshtml" />
+    <Content Include="Views\Home\SubscribeForm.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

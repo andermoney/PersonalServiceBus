@@ -16,16 +16,42 @@
         </div>
     </div>
 </div>
+
 <div id="subscribe-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="subscribe-modal-label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="subscribe-modal-label">Subscribe to new feed</h3>
     </div>
     <div class="modal-body">
-        <p>One fine body…</p>
+        <form class="form-addfeed">
+            <fieldset>
+                <label>Category</label>
+                <input type="text" />
+                <label>Name</label>
+                <input type="text" />
+                <label>URL</label>
+                <input type="text" />
+            </fieldset>
+        </form>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary">Save changes</button>
+        <button class="btn btn-primary btn-save" data-loading-text="Saving...">Save changes</button>
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        $('#subscribe-modal .btn-save').click(function (e) {
+            var $saveButton = $(this);
+            $saveButton.button('loading');
+            var feed = {
+                Category: '',
+                Name: '',
+                Url: ''
+            };
+            $.connection.feedHub.server.addFeed(feed).done(function () {
+                $saveButton.button('reset');
+            });
+        });
+    });
+</script>
