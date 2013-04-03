@@ -1,10 +1,10 @@
-using System.Web;
 using System.Web.Routing;
 using Microsoft.AspNet.SignalR;
+using PersonalServiceBus.RSS.App_Start;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(SignalR.StockTicker.RegisterHubs), "Start")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(RegisterHubs), "Start")]
 
-namespace SignalR.StockTicker
+namespace PersonalServiceBus.RSS.App_Start
 {
     public static class RegisterHubs
     {
