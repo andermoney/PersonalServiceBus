@@ -10,11 +10,16 @@ using PersonalServiceBus.RSS.Models;
 namespace PersonalServiceBus.RSS.SignalR
 {
     [HubName("feedHub")]
-    public class FeedHub : Hub, INServiceBusComponent
+    public class FeedHub : Hub
     {
         public IBus Bus { get; set; }
 
-        public IFeedManager FeedManager { get; set; }
+        private readonly IFeedManager _feedManager;
+
+        public FeedHub()
+        {
+            _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
+        }
 
         public IEnumerable<Category> GetFeedCategories()
         {
@@ -30,7 +35,7 @@ namespace PersonalServiceBus.RSS.SignalR
 
         public void AddFeed(Feed feed)
         {
-            var status = FeedManager.AddFeed(feed);
+            var status = _feedManager.AddFeed(feed);
         }
     }
 }
