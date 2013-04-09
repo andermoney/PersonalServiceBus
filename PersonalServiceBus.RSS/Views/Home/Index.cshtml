@@ -40,17 +40,19 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
-        $('#subscribe-modal .btn-save').click(function (e) {
-            var $saveButton = $(this);
-            $saveButton.button('loading');
-            var feed = {
-                Category: '',
-                Name: '',
-                Url: ''
-            };
-            $.connection.feedHub.server.addFeed(feed).done(function () {
-                $saveButton.button('reset');
+    require(['/Scripts/feedHub.js'], function (feedHub) {
+        $(document).on('hubStarted', function() {
+            $('#subscribe-modal .btn-save').click(function (e) {
+                var $saveButton = $(this);
+                $saveButton.button('loading');
+                var feed = {
+                    Category: '',
+                    Name: '',
+                    Url: ''
+                };
+                feedHub.hub.server.addFeed(feed).done(function () {
+                    $saveButton.button('reset');
+                });
             });
         });
     });
