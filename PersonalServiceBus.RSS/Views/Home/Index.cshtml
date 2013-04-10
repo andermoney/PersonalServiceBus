@@ -41,7 +41,7 @@
 </div>
 <script type="text/javascript">
     require(['/Scripts/feedHub.js'], function (feedHub) {
-        $(document).on('hubStarted', function() {
+        $(document).on('hubStarted', function () {
             $('#subscribe-modal .btn-save').click(function (e) {
                 var $saveButton = $(this);
                 $saveButton.button('loading');
@@ -51,6 +51,7 @@
                     Url: ''
                 };
                 feedHub.hub.server.addFeed(feed).done(function (status) {
+                    feedHub.showError(status);
                     $saveButton.button('reset');
                 });
             });

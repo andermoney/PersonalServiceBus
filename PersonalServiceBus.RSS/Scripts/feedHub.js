@@ -51,7 +51,20 @@
         return feedHub;
     }
 
+    function showError(status) {
+        var hubWarningTemplate = '<div class="alertr"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong>&nbsp;<span class="alert-message">{ErrorMessage}</span></div>',
+            hubErrorTemplate = '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error!</strong>&nbsp;<span class="alert-error-message">{ErrorMessage}</span></div>',
+            errorContainer = $('.alert-container');
+
+        if (status.ErrorLevel > 3) {
+            errorContainer.append(hubErrorTemplate.supplant(status));
+        } else if (status.ErrorLevel == 3) {
+            errorContainer.append(hubWarningTemplate.supplant(status));
+        }
+    }
+
     return {
-        hub: createHub()
+        hub: createHub(),
+        showError: showError
     };
 });
