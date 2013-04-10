@@ -29,5 +29,14 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 return documentSession.Query<T>();
             }
         }
+
+        public void Store<T>(T entity)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                documentSession.Store(entity);
+                documentSession.SaveChanges();
+            }
+        }
     }
 }

@@ -23,14 +23,15 @@
         <h3 id="subscribe-modal-label">Subscribe to new feed</h3>
     </div>
     <div class="modal-body">
+        <div class="alert-container"></div>
         <form class="form-addfeed">
             <fieldset>
                 <label>Category</label>
-                <input type="text" />
+                <input name="Category" type="text" />
                 <label>Name</label>
-                <input type="text" />
+                <input name="Name" type="text" />
                 <label>URL</label>
-                <input type="text" />
+                <input name="Url" type="text" />
             </fieldset>
         </form>
     </div>
@@ -46,12 +47,12 @@
                 var $saveButton = $(this);
                 $saveButton.button('loading');
                 var feed = {
-                    Category: '',
-                    Name: '',
-                    Url: ''
+                    Category: $('.form-addfeed input[name="Category"]').val(),
+                    Name: $('.form-addfeed input[name="Name"]').val(),
+                    Url: $('.form-addfeed input[name="Url"]').val()
                 };
                 feedHub.hub.server.addFeed(feed).done(function (status) {
-                    feedHub.showError(status);
+                    feedHub.showError(status, $('.modal-body'));
                     $saveButton.button('reset');
                 });
             });

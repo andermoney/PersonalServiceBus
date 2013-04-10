@@ -23,12 +23,23 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public Status AddFeed(Feed feed)
         {
-            return new Status
-                {
-                    ErrorLevel = ErrorLevel.Error,
-                    ErrorMessage = "Not implemented yet",
-                    ErrorException = new NotImplementedException()
-                };
+            try
+            {
+                _database.Store(feed);
+                return new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    };
+            }
+            catch (Exception ex)
+            {
+                return new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error adding feed: {0}", ex),
+                        ErrorException = ex
+                    };
+            }
         }
     }
 }
