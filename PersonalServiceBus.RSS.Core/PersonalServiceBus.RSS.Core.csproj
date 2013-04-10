@@ -44,6 +44,7 @@
     <Compile Include="Domain\Interface\IConfiguration.cs" />
     <Compile Include="Domain\Interface\IDatabase.cs" />
     <Compile Include="Domain\Interface\IFeedManager.cs" />
+    <Compile Include="Domain\Model\Category.cs" />
     <Compile Include="Domain\Model\Feed.cs" />
     <Compile Include="Domain\Model\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

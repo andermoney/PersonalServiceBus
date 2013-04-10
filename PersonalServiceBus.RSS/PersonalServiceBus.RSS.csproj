@@ -146,7 +146,6 @@
     <Compile Include="Infrastructure\INServiceBusComponent.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AddFeedViewModel.cs" />
-    <Compile Include="Models\Category.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR.Sample\AppStart.cs" />
     <Compile Include="SignalR.Sample\Stock.cs" />

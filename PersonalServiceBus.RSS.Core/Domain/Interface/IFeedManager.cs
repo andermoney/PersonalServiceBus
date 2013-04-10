@@ -1,4 +1,5 @@
-﻿using PersonalServiceBus.RSS.Core.Domain.Model;
+﻿using System.Collections.Generic;
+using PersonalServiceBus.RSS.Core.Domain.Model;
 
 namespace PersonalServiceBus.RSS.Core.Domain.Interface
 {
@@ -6,5 +7,6 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
     {
         Feed GetNextFeed();
         Status AddFeed(Feed feed);
+        IEnumerable<Category> GetFeedCategories(out Status status);
     }
 }

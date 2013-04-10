@@ -4,8 +4,6 @@ using Microsoft.AspNet.SignalR.Hubs;
 using NServiceBus;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
-using PersonalServiceBus.RSS.Infrastructure;
-using PersonalServiceBus.RSS.Models;
 
 namespace PersonalServiceBus.RSS.SignalR
 {
@@ -23,19 +21,13 @@ namespace PersonalServiceBus.RSS.SignalR
 
         public IEnumerable<Category> GetFeedCategories()
         {
-            return new List<Category>
-                {
-                    new Category
-                        {
-                            CategoryId = 1,
-                            CategoryName = "Webcomics"
-                        }
-                };
+            Status status;
+            return _feedManager.GetFeedCategories(out status);
         }
 
         public Status AddFeed(Feed feed)
         {
-            return  _feedManager.AddFeed(feed);
+            return _feedManager.AddFeed(feed);
         }
     }
 }
