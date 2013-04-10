@@ -5,11 +5,15 @@
         },
         shims: {
             "/Scripts/jquery.signalR-1.0.1.min": {
-                deps: ['jquery']
+                deps: ['jquery'],
+                exports: '$.connection'
             },
             "/signalr/hubs": {
                 deps: ['jquery', 'jquery.signalR-1.0.1.min']
             }
         }
     });
+});
+
+require(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs'], function(signalR, hubs) {
 });

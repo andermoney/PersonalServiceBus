@@ -33,9 +33,9 @@ namespace PersonalServiceBus.RSS.SignalR
                 };
         }
 
-        public void AddFeed(Feed feed)
+        public Status AddFeed(Feed feed)
         {
-            var status = _feedManager.AddFeed(feed);
+            return  _feedManager.AddFeed(feed);
         }
     }
 }

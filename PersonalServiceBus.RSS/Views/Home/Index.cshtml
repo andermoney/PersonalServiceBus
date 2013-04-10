@@ -50,7 +50,7 @@
                     Name: '',
                     Url: ''
                 };
-                feedHub.hub.server.addFeed(feed).done(function () {
+                feedHub.hub.server.addFeed(feed).done(function (status) {
                     $saveButton.button('reset');
                 });
             });

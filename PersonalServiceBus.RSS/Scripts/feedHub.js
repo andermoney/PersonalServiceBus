@@ -1,4 +1,4 @@
-﻿require(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs'], function (signalR, hubs) {
+﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs'], function (signalR, hubs) {
     // Crockford's supplant method (poor man's templating)
     if (!String.prototype.supplant) {
         String.prototype.supplant = function (o) {
