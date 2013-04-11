@@ -12,9 +12,9 @@
     }
 
     // A simple background color flash effect that uses jQuery Color plugin
-    jQuery.fn.flash = function (color, duration) {
+    $.fn.flash = function (color, duration) {
         var current = this.css('backgroundColor');
-        this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
+        this.animate({ backgroundColor: color }, duration / 2)
             .animate({ backgroundColor: current }, duration / 2);
     };
 
@@ -76,7 +76,21 @@
         }
     }
 
-    function addFeed(feed, newFeed) {
+    function addFeedAnimation($categoryList, category, $feed) {
+        var $shownCategory = $('.in', $categoryList),
+            $category = $('#' + category, $categoryList);
+        $shownCategory.on('hidden', function () {
+            $category.collapse('show');
+            $shownCategory.off('hidden');
+        });
+        $category.on('shown', function () {
+            $feed.flash('#FFD800', 2000);
+            $category.off('shown');
+        });
+        $shownCategory.collapse('hide');
+    }
+
+    function addFeed(feed, showAnimation) {
         var $categoryList = $('#feed-category-list'),
             feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
             feedTemplate = '<li id="{Id}"><a href="#">{Name} <span class="badge badge-info">{UnreadCount}</span></a></li>',
@@ -96,6 +110,9 @@
         $feed = $('#' + feed.Id, $category);
         if ($feed.length == 0) {
             $category.append(feedTemplate.supplant(feed));
+        }
+        if (showAnimation == true) {
+            addFeedAnimation($categoryList, feed.Category, $feed);
         }
     }
 
