@@ -43,6 +43,30 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public IEnumerable<Feed> GetFeeds(out Status status)
+        {
+            try
+            {
+                status = new Status
+                {
+                    ErrorLevel = ErrorLevel.None
+                };
+                return _database.Query<Feed>()
+                    .Select(f => f)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                status = new Status
+                {
+                    ErrorLevel = ErrorLevel.Critical,
+                    ErrorMessage = string.Format("Fatal error getting feeds: {0}", ex),
+                    ErrorException = ex
+                };
+                return new List<Feed>();
+            }
+        }
+
         public IEnumerable<Category> GetFeedCategories(out Status status)
         {
             try
@@ -65,7 +89,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 status = new Status
                     {
                         ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error adding feed: {0}", ex),
+                        ErrorMessage = string.Format("Fatal error getting feed categories: {0}", ex),
                         ErrorException = ex
                     };
                 return new List<Category>();

@@ -29,5 +29,11 @@ namespace PersonalServiceBus.RSS.SignalR
         {
             return _feedManager.AddFeed(feed);
         }
+
+        public IEnumerable<Feed> GetFeeds()
+        {
+            Status status;
+            return _feedManager.GetFeeds(out status);
+        }
     }
 }

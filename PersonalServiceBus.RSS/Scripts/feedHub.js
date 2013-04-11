@@ -14,21 +14,23 @@
     function createHub() {
         var feedHub = $.connection.feedHub,
             $categoryList = $('#feed-category-list'),
-            feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner">Feeds here...</div></div></div>';
+            feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
+            feedTemplate = '<li><a href="#">{Name} <span class="badge badge-info">{UnreadCount}</span></a></li>';
 
-        function formatCategory(category) {
-            return $.extend(category, {
-
-            });
-        }
-
-        function getFeedCategories() {
-            feedHub.server.getFeedCategories().done(function (categories) {
-                showError(status);
-
-                $.each(categories, function () {
-                    var category = formatCategory(this);
-                    $categoryList.append(feedCategoryTemplate.supplant(category));
+        function getFeeds() {
+            feedHub.server.getFeeds().done(function (feeds) {
+                $.each(feeds, function () {
+                    var feed = this,
+                        $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList);
+                    if ($category.length == 0) {
+                        var category = {
+                            Id: feed.Category,
+                            Name: feed.Category
+                        };
+                        $categoryList.append(feedCategoryTemplate.supplant(category));
+                        $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList);
+                    }
+                    $category.append(feedTemplate.supplant(feed));
                 });
             });
         }
@@ -48,7 +50,7 @@
             .done(function () {
                 setupClient();
                 $(document).trigger('hubStarted');
-                getFeedCategories();
+                getFeeds();
             });
         return feedHub;
     }

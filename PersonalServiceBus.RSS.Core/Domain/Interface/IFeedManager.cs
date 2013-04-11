@@ -6,7 +6,8 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
     public interface IFeedManager
     {
         Feed GetNextFeed();
-        Status AddFeed(Feed feed);
         IEnumerable<Category> GetFeedCategories(out Status status);
+        Status AddFeed(Feed feed);
+        IEnumerable<Feed> GetFeeds(out Status status);
     }
 }
