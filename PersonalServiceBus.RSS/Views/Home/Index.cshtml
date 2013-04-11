@@ -51,11 +51,12 @@
                     Name: $('.form-addfeed input[name="Name"]').val(),
                     Url: $('.form-addfeed input[name="Url"]').val()
                 };
-                feedHub.hub.server.addFeed(feed).done(function (status) {
-                    if (status.ErrorLevel > 2) {
-                        feedHub.showError(status, $('.modal-body'));
+                feedHub.hub.server.addFeed(feed).done(function (addResponse) {
+                    if (addResponse.Status.ErrorLevel > 2) {
+                        feedHub.showError(addResponse.Status, $('.modal-body'));
                     } else {
                         $('#subscribe-modal').modal('hide');
+                        feedHub.addFeed(addResponse.Data, true);
                     }
                     $saveButton.button('reset');
                 });
