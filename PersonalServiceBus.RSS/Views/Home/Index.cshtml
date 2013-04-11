@@ -52,7 +52,11 @@
                     Url: $('.form-addfeed input[name="Url"]').val()
                 };
                 feedHub.hub.server.addFeed(feed).done(function (status) {
-                    feedHub.showError(status, $('.modal-body'));
+                    if (status.ErrorLevel > 2) {
+                        feedHub.showError(status, $('.modal-body'));
+                    } else {
+                        $('#subscribe-modal').modal('hide');
+                    }
                     $saveButton.button('reset');
                 });
             });
