@@ -19,14 +19,14 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
         public void Handle(AddFeed message)
         {
-            var status = _feedManager.AddFeed(new Feed());
+            var feedResponse = _feedManager.AddFeed(new Feed());
             var response = new AddFeedResponse
             {
-                IsError = status.ErrorLevel > ErrorLevel.Warning,
-                ErrorMessage = status.ErrorMessage,
-                ErrorException = status.ErrorException
+                IsError = feedResponse.Status.ErrorLevel > ErrorLevel.Warning,
+                ErrorMessage = feedResponse.Status.ErrorMessage,
+                ErrorException = feedResponse.Status.ErrorException
             };
-            Bus.CurrentMessageContext.Headers.Add("ErrorMessage", string.Format("{0} ({1})", status.ErrorMessage, status.ErrorException));
+            Bus.CurrentMessageContext.Headers.Add("ErrorMessage", string.Format("{0} ({1})", feedResponse.Status.ErrorMessage, feedResponse.Status.ErrorException));
             Bus.Return(response.IsError);
         }
     }

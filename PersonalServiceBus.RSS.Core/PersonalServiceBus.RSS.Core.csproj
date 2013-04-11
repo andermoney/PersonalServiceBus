@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\CollectionResponse.cs" />
+    <Compile Include="Contract\SingleResponse.cs" />
     <Compile Include="Domain\Enum\ErrorLevel.cs" />
     <Compile Include="Domain\Interface\IConfiguration.cs" />
     <Compile Include="Domain\Interface\IDatabase.cs" />

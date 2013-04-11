@@ -12,7 +12,7 @@
     }
 
     // A simple background color flash effect that uses jQuery Color plugin
-    jQuery.fn.flash = function(color, duration) {
+    jQuery.fn.flash = function (color, duration) {
         var current = this.css('backgroundColor');
         this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
             .animate({ backgroundColor: current }, duration / 2);
@@ -48,8 +48,11 @@
         }
 
         function getFeeds() {
-            feedHub.server.getFeeds().done(function (feeds) {
-                $.each(feeds, function () {
+            feedHub.server.getFeeds().done(function (feedResponse) {
+                if (feedResponse.Status.ErrorLevel > 2) {
+                    showError(feedResponse.Status);
+                }
+                $.each(feedResponse.Data, function () {
                     var feed = formatFeed(this);
                     addFeed(feed);
                 });
@@ -77,8 +80,8 @@
     }
 
     function showError(status, parentElement) {
-        var hubWarningTemplate = '<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong>&nbsp;<span class="alert-message">{ErrorMessage}</span></div>',
-            hubErrorTemplate = '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error!</strong>&nbsp;<span class="alert-error-message">{ErrorMessage}</span></div>',
+        var hubWarningTemplate = '<div class="alert fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong>&nbsp;<span class="alert-message">{ErrorMessage}</span></div>',
+            hubErrorTemplate = '<div class="alert alert-error fade in"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error!</strong>&nbsp;<span class="alert-error-message">{ErrorMessage}</span></div>',
             errorContainer;
         if ($(parentElement).length > 0) {
             errorContainer = $('.alert-container', parentElement);

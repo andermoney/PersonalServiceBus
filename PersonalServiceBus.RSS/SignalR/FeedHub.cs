@@ -2,6 +2,7 @@
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using NServiceBus;
+using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 
@@ -19,21 +20,19 @@ namespace PersonalServiceBus.RSS.SignalR
             _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
         }
 
-        public IEnumerable<Category> GetFeedCategories()
+        public CollectionResponse<Category> GetFeedCategories()
         {
-            Status status;
-            return _feedManager.GetFeedCategories(out status);
+            return _feedManager.GetFeedCategories();
         }
 
-        public Status AddFeed(Feed feed)
+        public SingleResponse<Feed> AddFeed(Feed feed)
         {
             return _feedManager.AddFeed(feed);
         }
 
-        public IEnumerable<Feed> GetFeeds()
+        public CollectionResponse<Feed> GetFeeds()
         {
-            Status status;
-            return _feedManager.GetFeeds(out status);
+            return _feedManager.GetFeeds();
         }
     }
 }

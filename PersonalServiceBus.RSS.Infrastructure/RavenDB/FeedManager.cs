@@ -4,6 +4,7 @@ using System.Linq;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
+using PersonalServiceBus.RSS.Core.Contract;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 {
@@ -22,77 +23,97 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             return nextFeed;
         }
 
-        public Status AddFeed(Feed feed)
+        public SingleResponse<Feed> AddFeed(Feed feed)
         {
             try
             {
                 _database.Store(feed);
-                return new Status
+                return new SingleResponse<Feed>
                     {
-                        ErrorLevel = ErrorLevel.None
+                        Data = feed,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
                     };
             }
             catch (Exception ex)
             {
-                return new Status
+                return new SingleResponse<Feed>
                     {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error adding feed: {0}", ex),
-                        ErrorException = ex
+                        Data = null,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Critical,
+                                ErrorMessage = string.Format("Fatal error adding feed: {0}", ex),
+                                ErrorException = ex
+                            }
                     };
             }
         }
 
-        public IEnumerable<Feed> GetFeeds(out Status status)
+        public CollectionResponse<Feed> GetFeeds()
         {
             try
             {
-                status = new Status
-                {
-                    ErrorLevel = ErrorLevel.None
-                };
-                return _database.Query<Feed>()
-                    .Select(f => f)
-                    .ToList();
+                return new CollectionResponse<Feed>
+                    {
+                        Data = _database.Query<Feed>()
+                                        .Select(f => f)
+                                        .ToList(),
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
+                    };
             }
             catch (Exception ex)
             {
-                status = new Status
-                {
-                    ErrorLevel = ErrorLevel.Critical,
-                    ErrorMessage = string.Format("Fatal error getting feeds: {0}", ex),
-                    ErrorException = ex
-                };
-                return new List<Feed>();
+                return new CollectionResponse<Feed>
+                    {
+                        Data = new List<Feed>(),
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Critical,
+                                ErrorMessage = string.Format("Fatal error getting feeds: {0}", ex),
+                                ErrorException = ex
+                            }
+                    };
             }
         }
 
-        public IEnumerable<Category> GetFeedCategories(out Status status)
+        public CollectionResponse<Category> GetFeedCategories()
         {
             try
             {
-                status = new Status
+                return new CollectionResponse<Category>
                     {
-                        ErrorLevel = ErrorLevel.None
+                        Data = _database.Query<Feed>()
+                                        .Select(f => f.Category)
+                                        .Distinct().ToList()
+                                        .Select(c => new Category
+                                            {
+                                                Id = c,
+                                                Name = c
+                                            }),
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
                     };
-                return _database.Query<Feed>()
-                    .Select(f => f.Category)
-                    .Distinct().ToList()
-                    .Select(c => new Category
-                    {
-                        Id = c,
-                        Name = c
-                    });
             }
             catch (Exception ex)
             {
-                status = new Status
+                return new CollectionResponse<Category>
                     {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error getting feed categories: {0}", ex),
-                        ErrorException = ex
+                        Data = new List<Category>(),
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Critical,
+                                ErrorMessage = string.Format("Fatal error getting feed categories: {0}", ex),
+                                ErrorException = ex
+                            }
                     };
-                return new List<Category>();
             }
         }
     }
