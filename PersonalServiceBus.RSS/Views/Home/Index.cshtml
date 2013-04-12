@@ -41,22 +41,19 @@
     </div>
 </div>
 <script type="text/javascript">
-    require(['/Scripts/feedHub.js'], function (feedHub) {
+    require(['/Scripts/feedHub.js', '/Scripts/formHelper.js'], function (feedHub, formHelper) {
         $(document).on('hubStarted', function () {
             $('#subscribe-modal .btn-save').click(function (e) {
                 var $saveButton = $(this);
                 $saveButton.button('loading');
-                var feed = {
-                    Category: $('.form-addfeed input[name="Category"]').val(),
-                    Name: $('.form-addfeed input[name="Name"]').val(),
-                    Url: $('.form-addfeed input[name="Url"]').val()
-                };
+                var feed = formHelper.getFormData($('.form-addfeed'));
                 feedHub.hub.server.addFeed(feed).done(function (addResponse) {
                     if (addResponse.Status.ErrorLevel > 2) {
                         feedHub.showError(addResponse.Status, $('.modal-body'));
                     } else {
                         $('#subscribe-modal').modal('hide');
                         feedHub.addFeed(addResponse.Data, true);
+                        formHelper.clearForm($('.form-addfeed'));
                     }
                     $saveButton.button('reset');
                 });
