@@ -17,6 +17,8 @@
         this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
             .animate({ backgroundColor: current }, duration / 2)
             .animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
+            .animate({ backgroundColor: current }, duration / 2)
+            .animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
             .animate({ backgroundColor: current }, duration / 2);
     };
 
@@ -85,7 +87,7 @@
             $shownCategory.collapse('hide');
             $category.collapse('show');
         }
-        $feed.flash('255, 248, 86', 1000);
+        $feed.flash('255, 248, 86', 500);
     }
 
     function addFeed(feed, showAnimation) {

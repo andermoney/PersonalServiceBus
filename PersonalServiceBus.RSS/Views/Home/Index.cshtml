@@ -42,7 +42,14 @@
 </div>
 <script type="text/javascript">
     require(['/Scripts/feedHub.js', '/Scripts/formHelper.js'], function (feedHub, formHelper) {
+        var $addFeedForm = $('.form-addfeed');
         $(document).on('hubStarted', function () {
+            $('#subscribe-modal').on('shown', function () {
+                formHelper.selectFirstField($addFeedForm);
+            });
+            $('#subscribe-modal').on('hidden', function() {
+                formHelper.clearForm($addFeedForm);
+            });
             $('#subscribe-modal .btn-save').click(function (e) {
                 var $saveButton = $(this);
                 $saveButton.button('loading');
@@ -52,14 +59,10 @@
                         feedHub.showError(addResponse.Status, $('.modal-body'));
                     } else {
                         $('#subscribe-modal').modal('hide');
-                        formHelper.clearForm($('.form-addfeed'));
                         feedHub.addFeed(addResponse.Data, true);
                     }
                     $saveButton.button('reset');
                 });
-            });
-            $('#subscribe-modal .btn-close').click(function (e) {
-                formHelper.clearForm($('.form-addfeed'));
             });
         });
     });

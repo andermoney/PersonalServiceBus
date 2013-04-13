@@ -9,7 +9,7 @@
         });
         return data;
     }
-    
+
     function clearForm($elem) {
         $('input', $elem).each(function () {
             var name = $(this).attr('name');
@@ -19,8 +19,13 @@
         });
     }
 
+    function selectFirstField($elem) {
+        $('input:first[name]', $elem).focus();
+    }
+
     return {
         getFormData: getFormData,
-        clearForm: clearForm
+        clearForm: clearForm,
+        selectFirstField: selectFirstField
     };
 });
