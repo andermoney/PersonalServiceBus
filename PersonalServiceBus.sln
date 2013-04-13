@@ -1,9 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DD937A5-C131-4622-851D-A2281EDB136E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Contract", "PersonalServiceBus.Contract\PersonalServiceBus.Contract.csproj", "{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18C9143F-AD22-4503-A486-D286FB35643F}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18C914
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Contract", "PersonalServiceBus.Contract\PersonalServiceBus.Contract.csproj", "{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email", "PersonalServiceBus.Email\PersonalServiceBus.Email.csproj", "{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}"
 EndProject
