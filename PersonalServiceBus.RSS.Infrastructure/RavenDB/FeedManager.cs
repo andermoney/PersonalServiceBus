@@ -82,6 +82,11 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public void AddFeedItems(IEnumerable<FeedItem> feedItems)
+        {
+            throw new NotImplementedException();
+        }
+
         public CollectionResponse<Category> GetFeedCategories()
         {
             try

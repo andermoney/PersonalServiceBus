@@ -10,5 +10,7 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
         CollectionResponse<Category> GetFeedCategories();
         SingleResponse<Feed> AddFeed(Feed feed);
         CollectionResponse<Feed> GetFeeds();
+
+        void AddFeedItems(IEnumerable<FeedItem> feedItems);
     }
 }
