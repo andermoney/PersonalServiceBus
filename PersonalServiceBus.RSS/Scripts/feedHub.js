@@ -1,15 +1,5 @@
-﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs'], function (signalR, hubs) {
-    // Crockford's supplant method (poor man's templating)
-    if (!String.prototype.supplant) {
-        String.prototype.supplant = function (o) {
-            return this.replace(/{([^{}]*)}/g,
-                function (a, b) {
-                    var r = o[b];
-                    return typeof r === 'string' || typeof r === 'number' ? r : a;
-                }
-            );
-        };
-    }
+﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs', '/Scripts/template.js', '/Scripts/loading.js'], function (signalR, hubs, template, loading) {
+    var $categoryList = $('#feed-category-list');
 
     // A simple background color flash effect that uses jQuery Color plugin
     $.fn.flash = function (color, duration) {
@@ -32,7 +22,9 @@
         var feedHub = $.connection.feedHub;
 
         function getFeeds() {
+            loading.addLoadingIcon($categoryList);
             feedHub.server.getFeeds().done(function (feedResponse) {
+                loading.removeLoadingIcon($categoryList);
                 if (feedResponse.Status.ErrorLevel > 2) {
                     showError(feedResponse.Status);
                 }
@@ -80,7 +72,7 @@
         }
     }
 
-    function addFeedAnimation($categoryList, category, $feed) {
+    function addFeedAnimation(category, $feed) {
         var $shownCategory = $('.in', $categoryList),
             $category = $('#' + category, $categoryList);
         if ($category.attr('id') != $shownCategory.attr('id')) {
@@ -91,8 +83,7 @@
     }
 
     function addFeed(feed, showAnimation) {
-        var $categoryList = $('#feed-category-list'),
-            feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
+        var feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
             feedTemplate = '<li id="{Id}"><a href="#">{Name} <span class="badge badge-info">{UnreadCount}</span></a></li>',
             $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList),
             $feed;
@@ -113,7 +104,7 @@
             $feed = $('#' + feed.Id, $category);
         }
         if (showAnimation == true) {
-            addFeedAnimation($categoryList, feed.Category, $feed);
+            addFeedAnimation(feed.Category, $feed);
         }
     }
 
