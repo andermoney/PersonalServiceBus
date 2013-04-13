@@ -36,7 +36,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-close" data-dismiss="modal" aria-hidden="true">Close</button>
         <button class="btn btn-primary btn-save" data-loading-text="Saving...">Save changes</button>
     </div>
 </div>
@@ -52,11 +52,14 @@
                         feedHub.showError(addResponse.Status, $('.modal-body'));
                     } else {
                         $('#subscribe-modal').modal('hide');
-                        feedHub.addFeed(addResponse.Data, true);
                         formHelper.clearForm($('.form-addfeed'));
+                        feedHub.addFeed(addResponse.Data, true);
                     }
                     $saveButton.button('reset');
                 });
+            });
+            $('#subscribe-modal .btn-close').click(function (e) {
+                formHelper.clearForm($('.form-addfeed'));
             });
         });
     });

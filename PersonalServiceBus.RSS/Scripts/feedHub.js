@@ -14,7 +14,9 @@
     // A simple background color flash effect that uses jQuery Color plugin
     $.fn.flash = function (color, duration) {
         var current = this.css('backgroundColor');
-        this.animate({ backgroundColor: color }, duration / 2)
+        this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
+            .animate({ backgroundColor: current }, duration / 2)
+            .animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
             .animate({ backgroundColor: current }, duration / 2);
     };
 
@@ -79,15 +81,11 @@
     function addFeedAnimation($categoryList, category, $feed) {
         var $shownCategory = $('.in', $categoryList),
             $category = $('#' + category, $categoryList);
-        $shownCategory.on('hidden', function () {
+        if ($category.attr('id') != $shownCategory.attr('id')) {
+            $shownCategory.collapse('hide');
             $category.collapse('show');
-            $shownCategory.off('hidden');
-        });
-        $category.on('shown', function () {
-            $feed.flash('#FFD800', 2000);
-            $category.off('shown');
-        });
-        $shownCategory.collapse('hide');
+        }
+        $feed.flash('255, 248, 86', 1000);
     }
 
     function addFeed(feed, showAnimation) {
@@ -110,6 +108,7 @@
         $feed = $('#' + feed.Id, $category);
         if ($feed.length == 0) {
             $category.append(feedTemplate.supplant(feed));
+            $feed = $('#' + feed.Id, $category);
         }
         if (showAnimation == true) {
             addFeedAnimation($categoryList, feed.Category, $feed);

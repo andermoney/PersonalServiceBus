@@ -1,10 +1,10 @@
 ﻿requirejs([], function() {
     require.config({
         paths: {
-            jquery: '/Scripts/jquery-1.9.1.min'
+            jquery: '/Scripts/jquery-1.9.1.min.js'
         },
         shims: {
-            "/Scripts/jquery.signalR-1.0.1.min": {
+            "/Scripts/jquery.signalR-1.0.1.min.js": {
                 deps: ['jquery'],
                 exports: '$.connection'
             },
