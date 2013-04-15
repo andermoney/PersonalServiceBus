@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
-using RestSharp;
-using GetRssFeed = GetRssFeed.GetRssFeed;
+using QDFeedParser;
+using QDFeedParser.Xml;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RSS
 {
@@ -10,10 +11,20 @@ namespace PersonalServiceBus.RSS.Infrastructure.RSS
     {
         public IEnumerable<FeedItem> GetFeedItems(Feed feed)
         {
-            var getRssFeed = new global::GetRssFeed.GetRssFeed(feed.Url, "", "");
-            var request = new RestRequest();
-            var feedItems = getRssFeed.Execute(request);
-            return new List<FeedItem>();
+            var factory = new HttpFeedFactory();
+            var rssFeed = factory.CreateFeed(new Uri(feed.Url));
+
+            return rssFeed.Items.ConvertAll(i => new FeedItem
+                {
+                    RssId = i.Id,
+                    Title = i.Title,
+                    FeedId = feed.Id,
+                    Category = feed.Category,
+                    Url = i.Link,
+                    Author = i.Author,
+                    Content = i.Content,
+                    DatePublished = i.DatePublished
+                });
         }
     }
 }

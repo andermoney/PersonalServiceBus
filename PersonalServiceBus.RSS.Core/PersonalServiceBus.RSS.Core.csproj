@@ -48,6 +48,7 @@
     <Compile Include="Domain\Interface\IFeedManager.cs" />
     <Compile Include="Domain\Interface\IRssManager.cs" />
     <Compile Include="Domain\Model\Category.cs" />
+    <Compile Include="Domain\Model\EntityBase.cs" />
     <Compile Include="Domain\Model\Feed.cs" />
     <Compile Include="Domain\Model\FeedItem.cs" />
     <Compile Include="Domain\Model\Status.cs" />

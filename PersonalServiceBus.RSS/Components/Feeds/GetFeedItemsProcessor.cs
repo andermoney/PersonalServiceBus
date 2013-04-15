@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NServiceBus;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
@@ -31,6 +32,9 @@ namespace PersonalServiceBus.RSS.Components.Feeds
             {
                 _feedManager.AddFeedItems(feedItems);
             }
+
+            nextFeed.FeedRetrieveDate = DateTime.Now;
+            _feedManager.UpdateFeed(nextFeed);
         }
     }
 }

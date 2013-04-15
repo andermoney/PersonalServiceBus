@@ -1,8 +1,7 @@
 ﻿namespace PersonalServiceBus.RSS.Core.Domain.Model
 {
-    public class Category
+    public class Category : EntityBase
     {
-        public string Id { get; set; }
         public string Name { get; set; }
     }
 }

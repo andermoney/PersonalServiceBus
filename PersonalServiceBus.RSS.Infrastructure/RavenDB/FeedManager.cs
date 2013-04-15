@@ -52,6 +52,35 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public SingleResponse<Feed> UpdateFeed(Feed feed)
+        {
+            try
+            {
+                _database.Store(feed);
+                return new SingleResponse<Feed>
+                {
+                    Data = feed,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<Feed>
+                {
+                    Data = null,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error updating feed: {0}", ex),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
         public CollectionResponse<Feed> GetFeeds()
         {
             try
@@ -82,9 +111,41 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public void AddFeedItems(IEnumerable<FeedItem> feedItems)
+        public CollectionResponse<FeedItem> AddFeedItems(IEnumerable<FeedItem> items)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var feedItems = items.ToList();
+                var newFeedItems = feedItems
+                    .Where(feedItem => !_database.Query<FeedItem>()
+                        .Any(i => i.RssId == feedItem.RssId && i.FeedId == feedItem.FeedId)).ToList();
+
+                if (newFeedItems.Any())
+                {
+                    _database.StoreCollection(newFeedItems);
+                }
+                return new CollectionResponse<FeedItem>
+                {
+                    Data = feedItems,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new CollectionResponse<FeedItem>
+                    {
+                    Data = new List<FeedItem>(),
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error adding feed items: {0}", ex),
+                        ErrorException = ex
+                    }
+                };
+            }
         }
 
         public CollectionResponse<Category> GetFeedCategories()

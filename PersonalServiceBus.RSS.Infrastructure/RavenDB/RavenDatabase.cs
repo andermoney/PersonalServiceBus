@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
+using PersonalServiceBus.RSS.Core.Domain.Model;
 using Raven.Client.Document;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
@@ -35,6 +37,18 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             using (var documentSession = _documentStore.OpenSession())
             {
                 documentSession.Store(entity);
+                documentSession.SaveChanges();
+            }
+        }
+
+        public void StoreCollection<T>(IEnumerable<T> entities)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                foreach (var entity in entities)
+                {
+                    documentSession.Store(entity);
+                }
                 documentSession.SaveChanges();
             }
         }
