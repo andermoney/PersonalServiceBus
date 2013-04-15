@@ -18,6 +18,7 @@ namespace PersonalServiceBus.RSS.SignalR
         public FeedHub()
         {
             _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
+            Configure.Instance.Configurer.RegisterSingleton<FeedHub>(this);
         }
 
         public CollectionResponse<Category> GetFeedCategories()

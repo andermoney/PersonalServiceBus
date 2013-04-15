@@ -38,9 +38,12 @@
         function setupClient() {
             //client methods the server will call back
             $.extend(feedHub.client, {
-                updateCategoryFeeds: function (category) {
-                    var $category = $('#' + category.CategoryId + ' .accordion-inner');
-                    $category.html('Feed count updated.');
+                UpdateFeedUnreadCount: function (feed) {
+                    var $feed;
+                    feed = formatFeed(feed);
+                    $feed = $('#' + feed.Id, $categoryList);
+
+                    $('.badge', $feed).html(feed.UnreadCount);
                 }
             });
         }

@@ -16,7 +16,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RSS
 
             return rssFeed.Items.ConvertAll(i => new FeedItem
                 {
-                    RssId = i.Id,
+                    RssId = !string.IsNullOrEmpty(i.Id) ? i.Id : i.Title,
                     Title = i.Title,
                     FeedId = feed.Id,
                     Category = feed.Category,

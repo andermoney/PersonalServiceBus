@@ -5,6 +5,7 @@ using NServiceBus;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Messages.Feeds;
+using PersonalServiceBus.RSS.SignalR;
 
 namespace PersonalServiceBus.RSS.Components.Feeds
 {
@@ -14,12 +15,15 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
         private readonly IFeedManager _feedManager;
         private readonly IRssManager _rssManager;
+        private readonly FeedHubClient _feedHubClient;
 
         public GetFeedItemsProcessor(IFeedManager feedManager,
-            IRssManager rssManager)
+            IRssManager rssManager,
+            FeedHubClient feedHubClient)
         {
             _feedManager = feedManager;
             _rssManager = rssManager;
+            _feedHubClient = feedHubClient;
         }
 
         public void Handle(GetFeedItems message)
@@ -31,6 +35,8 @@ namespace PersonalServiceBus.RSS.Components.Feeds
             if (feedItems.Any())
             {
                 _feedManager.AddFeedItems(feedItems);
+                nextFeed.UnreadCount = _feedManager.GetFeedUnreadCount(nextFeed).Data;
+                _feedHubClient.UpdateFeedUnreadCount(nextFeed);
             }
 
             nextFeed.FeedRetrieveDate = DateTime.Now;

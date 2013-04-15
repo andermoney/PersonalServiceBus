@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
-using PersonalServiceBus.RSS.Core.Domain.Model;
 using Raven.Client.Document;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
@@ -13,8 +12,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public RavenDatabase(IConfiguration configuration)
         {
-            _documentStore = new DocumentStore();
-            _documentStore.Url = configuration.RavenDBUrl;
+            _documentStore = new DocumentStore
+                {
+                    Url = configuration.RavenDBUrl
+                };
             _documentStore.Initialize();
         }
 

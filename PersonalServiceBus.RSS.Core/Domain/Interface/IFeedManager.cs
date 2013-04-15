@@ -11,6 +11,7 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
         SingleResponse<Feed> AddFeed(Feed feed);
         SingleResponse<Feed> UpdateFeed(Feed feed);
         CollectionResponse<Feed> GetFeeds();
+        SingleResponse<int> GetFeedUnreadCount(Feed feed);
 
         CollectionResponse<FeedItem> AddFeedItems(IEnumerable<FeedItem> feedItems);
     }

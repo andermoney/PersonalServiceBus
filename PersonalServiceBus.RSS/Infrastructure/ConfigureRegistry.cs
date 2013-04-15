@@ -1,6 +1,7 @@
 ﻿using NServiceBus;
 using PersonalServiceBus.RSS.Infrastructure.RSS;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB;
+using PersonalServiceBus.RSS.SignalR;
 
 namespace PersonalServiceBus.RSS.Infrastructure
 {
@@ -12,6 +13,7 @@ namespace PersonalServiceBus.RSS.Infrastructure
             configure.Configurer.ConfigureComponent<RssManager>(DependencyLifecycle.SingleInstance);
             configure.Configurer.ConfigureComponent<RavenDatabase>(DependencyLifecycle.SingleInstance);
             configure.Configurer.ConfigureComponent<WebConfiguration>(DependencyLifecycle.SingleInstance);
+            configure.Configurer.ConfigureComponent<FeedHubClient>(DependencyLifecycle.SingleInstance);
             return configure;
         }
     }

@@ -111,6 +111,35 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public SingleResponse<int> GetFeedUnreadCount(Feed feed)
+        {
+            try
+            {
+                return new SingleResponse<int>
+                {
+                    Data = _database.Query<FeedItem>()
+                            .Count(f => f.FeedId == feed.Id),
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<int>
+                {
+                    Data = -1,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error getting feed unread count: {0}", ex),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
         public CollectionResponse<FeedItem> AddFeedItems(IEnumerable<FeedItem> items)
         {
             try
