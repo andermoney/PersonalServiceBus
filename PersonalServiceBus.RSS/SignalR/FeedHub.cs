@@ -18,7 +18,6 @@ namespace PersonalServiceBus.RSS.SignalR
         public FeedHub()
         {
             _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
-            Configure.Instance.Configurer.RegisterSingleton<FeedHub>(this);
         }
 
         public CollectionResponse<Category> GetFeedCategories()
@@ -33,6 +32,11 @@ namespace PersonalServiceBus.RSS.SignalR
 
         public CollectionResponse<Feed> GetFeeds()
         {
+            Clients.All.UpdateFeedUnreadCount(new Feed
+                {
+                    Id = "Feeds/130",
+                    UnreadCount = 999
+                });
             return _feedManager.GetFeeds();
         }
     }

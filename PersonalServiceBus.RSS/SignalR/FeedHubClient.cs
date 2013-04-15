@@ -1,19 +1,22 @@
-﻿using PersonalServiceBus.RSS.Core.Domain.Model;
+﻿using System;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using PersonalServiceBus.RSS.Core.Domain.Model;
 
 namespace PersonalServiceBus.RSS.SignalR
 {
     public class FeedHubClient
     {
-        private readonly FeedHub _feedHub;
+        private readonly Lazy<IHubConnectionContext> _clientsInstance = new Lazy<IHubConnectionContext>(() => GlobalHost.ConnectionManager.GetHubContext<FeedHub>().Clients);
 
-        public FeedHubClient(FeedHub feedHub)
+        private IHubConnectionContext Clients
         {
-            _feedHub = feedHub;
+            get { return _clientsInstance.Value; }
         }
 
         public void UpdateFeedUnreadCount(Feed feed)
         {
-            _feedHub.Clients.All.UpdateFeedUnreadCount(feed);
+            Clients.All.UpdateFeedUnreadCount(feed);
         } 
     }
 }
