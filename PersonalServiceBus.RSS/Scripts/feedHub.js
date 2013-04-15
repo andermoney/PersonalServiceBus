@@ -42,7 +42,7 @@
                     var $feed;
                     feed = formatFeed(feed);
                     $feed = $('#' + feed.Id, $categoryList);
-
+                    
                     $('.badge', $feed).html(feed.UnreadCount);
                 }
             });
