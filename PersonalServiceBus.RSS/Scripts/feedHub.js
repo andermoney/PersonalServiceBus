@@ -88,7 +88,7 @@
 
     function addFeed(feed, showAnimation) {
         var feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
-            feedTemplate = '<li id="{Id}"><a href="#">{Name} <span class="badge badge-info">{UnreadCount}</span></a></li>',
+            feedTemplate = '<li id="{Id}"><a href="#">{Name} <span class="badge badge-important feed-error" style="display:none">!</span><span class="badge badge-info">{UnreadCount}</span></a></li>',
             $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList),
             $feed;
 
@@ -106,6 +106,9 @@
         if ($feed.length == 0) {
             $category.append(feedTemplate.supplant(feed));
             $feed = $('#' + feed.Id, $category);
+            if (feed.Status && feed.Status.ErrorLevel > 2) {
+                $('.feed-error', $feed).show();
+            }
         }
         if (showAnimation == true) {
             addFeedAnimation(feed.Category, $feed);

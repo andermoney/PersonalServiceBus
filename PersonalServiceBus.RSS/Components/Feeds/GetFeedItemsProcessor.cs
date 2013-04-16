@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NServiceBus;
+using PersonalServiceBus.RSS.Core.Contract;
+using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Messages.Feeds;
@@ -32,17 +34,28 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
             if (nextFeed != null)
             {
-                IEnumerable<FeedItem> feedItems = _rssManager.GetFeedItems(nextFeed).ToList();
+                CollectionResponse<FeedItem> feedItemsResponse = _rssManager.GetFeedItems(nextFeed);
 
-                if (feedItems.Any())
+                if (feedItemsResponse.Status.ErrorLevel >= ErrorLevel.Error)
                 {
-                    _feedManager.AddFeedItems(feedItems);
-                    nextFeed.UnreadCount = _feedManager.GetFeedUnreadCount(nextFeed).Data;
-                    _feedHubClient.UpdateFeedUnreadCount(nextFeed);
+                    nextFeed.FeedRetrieveDate = DateTime.Now;
+                    nextFeed.Status = feedItemsResponse.Status;
+                    nextFeed.Status.ErrorException = null; //Have to strip this out for RavenDB, does not serialize well
+                    //TODO log the exception itself
+                    _feedManager.UpdateFeed(nextFeed);
                 }
+                else
+                {
+                    if (feedItemsResponse.Data.Any())
+                    {
+                        _feedManager.AddFeedItems(feedItemsResponse.Data);
+                        nextFeed.UnreadCount = _feedManager.GetFeedUnreadCount(nextFeed).Data;
+                        _feedHubClient.UpdateFeedUnreadCount(nextFeed);
+                    }
 
-                nextFeed.FeedRetrieveDate = DateTime.Now;
-                _feedManager.UpdateFeed(nextFeed);
+                    nextFeed.FeedRetrieveDate = DateTime.Now;
+                    _feedManager.UpdateFeed(nextFeed);
+                }
             }
         }
     }
