@@ -32,11 +32,6 @@ namespace PersonalServiceBus.RSS.SignalR
 
         public CollectionResponse<Feed> GetFeeds()
         {
-            Clients.All.UpdateFeedUnreadCount(new Feed
-                {
-                    Id = "Feeds/130",
-                    UnreadCount = 999
-                });
             return _feedManager.GetFeeds();
         }
     }

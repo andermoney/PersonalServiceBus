@@ -1,4 +1,4 @@
-﻿define(['/Scripts/jquery.signalR-1.0.1.js', '/signalr/hubs', '/Scripts/template.js', '/Scripts/loading.js'], function (signalR, hubs, template, loading) {
+﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs', '/Scripts/template.js', '/Scripts/loading.js'], function (signalR, hubs, template, loading) {
     var $categoryList = $('#feed-category-list');
 
     // A simple background color flash effect that uses jQuery Color plugin
