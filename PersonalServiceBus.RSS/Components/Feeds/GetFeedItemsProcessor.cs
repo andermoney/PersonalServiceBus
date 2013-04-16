@@ -30,17 +30,20 @@ namespace PersonalServiceBus.RSS.Components.Feeds
         {
             Feed nextFeed = _feedManager.GetNextFeed();
 
-            IEnumerable<FeedItem> feedItems = _rssManager.GetFeedItems(nextFeed).ToList();
-
-            if (feedItems.Any())
+            if (nextFeed != null)
             {
-                _feedManager.AddFeedItems(feedItems);
-                nextFeed.UnreadCount = _feedManager.GetFeedUnreadCount(nextFeed).Data;
-                _feedHubClient.UpdateFeedUnreadCount(nextFeed);
-            }
+                IEnumerable<FeedItem> feedItems = _rssManager.GetFeedItems(nextFeed).ToList();
 
-            nextFeed.FeedRetrieveDate = DateTime.Now;
-            _feedManager.UpdateFeed(nextFeed);
+                if (feedItems.Any())
+                {
+                    _feedManager.AddFeedItems(feedItems);
+                    nextFeed.UnreadCount = _feedManager.GetFeedUnreadCount(nextFeed).Data;
+                    _feedHubClient.UpdateFeedUnreadCount(nextFeed);
+                }
+
+                nextFeed.FeedRetrieveDate = DateTime.Now;
+                _feedManager.UpdateFeed(nextFeed);
+            }
         }
     }
 }

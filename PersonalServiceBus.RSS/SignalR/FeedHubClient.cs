@@ -7,11 +7,9 @@ namespace PersonalServiceBus.RSS.SignalR
 {
     public class FeedHubClient
     {
-        private readonly Lazy<IHubConnectionContext> _clientsInstance = new Lazy<IHubConnectionContext>(() => GlobalHost.ConnectionManager.GetHubContext<FeedHub>().Clients);
-
         private IHubConnectionContext Clients
         {
-            get { return _clientsInstance.Value; }
+            get { return GlobalHost.ConnectionManager.GetHubContext<FeedHub>().Clients; }
         }
 
         public void UpdateFeedUnreadCount(Feed feed)
