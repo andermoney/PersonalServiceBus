@@ -1,6 +1,8 @@
-﻿namespace PersonalServiceBus.RSS.Infrastructure.RavenDB.Model
+﻿using PersonalServiceBus.RSS.Core.Domain.Model;
+
+namespace PersonalServiceBus.RSS.Infrastructure.RavenDB.Model
 {
-    public class RavenUser
+    public class RavenUser : EntityBase
     {
         public string Username { get; set; }
 
