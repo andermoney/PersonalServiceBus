@@ -325,9 +325,7 @@
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
       <ItemGuid>1c3dbeeb-bd59-449d-8183-92fc77b9bcc3</ItemGuid>
     </None>
-    <Content Include="Views\Home\AddFeed.cshtml" />
     <None Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="Views\Home\Feeds.cshtml" />
     <Content Include="Views\Home\SubscribeForm.cshtml" />
   </ItemGroup>
   <PropertyGroup>
