@@ -34,7 +34,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public void Store<T>(T entity)
+        public void Store<T>(T entity) where T : EntityBase
         {
             if (typeof (T) == typeof (User))
             {
@@ -47,7 +47,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public void StoreCollection<T>(IEnumerable<T> entities)
+        public void StoreCollection<T>(IEnumerable<T> entities) where T : EntityBase
         {
             using (var documentSession = _documentStore.OpenSession())
             {
