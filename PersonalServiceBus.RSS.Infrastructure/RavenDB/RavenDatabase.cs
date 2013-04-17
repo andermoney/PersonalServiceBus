@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
+using PersonalServiceBus.RSS.Core.Domain.Model;
 using Raven.Client.Document;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
@@ -35,6 +36,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public void Store<T>(T entity)
         {
+            if (typeof (T) == typeof (User))
+            {
+                throw new InvalidOperationException("Should not be saving user.  Password must be properly encrypted");
+            }
             using (var documentSession = _documentStore.OpenSession())
             {
                 documentSession.Store(entity);
