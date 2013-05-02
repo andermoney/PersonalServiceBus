@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
@@ -12,12 +13,15 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
     {
         private readonly IDatabase _database;
         private readonly ICryptography _cryptography;
+        private readonly IConfiguration _configuration;
 
         public RavenDBAuthentication(IDatabase database,
-            ICryptography cryptography)
+            ICryptography cryptography,
+            IConfiguration configuration)
         {
             _database = database;
             _cryptography = cryptography;
+            _configuration = configuration;
         }
 
         public Status Register(User user)
@@ -30,6 +34,34 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         PasswordHash = _cryptography.CreateHash(user.Password),
                         Email = user.Email
                     };
+
+                if (UserExists(user))
+                {
+                    return new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "User name already exists. Please enter a different user name."
+                        };
+                }
+
+                if (EmailExists(user))
+                {
+                    return new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "A user name for that e-mail already exists. Please enter a different e-mail."
+                        };
+                }
+
+                if (!PasswordValid(user))
+                {
+                    return new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "The password provided is invalid. " + _configuration.PasswordMessage
+                        };
+                }
+
                 _database.Store(storageUser);
                 return new Status
                     {
@@ -97,6 +129,21 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         }
                     };
                 }
+
+                user.Password = newPassword;
+                if (!PasswordValid(user))
+                {
+                    return new SingleResponse<bool>
+                    {
+                        Data = false,
+                        Status = new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "The password provided is invalid. " + _configuration.PasswordMessage
+                        }
+                    };
+                }
+
                 storageUser.PasswordHash = _cryptography.CreateHash(newPassword);
                 _database.Store(storageUser);
                 return new SingleResponse<bool>
@@ -130,18 +177,30 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             return storageUser;
         }
 
+        private bool UserExists(User user)
+        {
+            return _database.Query<RavenUser>()
+                     .Any(u => u.Username == user.Username);
+        }
+
+        private bool EmailExists(User user)
+        {
+            return _database.Query<RavenUser>()
+                            .Any(u => u.Email == user.Email);
+        }
+
+        private bool PasswordValid(User user)
+        {
+            string passwordRegex = _configuration.PasswordRegex;
+            return Regex.IsMatch(user.Password, passwordRegex);
+        }
+
         //private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         //{
         //    // See http://go.microsoft.com/fwlink/?LinkID=177550 for
         //    // a full list of status codes.
         //    switch (createStatus)
         //    {
-        //        case MembershipCreateStatus.DuplicateUserName:
-        //            return "User name already exists. Please enter a different user name.";
-
-        //        case MembershipCreateStatus.DuplicateEmail:
-        //            return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
-
         //        case MembershipCreateStatus.InvalidPassword:
         //            return "The password provided is invalid. Please enter a valid password value.";
 

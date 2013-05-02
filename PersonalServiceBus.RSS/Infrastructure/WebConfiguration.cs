@@ -9,5 +9,15 @@ namespace PersonalServiceBus.RSS.Infrastructure
         {
             get { return ConfigurationManager.AppSettings["RavenDBUrl"]; }
         }
+
+        public string PasswordRegex
+        {
+            get { return ConfigurationManager.AppSettings["PasswordRegex"]; }
+        }
+
+        public string PasswordMessage
+        {
+            get { return ConfigurationManager.AppSettings["PasswordMessage"]; }
+        }
     }
 }
