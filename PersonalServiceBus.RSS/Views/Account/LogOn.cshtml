@@ -40,7 +40,9 @@
 
                     <div class="editor-label">
                         <label class="checkbox" for="RememberMe">
-                            <input type="checkbox" name="RememberMe">Remember Me?
+                            <input data-val="true" data-val-required="The Remember me? field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true">
+                            <input name="RememberMe" type="hidden" value="false">
+                            Remember Me?
                         </label>
                     </div>
 
