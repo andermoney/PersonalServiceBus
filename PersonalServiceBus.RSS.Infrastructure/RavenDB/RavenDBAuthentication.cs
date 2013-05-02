@@ -35,31 +35,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         Email = user.Email
                     };
 
-                if (UserExists(user))
+                Status status = ValidateNewUser(user);
+                if (status.ErrorLevel > ErrorLevel.None)
                 {
-                    return new Status
-                        {
-                            ErrorLevel = ErrorLevel.Error,
-                            ErrorMessage = "User name already exists. Please enter a different user name."
-                        };
-                }
-
-                if (EmailExists(user))
-                {
-                    return new Status
-                        {
-                            ErrorLevel = ErrorLevel.Error,
-                            ErrorMessage = "A user name for that e-mail already exists. Please enter a different e-mail."
-                        };
-                }
-
-                if (!PasswordValid(user))
-                {
-                    return new Status
-                        {
-                            ErrorLevel = ErrorLevel.Error,
-                            ErrorMessage = "The password provided is invalid. " + _configuration.PasswordMessage
-                        };
+                    return status;
                 }
 
                 _database.Store(storageUser);
@@ -177,6 +156,59 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             return storageUser;
         }
 
+        private Status ValidateNewUser(User user)
+        {
+            if (UserExists(user))
+            {
+                return new Status
+                {
+                    ErrorLevel = ErrorLevel.Error,
+                    ErrorMessage = "User name already exists. Please enter a different user name."
+                };
+            }
+
+            if (EmailExists(user))
+            {
+                return new Status
+                {
+                    ErrorLevel = ErrorLevel.Error,
+                    ErrorMessage = "A user name for that e-mail already exists. Please enter a different e-mail."
+                };
+            }
+
+            if (!PasswordValid(user))
+            {
+                return new Status
+                {
+                    ErrorLevel = ErrorLevel.Error,
+                    ErrorMessage = "The password provided is invalid. " + _configuration.PasswordMessage
+                };
+            }
+
+            if (!PasswordLengthValid(user))
+            {
+                return new Status
+                {
+                    ErrorLevel = ErrorLevel.Error,
+                    ErrorMessage = "The password provided is invalid. Passwords must be greater than 6 characters. "
+                };
+            }
+
+            if (!EmailValid(user))
+            {
+                return new Status
+                    {
+                        ErrorLevel = ErrorLevel.Error,
+                        ErrorMessage = "The e-mail address provided is invalid. Please check the value and try again."
+                    };
+            }
+
+            return new Status
+            {
+                ErrorLevel = ErrorLevel.None
+            };
+        }
+
         private bool UserExists(User user)
         {
             return _database.Query<RavenUser>()
@@ -195,18 +227,22 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             return Regex.IsMatch(user.Password, passwordRegex);
         }
 
+        private bool PasswordLengthValid(User user)
+        {
+            return user.Password.Length >= 6;
+        }
+
+        private bool EmailValid(User user)
+        {
+            return Regex.IsMatch(user.Email, @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b");
+        }
+
         //private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         //{
         //    // See http://go.microsoft.com/fwlink/?LinkID=177550 for
         //    // a full list of status codes.
         //    switch (createStatus)
         //    {
-        //        case MembershipCreateStatus.InvalidPassword:
-        //            return "The password provided is invalid. Please enter a valid password value.";
-
-        //        case MembershipCreateStatus.InvalidEmail:
-        //            return "The e-mail address provided is invalid. Please check the value and try again.";
-
         //        case MembershipCreateStatus.InvalidAnswer:
         //            return "The password retrieval answer provided is invalid. Please check the value and try again.";
 
