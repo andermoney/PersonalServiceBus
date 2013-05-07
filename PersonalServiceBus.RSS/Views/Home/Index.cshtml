@@ -41,7 +41,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    require(['/Scripts/feedHub.js', '/Scripts/formHelper.js'], function (feedHub, formHelper) {
+    require(['/Scripts/feedHub.js', '/Scripts/formHelper.js', '/Scripts/notificationHelper.js'], function (feedHub, formHelper, notificationHelper) {
         var $addFeedForm = $('.form-addfeed');
         $(document).on('hubStarted', function () {
             $('#subscribe-modal').on('shown', function () {
@@ -56,7 +56,7 @@
                 var feed = formHelper.getFormData($('.form-addfeed'));
                 feedHub.hub.server.addFeed(feed).done(function (addResponse) {
                     if (addResponse.Status.ErrorLevel > 2) {
-                        feedHub.showError(addResponse.Status, $('.modal-body'));
+                        notificationHelper.showError(addResponse.Status, $('.modal-body'));
                     } else {
                         $('#subscribe-modal').modal('hide');
                         feedHub.addFeed(addResponse.Data, true);
