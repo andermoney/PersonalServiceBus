@@ -30,7 +30,45 @@ namespace PersonalServiceBus.RSS.SignalR
 
         public SingleResponse<Feed> AddFeed(Feed feed)
         {
-            return _feedManager.AddFeed(feed);
+            var addFeedResponse = _feedManager.AddFeed(feed);
+            if (addFeedResponse.Status.ErrorLevel > ErrorLevel.None)
+            {
+                return new SingleResponse<Feed>
+                    {
+                        Data = addFeedResponse.Data,
+                        Status = new Status
+                            {
+                                ErrorLevel = addFeedResponse.Status.ErrorLevel,
+                                ErrorMessage = string.Format("Error adding feed: {0}", addFeedResponse.Status.ErrorMessage)
+                            }
+                    };
+            }
+            var userFeed = new UserFeed
+                {
+                    FeedId = addFeedResponse.Data.Id,
+                    Username = Context.User.Identity.Name
+                };
+            var addUserFeedResponse = _feedManager.AddUserFeed(userFeed);
+            if (addUserFeedResponse.Status.ErrorLevel > ErrorLevel.None)
+            {
+                return new SingleResponse<Feed>
+                    {
+                        Data = addFeedResponse.Data,
+                        Status = new Status
+                            {
+                                ErrorLevel = addUserFeedResponse.Status.ErrorLevel,
+                                ErrorMessage = string.Format("Error adding user feed: {0}", addUserFeedResponse.Status.ErrorMessage)
+                            }
+                    };
+            }
+            return new SingleResponse<Feed>
+                {
+                    Data = feed,
+                    Status = new Status
+                        {
+                            ErrorLevel = ErrorLevel.None
+                        }
+                };
         }
 
         public CollectionResponse<Feed> GetFeeds()

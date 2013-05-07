@@ -26,6 +26,14 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 _documentStore.Dispose();
         }
 
+        public T Load<T>(string id)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                return documentSession.Load<T>(id);
+            }
+        }
+
         public IQueryable<T> Query<T>()
         {
             using (var documentSession = _documentStore.OpenSession())

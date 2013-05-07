@@ -27,7 +27,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
-                _database.Store(feed);
+                if (!_database.Query<Feed>().Any(f => f.Url == feed.Url))
+                {
+                    _database.Store(feed);
+                }
                 return new SingleResponse<Feed>
                     {
                         Data = feed,
@@ -171,6 +174,51 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                     {
                         ErrorLevel = ErrorLevel.Critical,
                         ErrorMessage = string.Format("Fatal error adding feed items: {0}", ex),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
+        public SingleResponse<UserFeed> AddUserFeed(UserFeed userFeed)
+        {
+            try
+            {
+                var feed = _database.Load<Feed>(userFeed.FeedId);
+                if (feed == null)
+                {
+                    return new SingleResponse<UserFeed>
+                        {
+                            Data = userFeed,
+                            Status = new Status
+                                {
+                                    ErrorLevel = ErrorLevel.Error,
+                                    ErrorMessage = "Unable to subscribe, feed does not exist"
+                                }
+                        };
+                }
+                if (!_database.Query<UserFeed>().Any(uf => uf.FeedId == userFeed.FeedId && uf.Username == userFeed.Username))
+                {
+                    _database.Store(userFeed);
+                }
+                return new SingleResponse<UserFeed>
+                {
+                    Data = userFeed,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<UserFeed>
+                {
+                    Data = null,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error adding user feed: {0}", ex),
                         ErrorException = ex
                     }
                 };
