@@ -1,6 +1,6 @@
 ﻿namespace PersonalServiceBus.RSS.Core.Domain.Model
 {
-    public class User
+    public class User : EntityBase
     {
         public User(string username, string password)
         {

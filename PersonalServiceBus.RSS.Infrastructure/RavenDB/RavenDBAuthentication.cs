@@ -62,7 +62,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
-                var storageUser = GetUserByUsername(user);
+                var storageUser = GetRavenUserByUsername(user);
                 var valid = storageUser != null && _cryptography.MatchHash(storageUser.PasswordHash, user.Password); 
                 return new SingleResponse<bool>
                     {
@@ -94,7 +94,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             try
             {
                 var user = new User(username, oldPassword);
-                var storageUser = GetUserByUsername(user);
+                var storageUser = GetRavenUserByUsername(user);
                 var valid = storageUser != null && _cryptography.MatchHash(storageUser.PasswordHash, user.Password); 
                 if (!valid)
                 {
@@ -149,7 +149,36 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        private RavenUser GetUserByUsername(User user)
+        public SingleResponse<User> GetUserByUsername(User user)
+        {
+            try
+            {
+                var ravenUser = GetRavenUserByUsername(user);
+                //TODO automapper? I hardly know er
+                return new SingleResponse<User>
+                    {
+                        Data = new User(ravenUser.Username, "", ravenUser.Email),
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
+                    };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<User>
+                    {
+                        Data = user,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Critical,
+                                ErrorMessage = string.Format("Fatal error retrieving user {0}: {1}", user.Username, ex)
+                            }
+                    };
+            }
+        }
+
+        private RavenUser GetRavenUserByUsername(User user)
         {
             var storageUser = _database.Query<RavenUser>()
                                        .FirstOrDefault(u => u.Username == user.Username);
