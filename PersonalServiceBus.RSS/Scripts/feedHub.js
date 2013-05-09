@@ -27,6 +27,8 @@
                 loading.removeLoadingIcon($categoryList);
                 if (feedResponse.Status.ErrorLevel > 2) {
                     notificationHelper.showError(feedResponse.Status);
+                } else {
+                    $(document).trigger('feedListRetrieved');
                 }
                 $.each(feedResponse.Data, function () {
                     var feed = formatFeed(this);

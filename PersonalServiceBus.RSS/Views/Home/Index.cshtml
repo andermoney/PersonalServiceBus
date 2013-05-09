@@ -9,7 +9,7 @@
             <!--Sidebar content-->
             <div class="accordion" id="feed-category-list">
             </div>
-            <a href="#subscribe-modal" role="button" id="subscribe-feed" class="btn btn-primary" data-toggle="modal">Subscribe</a>
+            <a href="#subscribe-modal" role="button" id="subscribe-feed" style="display:none;" class="btn btn-primary" data-toggle="modal">Subscribe</a>
         </div>
         <div class="span9 feed-view">
             <!--Body content-->
@@ -64,6 +64,9 @@
                     $saveButton.button('reset');
                 });
             });
+        });
+        $(document).on('feedListRetrieved', function () {
+            $('#subscribe-feed').show();
         });
     });
 </script>

@@ -87,8 +87,39 @@ namespace PersonalServiceBus.RSS.SignalR
             }
 
             Groups.Add(Context.ConnectionId, Context.User.Identity.Name);
+
+            var userQuery = new User(Context.User.Identity.Name, "");
+            var userResponse = _authentication.GetUserByUsername(userQuery);
+            if (userResponse.Status.ErrorLevel > ErrorLevel.Warning)
+            {
+                return new CollectionResponse<Feed>
+                    {
+                        Data = new List<Feed>(),
+                        Status = new Status
+                            {
+                                ErrorLevel = userResponse.Status.ErrorLevel,
+                                ErrorMessage = string.Format("Unable to retrieve feeds for user \"{0}\": {1}", userQuery.Username, userResponse.Status.ErrorMessage)
+                            }
+                    };
+            }
+
+            var user = userResponse.Data;
+            if (user == null)
+            {
+                {
+                    return new CollectionResponse<Feed>
+                    {
+                        Data = new List<Feed>(),
+                        Status = new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "Please log in to view feeds"
+                        }
+                    };
+                }
+            }
             
-            return _feedManager.GetFeeds();
+            return _feedManager.GetFeeds(user);
         }
     }
 }

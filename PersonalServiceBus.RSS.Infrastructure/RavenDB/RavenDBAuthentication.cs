@@ -154,6 +154,18 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             try
             {
                 var ravenUser = GetRavenUserByUsername(user);
+                if (ravenUser == null)
+                {
+                    return new SingleResponse<User>
+                        {
+                            Data = new User("", ""),
+                            Status = new Status
+                                {
+                                    ErrorLevel = ErrorLevel.Error,
+                                    ErrorMessage = string.Format("User \"{0}\" not found", user.Username)
+                                }
+                        };
+                }
                 //TODO automapper? I hardly know er
                 return new SingleResponse<User>
                     {
@@ -263,7 +275,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         private bool EmailValid(User user)
         {
-            return Regex.IsMatch(user.Email, @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b");
+            return Regex.IsMatch(user.Email, @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\b");
         }
     }
 }

@@ -84,13 +84,14 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public CollectionResponse<Feed> GetFeeds()
+        public CollectionResponse<Feed> GetFeeds(User user)
         {
             try
             {
                 return new CollectionResponse<Feed>
                     {
                         Data = _database.Query<Feed>()
+                                        .Where(f => f.UserIds.Contains(user.Id))
                                         .ToList(),
                         Status = new Status
                             {
