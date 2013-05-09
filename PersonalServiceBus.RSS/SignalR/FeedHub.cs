@@ -30,7 +30,10 @@ namespace PersonalServiceBus.RSS.SignalR
 
         public SingleResponse<Feed> AddFeed(Feed feed)
         {
-            var userResponse = _authentication.GetUserByUsername(new User(Context.User.Identity.Name, ""));
+            var userResponse = _authentication.GetUserByUsername(new User
+                {
+                    Username = Context.User.Identity.Name
+                });
             var user = userResponse.Data;
 
             var feedResponse = _feedManager.GetFeedByUrl(feed.Url);
@@ -47,18 +50,49 @@ namespace PersonalServiceBus.RSS.SignalR
                     };
             }
             var existingFeed = feedResponse.Data;
-            //If feed doesn't exist then create it with single user subscriber
+            //If feed doesn't exist then create it
             if (existingFeed == null)
             {
-                feed.UserIds = new List<string> { user.Id };
-                return _feedManager.AddFeed(feed);
+                var addFeedResult = _feedManager.AddFeed(feed);
+                if (addFeedResult.Status.ErrorLevel >= ErrorLevel.Error)
+                {
+                    return new SingleResponse<Feed>
+                        {
+                            Data = addFeedResult.Data,
+                            Status = new Status
+                                {
+                                    ErrorLevel = addFeedResult.Status.ErrorLevel,
+                                    ErrorMessage = string.Format("Error adding feed: {0}", addFeedResult.Status.ErrorMessage)
+                                }
+                        };
+                }
+                existingFeed = addFeedResult.Data;
             }
-            //If the feed does exist then check if this user is already subscribed
-            if (!existingFeed.UserIds.Contains(user.Id))
+            //Add the user to the feed
+            if (!user.FeedIds.Contains(existingFeed.Id))
             {
-                //If this user hasn't subscribed to an existing feed then add them
-                existingFeed.UserIds.Add(user.Id);
-                return _feedManager.UpdateFeed(existingFeed);
+                user.FeedIds.Add(existingFeed.Id);
+                var userUpdateResponse = _authentication.UpdateUser(user);
+                if (userUpdateResponse.Status.ErrorLevel >= ErrorLevel.Error)
+                {
+                    return new SingleResponse<Feed>
+                        {
+                            Data = existingFeed,
+                            Status = new Status
+                                {
+                                    ErrorLevel = userUpdateResponse.Status.ErrorLevel,
+                                    ErrorMessage = string.Format("Error updating user {0}: {1}", user.Username, userUpdateResponse.Status.ErrorMessage)
+                                }
+                        };
+                }
+                return new SingleResponse<Feed>
+                    {
+                        Data = existingFeed,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
+                    };
             }
             return new SingleResponse<Feed>
                 {
@@ -88,7 +122,10 @@ namespace PersonalServiceBus.RSS.SignalR
 
             Groups.Add(Context.ConnectionId, Context.User.Identity.Name);
 
-            var userQuery = new User(Context.User.Identity.Name, "");
+            var userQuery = new User
+                {
+                    Username = Context.User.Identity.Name
+                };
             var userResponse = _authentication.GetUserByUsername(userQuery);
             if (userResponse.Status.ErrorLevel > ErrorLevel.Warning)
             {

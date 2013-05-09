@@ -5,6 +5,7 @@ using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Core.Contract;
+using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 {
@@ -88,11 +89,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
+                var userFeeds = _database.QueryWithChildren<RavenUser,Feed>(user.Id, u => u.FeedIds);
                 return new CollectionResponse<Feed>
                     {
-                        Data = _database.Query<Feed>()
-                                        .Where(f => f.UserIds.Contains(user.Id))
-                                        .ToList(),
+                        Data = userFeeds,
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.None

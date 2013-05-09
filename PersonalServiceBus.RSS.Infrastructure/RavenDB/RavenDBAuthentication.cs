@@ -93,7 +93,11 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
-                var user = new User(username, oldPassword);
+                var user = new User
+                { 
+                    Username = username, 
+                    Password = oldPassword
+                };
                 var storageUser = GetRavenUserByUsername(user);
                 var valid = storageUser != null && _cryptography.MatchHash(storageUser.PasswordHash, user.Password); 
                 if (!valid)
@@ -158,7 +162,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 {
                     return new SingleResponse<User>
                         {
-                            Data = new User("", ""),
+                            Data = new User(),
                             Status = new Status
                                 {
                                     ErrorLevel = ErrorLevel.Error,
@@ -169,7 +173,12 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 //TODO automapper? I hardly know er
                 return new SingleResponse<User>
                     {
-                        Data = new User(ravenUser.Username, "", ravenUser.Email),
+                        Data = new User
+                            {
+                                Id = ravenUser.Id,
+                                Username = ravenUser.Username, 
+                                Email = ravenUser.Email
+                            },
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.None
@@ -188,6 +197,43 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                             }
                     };
             }
+        }
+
+        public SingleResponse<User> UpdateUser(User user)
+        {
+            try
+            {
+                RavenUser ravenUser = GetRavenUser(user.Id);
+                ravenUser.FeedIds = user.FeedIds;
+
+                _database.Store(ravenUser);
+                return new SingleResponse<User>
+                    {
+                        Data = user,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
+                    };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<User>
+                    {
+                        Data = user,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Critical,
+                                ErrorMessage = string.Format("Fatal error updating user {0}: {1}", user.Username, ex)
+                            }
+                    };
+            }
+        }
+
+        private RavenUser GetRavenUser(string id)
+        {
+            var storageUser = _database.Load<RavenUser>(id);
+            return storageUser;
         }
 
         private RavenUser GetRavenUserByUsername(User user)

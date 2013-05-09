@@ -26,7 +26,11 @@ namespace PersonalServiceBus.RSS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userValidationResponse = _authentication.ValidateUser(new User(model.UserName, model.Password));
+                var userValidationResponse = _authentication.ValidateUser(new User
+                    {
+                        Username = model.UserName, 
+                        Password = model.Password
+                    });
 
                 if (userValidationResponse.Status.ErrorLevel == ErrorLevel.Error)
                 {
@@ -74,7 +78,12 @@ namespace PersonalServiceBus.RSS.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                var user = new User(model.UserName, model.Password, model.Email);
+                var user = new User
+                {
+                    Username = model.UserName, 
+                    Password = model.Password, 
+                    Email = model.Email
+                };
                 var status = _authentication.Register(user);
 
                 if (status.ErrorLevel < ErrorLevel.Error)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using Raven.Client.Document;
@@ -39,6 +41,38 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             using (var documentSession = _documentStore.OpenSession())
             {
                 return documentSession.Query<T>();
+            }
+        }
+
+        public IEnumerable<TChild> QueryWithChildren<TParent,TChild>(string parentId, Expression<Func<TParent,object>> childIdCollection)
+        {
+            var childIdMemberExpression = childIdCollection.Body as MemberExpression;
+            if (childIdMemberExpression == null)
+            {
+                throw new ArgumentException("childIdCollection must be a member expression");
+            }
+            var propertyInfo = childIdMemberExpression.Member as PropertyInfo;
+            if (propertyInfo == null)
+            {
+                throw new ArgumentException("childIdCollection must be collection of ids to query");
+            }
+            
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                var result = new List<TChild>();
+                var parent = documentSession.Include(childIdCollection)
+                                            .Load(parentId);
+                var childCollection = propertyInfo.GetValue(parent, null) as IEnumerable<string>;
+                if (childCollection != null)
+                {
+                    foreach (var childId in childCollection)
+                    {
+                        var child = documentSession.Load<TChild>(childId);
+                        result.Add(child);
+                    }
+                }
+
+                return result;
             }
         }
 
