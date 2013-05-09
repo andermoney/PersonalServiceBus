@@ -68,6 +68,11 @@ namespace PersonalServiceBus.RSS.SignalR
                 }
                 existingFeed = addFeedResult.Data;
             }
+            //Make sure the user has a feed collection property
+            if (user.FeedIds == null)
+            {
+                user.FeedIds = new List<string>();
+            }
             //Add the user to the feed
             if (!user.FeedIds.Contains(existingFeed.Id))
             {

@@ -177,7 +177,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                             {
                                 Id = ravenUser.Id,
                                 Username = ravenUser.Username, 
-                                Email = ravenUser.Email
+                                Email = ravenUser.Email,
+                                FeedIds = ravenUser.FeedIds
                             },
                         Status = new Status
                             {
