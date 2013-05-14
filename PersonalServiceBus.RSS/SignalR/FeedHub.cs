@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using NServiceBus;
@@ -16,16 +17,48 @@ namespace PersonalServiceBus.RSS.SignalR
 
         private readonly IFeedManager _feedManager;
         private readonly IAuthentication _authentication;
+        private IClientCommunication _clientCommunication;
 
         public FeedHub()
         {
             _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
             _authentication = Configure.Instance.Builder.Build<IAuthentication>();
+            _clientCommunication = Configure.Instance.Builder.Build<IClientCommunication>();
         }
 
         public CollectionResponse<Category> GetFeedCategories()
         {
             return _feedManager.GetFeedCategories();
+        }
+
+        public override Task OnConnected()
+        {
+            _clientCommunication.AddConnection(new ClientConnection
+                {
+                    Username = Context.User.Identity.Name,
+                    ConnectionId = Context.ConnectionId
+                });
+            return base.OnConnected();
+        }
+
+        public override Task OnDisconnected()
+        {
+            _clientCommunication.RemoveConnection(new ClientConnection
+                {
+                    Username = Context.User.Identity.Name,
+                    ConnectionId = Context.ConnectionId
+                });
+            return base.OnDisconnected();
+        }
+
+        public override Task OnReconnected()
+        {
+            _clientCommunication.UpdateConnection(new ClientConnection
+                {
+                    Username = Context.User.Identity.Name,
+                    ConnectionId = Context.ConnectionId
+                });
+            return base.OnReconnected();
         }
 
         public SingleResponse<Feed> AddFeed(Feed feed)
@@ -125,6 +158,7 @@ namespace PersonalServiceBus.RSS.SignalR
                     };
             }
 
+            //TODO use client connection for this
             Groups.Add(Context.ConnectionId, Context.User.Identity.Name);
 
             var userQuery = new User

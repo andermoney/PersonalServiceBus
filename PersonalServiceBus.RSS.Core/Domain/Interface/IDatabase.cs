@@ -10,8 +10,9 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
     {
         T Load<T>(string id);
         IQueryable<T> Query<T>();
+        IEnumerable<TChild> QueryWithChildren<TParent, TChild>(string parentId, Expression<Func<TParent, object>> childIdCollection);
         void Store<T>(T entity) where T : EntityBase;
         void StoreCollection<T>(IEnumerable<T> entities) where T : EntityBase;
-        IEnumerable<TChild> QueryWithChildren<TParent,TChild>(string parentId, Expression<Func<TParent,object>> childIdCollection);
+        void Delete<T>(T entity) where T : EntityBase;
     }
 }

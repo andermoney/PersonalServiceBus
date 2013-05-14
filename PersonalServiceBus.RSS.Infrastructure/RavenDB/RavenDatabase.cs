@@ -100,5 +100,15 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 documentSession.SaveChanges();
             }
         }
+
+        public void Delete<T>(T entity) where T : EntityBase
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                var entityToDelete = documentSession.Load<T>(entity.Id);
+                documentSession.Delete(entityToDelete);
+                documentSession.SaveChanges();
+            }
+        }
     }
 }
