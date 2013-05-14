@@ -10,7 +10,6 @@ namespace PersonalServiceBus.RSS.Core.Domain.Model
         public string Url { get; set; }
         
         public DateTime FeedRetrieveDate { get; set; }
-        public int UnreadCount { get; set; }
         public Status Status { get; set; }
     }
 }

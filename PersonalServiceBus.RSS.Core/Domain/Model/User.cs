@@ -11,5 +11,7 @@ namespace PersonalServiceBus.RSS.Core.Domain.Model
         public string Email { get; set; }
 
         public List<string> FeedIds { get; set; }
+
+        public List<string> UnreadFeedItemIds { get; set; } 
     }
 }

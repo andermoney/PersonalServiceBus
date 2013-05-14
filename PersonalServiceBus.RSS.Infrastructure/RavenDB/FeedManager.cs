@@ -143,35 +143,6 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public SingleResponse<int> GetFeedUnreadCount(Feed feed)
-        {
-            try
-            {
-                return new SingleResponse<int>
-                {
-                    Data = _database.Query<FeedItem>()
-                            .Count(f => f.FeedId == feed.Id),
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.None
-                    }
-                };
-            }
-            catch (Exception ex)
-            {
-                return new SingleResponse<int>
-                {
-                    Data = -1,
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error getting feed unread count: {0}", ex),
-                        ErrorException = ex
-                    }
-                };
-            }
-        }
-
         public CollectionResponse<FeedItem> AddFeedItems(IEnumerable<FeedItem> items)
         {
             try
@@ -179,10 +150,17 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 var feedItems = items.ToList();
                 var newFeedItems = feedItems
                     .Where(feedItem => !_database.Query<FeedItem>()
-                        .Any(i => i.RssId == feedItem.RssId && i.FeedId == feedItem.FeedId)).ToList();
-
+                        .Any(i => i.RssId == feedItem.RssId && i.FeedId == feedItem.FeedId))
+                    .ToList();
                 if (newFeedItems.Any())
                 {
+                    //Mark the date each item is created
+                    var createdDate = DateTime.Now;
+                    foreach (var newFeedItem in newFeedItems)
+                    {
+                        newFeedItem.CreatedDate = createdDate;
+                    }
+
                     _database.StoreCollection(newFeedItems);
                 }
                 return new CollectionResponse<FeedItem>

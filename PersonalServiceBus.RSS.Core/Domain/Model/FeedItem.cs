@@ -12,5 +12,6 @@ namespace PersonalServiceBus.RSS.Core.Domain.Model
         public string Author { get; set; }
         public string Content { get; set; }
         public DateTime DatePublished { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

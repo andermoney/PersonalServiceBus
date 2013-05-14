@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using NServiceBus;
 using PersonalServiceBus.RSS.Core.Contract;
@@ -48,8 +47,8 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                 {
                     if (feedItemsResponse.Data.Any())
                     {
-                        _feedManager.AddFeedItems(feedItemsResponse.Data);
-                        nextFeed.UnreadCount = _feedManager.GetFeedUnreadCount(nextFeed).Data;
+                        var addFeedItemsResponse = _feedManager.AddFeedItems(feedItemsResponse.Data);
+                        //TODO log the error response if we're unable to save feed items
                         _feedHubClient.UpdateFeedUnreadCount(nextFeed);
                     }
 
