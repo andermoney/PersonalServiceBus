@@ -50,8 +50,27 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
-                clientConnection.CreatedDate = DateTime.Now;
-                _database.Store(clientConnection);
+                if (clientConnection.ConnectionIds.Count != 1)
+                {
+                    throw new ArgumentException("Only adding one connection id at a time is supported");
+                }
+
+                var connectionResponse = GetConnectionByUsername(clientConnection);
+                var connection = connectionResponse.Data;
+                if (connection == null)
+                {
+                    connection = clientConnection;
+                }
+                else
+                {
+                    var connectionId = clientConnection.ConnectionIds[0];
+                    if (!connection.ConnectionIds.Contains(connectionId))
+                    {
+                        connection.ConnectionIds.Add(connectionId);
+                    }
+                }
+                connection.CreatedDate = DateTime.Now;
+                _database.Store(connection);
                 return new SingleResponse<ClientConnection>
                     {
                         Data = clientConnection,
@@ -80,9 +99,27 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
+                if (clientConnection.ConnectionIds.Count != 1)
+                {
+                    throw new ArgumentException("Only removing one connection id at a time is supported");
+                }
+
                 var connectionResponse = GetConnectionByUsername(clientConnection);
                 var connection = connectionResponse.Data;
-                _database.Delete(connection);
+                var connectionId = clientConnection.ConnectionIds[0];
+                if (connection.ConnectionIds.Contains(connectionId))
+                {
+                    connection.ConnectionIds.Remove(connectionId);
+                }
+                if (connection.ConnectionIds.Count == 0)
+                {
+                    _database.Delete(connection);
+                }
+                else
+                {
+                    connection.CreatedDate = DateTime.Now;
+                    _database.Store(connection);
+                }
                 return new SingleResponse<ClientConnection>
                 {
                     Data = clientConnection,
@@ -111,8 +148,25 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
+                if (clientConnection.ConnectionIds.Count != 1)
+                {
+                    throw new ArgumentException("Only updating one connection id at a time is supported");
+                }
+
                 var connectionResponse = GetConnectionByUsername(clientConnection);
                 var connection = connectionResponse.Data;
+                if (connection == null)
+                {
+                    connection = clientConnection;
+                }
+                else
+                {
+                    var connectionId = clientConnection.ConnectionIds[0];
+                    if (!connection.ConnectionIds.Contains(connectionId))
+                    {
+                        connection.ConnectionIds.Add(connectionId);
+                    }
+                }
                 connection.CreatedDate = DateTime.Now;
                 _database.Store(connection);
                 return new SingleResponse<ClientConnection>

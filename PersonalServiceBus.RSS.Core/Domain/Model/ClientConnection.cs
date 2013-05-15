@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PersonalServiceBus.RSS.Core.Domain.Model
 {
@@ -6,7 +7,7 @@ namespace PersonalServiceBus.RSS.Core.Domain.Model
     {
         public string Username { get; set; }
 
-        public string ConnectionId { get; set; }
+        public List<string> ConnectionIds { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }

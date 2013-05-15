@@ -36,7 +36,7 @@ namespace PersonalServiceBus.RSS.SignalR
             _clientCommunication.AddConnection(new ClientConnection
                 {
                     Username = Context.User.Identity.Name,
-                    ConnectionId = Context.ConnectionId
+                    ConnectionIds = new List<string> { Context.ConnectionId }
                 });
             return base.OnConnected();
         }
@@ -46,7 +46,7 @@ namespace PersonalServiceBus.RSS.SignalR
             _clientCommunication.RemoveConnection(new ClientConnection
                 {
                     Username = Context.User.Identity.Name,
-                    ConnectionId = Context.ConnectionId
+                    ConnectionIds = new List<string> { Context.ConnectionId }
                 });
             return base.OnDisconnected();
         }
@@ -56,7 +56,7 @@ namespace PersonalServiceBus.RSS.SignalR
             _clientCommunication.UpdateConnection(new ClientConnection
                 {
                     Username = Context.User.Identity.Name,
-                    ConnectionId = Context.ConnectionId
+                    ConnectionIds = new List<string> { Context.ConnectionId }
                 });
             return base.OnReconnected();
         }
