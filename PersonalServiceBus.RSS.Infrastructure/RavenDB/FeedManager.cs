@@ -187,6 +187,38 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public SingleResponse<Feed> GetUserFeedItems(Feed feed)
+        {
+            //CollectionResponse<ClientConnection> connectionsResponse = _clientCommunication.GetAllConnections();
+            //var connections = connectionsResponse.Data;
+            //try
+            //{
+            //    var userFeeds = _database.QueryWithChildren<Feed, ClientConnection>(feed.Id, u => u.);
+            //    return new CollectionResponse<Feed>
+            //    {
+            //        Data = userFeeds,
+            //        Status = new Status
+            //        {
+            //            ErrorLevel = ErrorLevel.None
+            //        }
+            //    };
+            //}
+            //catch (Exception ex)
+            //{
+            //    return new CollectionResponse<Feed>
+            //    {
+            //        Data = new List<Feed>(),
+            //        Status = new Status
+            //        {
+            //            ErrorLevel = ErrorLevel.Critical,
+            //            ErrorMessage = string.Format("Fatal error getting feeds: {0}", ex),
+            //            ErrorException = ex
+            //        }
+            //    };
+            //}
+            throw new NotImplementedException();
+        }
+
         public CollectionResponse<Category> GetFeedCategories()
         {
             try

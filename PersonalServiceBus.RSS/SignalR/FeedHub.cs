@@ -17,13 +17,11 @@ namespace PersonalServiceBus.RSS.SignalR
 
         private readonly IFeedManager _feedManager;
         private readonly IAuthentication _authentication;
-        private IClientCommunication _clientCommunication;
 
         public FeedHub()
         {
             _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
             _authentication = Configure.Instance.Builder.Build<IAuthentication>();
-            _clientCommunication = Configure.Instance.Builder.Build<IClientCommunication>();
         }
 
         public CollectionResponse<Category> GetFeedCategories()
@@ -33,31 +31,38 @@ namespace PersonalServiceBus.RSS.SignalR
 
         public override Task OnConnected()
         {
-            _clientCommunication.AddConnection(new ClientConnection
+            var user = new User
                 {
-                    Username = Context.User.Identity.Name,
-                    ConnectionIds = new List<string> { Context.ConnectionId }
-                });
+                    Username = Context.User.Identity.Name
+                };
+
+            var addConnectionResponse = _authentication.AddConnection(Context.ConnectionId, user);
+            //TODO log connection errors
+
             return base.OnConnected();
         }
 
         public override Task OnDisconnected()
         {
-            _clientCommunication.RemoveConnection(new ClientConnection
+            var user = new User
                 {
-                    Username = Context.User.Identity.Name,
-                    ConnectionIds = new List<string> { Context.ConnectionId }
-                });
+                    Username = Context.User.Identity.Name
+                };
+            var removeConnectionResponse = _authentication.RemoveConnection(Context.ConnectionId, user);
+            //TODO log connection errors
+
             return base.OnDisconnected();
         }
 
         public override Task OnReconnected()
         {
-            _clientCommunication.UpdateConnection(new ClientConnection
+            var user = new User
                 {
-                    Username = Context.User.Identity.Name,
-                    ConnectionIds = new List<string> { Context.ConnectionId }
-                });
+                    Username = Context.User.Identity.Name
+                };
+            var updateConnectionResponse = _authentication.UpdateConnection(Context.ConnectionId, user);
+            //TODO log connection errors
+
             return base.OnReconnected();
         }
 

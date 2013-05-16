@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NServiceBus;
 using PersonalServiceBus.RSS.Core.Contract;
@@ -45,15 +46,26 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                 }
                 else
                 {
+                    IEnumerable<FeedItem> newFeedItems = new List<FeedItem>();
                     if (feedItemsResponse.Data.Any())
                     {
                         var addFeedItemsResponse = _feedManager.AddFeedItems(feedItemsResponse.Data);
                         //TODO log the error response if we're unable to save feed items
-                        _feedHubClient.UpdateFeedUnreadCount(nextFeed);
+                        newFeedItems = addFeedItemsResponse.Data;
                     }
 
+                    //Set last date feed was retrieved
                     nextFeed.FeedRetrieveDate = DateTime.Now;
                     _feedManager.UpdateFeed(nextFeed);
+
+                    //If there are new feed items
+                    if (newFeedItems.Any())
+                    {
+                        //Update the feed items for any connected users
+                        var userFeedItemsResponse = _feedManager.GetUserFeedItems(nextFeed);
+
+                        _feedHubClient.UpdateFeedUnreadCount(nextFeed);
+                    }
                 }
             }
         }

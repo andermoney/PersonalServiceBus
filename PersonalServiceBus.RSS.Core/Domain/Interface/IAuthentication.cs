@@ -10,5 +10,8 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
         SingleResponse<bool> ChangePassword(string username, string oldPassword, string newPassword);
         SingleResponse<User> GetUserByUsername(User user);
         SingleResponse<User> UpdateUser(User user);
+        SingleResponse<User> AddConnection(string connectionId, User user);
+        SingleResponse<User> RemoveConnection(string connectionId, User user);
+        SingleResponse<User> UpdateConnection(string connectionId, User user);
     }
 }

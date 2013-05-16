@@ -16,7 +16,6 @@ namespace PersonalServiceBus.RSS.Infrastructure
             configure.Configurer.ConfigureComponent<FeedHubClient>(DependencyLifecycle.SingleInstance);
             configure.Configurer.ConfigureComponent<RavenDBAuthentication>(DependencyLifecycle.SingleInstance);
             configure.Configurer.ConfigureComponent<Cryptography.Cryptography>(DependencyLifecycle.InstancePerCall);
-            configure.Configurer.ConfigureComponent<RavenDBClientCommunication>(DependencyLifecycle.SingleInstance);
             return configure;
         }
     }

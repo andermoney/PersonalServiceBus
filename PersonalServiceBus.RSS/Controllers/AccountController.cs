@@ -10,13 +10,10 @@ namespace PersonalServiceBus.RSS.Controllers
     public class AccountController : Controller
     {
         private readonly IAuthentication _authentication;
-        private readonly IClientCommunication _clientCommunication;
 
-        public AccountController(IAuthentication authentication,
-            IClientCommunication clientCommunication)
+        public AccountController(IAuthentication authentication)
         {
             _authentication = authentication;
-            _clientCommunication = clientCommunication;
         }
 
         public ActionResult LogOn()

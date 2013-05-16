@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB.Model
@@ -12,5 +13,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB.Model
         public string Email { get; set; }
 
         public List<string> FeedIds { get; set; }
+
+        public List<string> ConnectionIds { get; set; }
+
+        public DateTime LastConnectedDate { get; set; }
     }
 }

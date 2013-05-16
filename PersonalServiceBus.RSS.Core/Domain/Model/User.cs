@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PersonalServiceBus.RSS.Core.Domain.Model
 {
@@ -12,6 +13,10 @@ namespace PersonalServiceBus.RSS.Core.Domain.Model
 
         public List<string> FeedIds { get; set; }
 
-        public List<string> UnreadFeedItemIds { get; set; } 
+        public List<string> ConnectionIds { get; set; }
+    
+        public List<string> UnreadFeedItemIds { get; set; }
+
+        public DateTime LastConnectedDate { get; set; }
     }
 }

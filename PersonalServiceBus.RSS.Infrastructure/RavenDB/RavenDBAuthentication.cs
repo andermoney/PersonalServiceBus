@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using PersonalServiceBus.RSS.Core.Contract;
@@ -170,16 +171,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                                 }
                         };
                 }
-                //TODO automapper? I hardly know er
+
                 return new SingleResponse<User>
                     {
-                        Data = new User
-                            {
-                                Id = ravenUser.Id,
-                                Username = ravenUser.Username, 
-                                Email = ravenUser.Email,
-                                FeedIds = ravenUser.FeedIds
-                            },
+                        Data = MapRavenUser(ravenUser),
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.None
@@ -231,6 +226,173 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public CollectionResponse<string> GetConnectionByUsername(User user)
+        {
+            try
+            {
+                var connectionIds = _database.Query<User>()
+                                          .Where(u => u.Username == user.Username)
+                                          .Select(u => u.ConnectionIds)
+                                          .FirstOrDefault();
+                return new CollectionResponse<string>
+                {
+                    Data = connectionIds,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new CollectionResponse<string>
+                {
+                    Data = new List<string>(),
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error getting client connections: {0}", ex),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
+        public SingleResponse<User> AddConnection(string connectionId, User user)
+        {
+            try
+            {
+                var existingUser = GetRavenUserByUsername(user);
+
+                if (existingUser.ConnectionIds == null)
+                {
+                    existingUser.ConnectionIds = new List<string>();
+                }
+
+                if (existingUser.ConnectionIds.Contains(connectionId))
+                {
+                    return new SingleResponse<User>
+                        {
+                            Data = user,
+                            Status = new Status
+                                {
+                                    ErrorLevel = ErrorLevel.Error,
+                                    ErrorMessage = "Connection ID already exists"
+                                }
+                        };
+                }
+
+                existingUser.ConnectionIds.Add(connectionId);
+                existingUser.LastConnectedDate = DateTime.Now;
+                _database.Store(existingUser);
+                return new SingleResponse<User>
+                {
+                    Data = MapRavenUser(existingUser),
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<User>
+                {
+                    Data = user,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error adding connection: {0}", "ARG0"),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
+        public SingleResponse<User> RemoveConnection(string connectionId, User user)
+        {
+            try
+            {
+                var existingUser = GetRavenUserByUsername(user);
+
+                if (existingUser.ConnectionIds == null)
+                {
+                    existingUser.ConnectionIds = new List<string>();
+                }
+
+                if (existingUser.ConnectionIds.Contains(connectionId))
+                {
+                    existingUser.ConnectionIds.Remove(connectionId);
+                }
+
+                existingUser.LastConnectedDate = DateTime.Now;
+                _database.Store(existingUser);
+                return new SingleResponse<User>
+                {
+                    Data = MapRavenUser(existingUser),
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<User>
+                {
+                    Data = user,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error removing connection: {0}", "ARG0"),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
+        public SingleResponse<User> UpdateConnection(string connectionId, User user)
+        {
+            try
+            {
+                var existingUser = GetRavenUserByUsername(user);
+
+                if (existingUser.ConnectionIds == null)
+                {
+                    existingUser.ConnectionIds = new List<string>();
+                }
+
+                if (!existingUser.ConnectionIds.Contains(connectionId))
+                {
+                    existingUser.ConnectionIds.Add(connectionId);
+                }
+
+                existingUser.LastConnectedDate = DateTime.Now;
+                _database.Store(existingUser);
+                return new SingleResponse<User>
+                {
+                    Data = MapRavenUser(existingUser),
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<User>
+                {
+                    Data = user,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error updating connection: {0}", "ARG0"),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
         private RavenUser GetRavenUser(string id)
         {
             var storageUser = _database.Load<RavenUser>(id);
@@ -242,6 +404,21 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             var storageUser = _database.Query<RavenUser>()
                                        .FirstOrDefault(u => u.Username == user.Username);
             return storageUser;
+        }
+
+        private static User MapRavenUser(RavenUser ravenUser)
+        {
+            //TODO automapper? I hardly know er
+            var data = new User
+            {
+                Id = ravenUser.Id,
+                Username = ravenUser.Username,
+                Email = ravenUser.Email,
+                FeedIds = ravenUser.FeedIds,
+                ConnectionIds = ravenUser.ConnectionIds,
+                LastConnectedDate = ravenUser.LastConnectedDate
+            };
+            return data;
         }
 
         private Status ValidateNewUser(User user)
