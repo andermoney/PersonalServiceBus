@@ -38,6 +38,7 @@ namespace PersonalServiceBus.RSS.SignalR
 
             var addConnectionResponse = _authentication.AddConnection(Context.ConnectionId, user);
             //TODO log connection errors
+            Groups.Add(Context.ConnectionId, Context.User.Identity.Name);
 
             return base.OnConnected();
         }
@@ -50,6 +51,7 @@ namespace PersonalServiceBus.RSS.SignalR
                 };
             var removeConnectionResponse = _authentication.RemoveConnection(Context.ConnectionId, user);
             //TODO log connection errors
+            Groups.Remove(Context.ConnectionId, Context.User.Identity.Name);
 
             return base.OnDisconnected();
         }

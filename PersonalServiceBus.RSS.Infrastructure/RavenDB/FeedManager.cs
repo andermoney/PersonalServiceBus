@@ -187,7 +187,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public SingleResponse<Feed> GetUserFeedItems(Feed feed)
+        public CollectionResponse<UserFeed> GetUserFeedItems(Feed feed)
         {
             //CollectionResponse<ClientConnection> connectionsResponse = _clientCommunication.GetAllConnections();
             //var connections = connectionsResponse.Data;
@@ -216,7 +216,25 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             //        }
             //    };
             //}
-            throw new NotImplementedException();
+            return new CollectionResponse<UserFeed>
+                {
+                    Data = new List<UserFeed>
+                        {
+                            new UserFeed
+                                {
+                                    FeedId = feed.Id,
+                                    User = new User
+                                        {
+                                            Username = "andermoney"
+                                        },
+                                    UnreadCount = new Random().Next()
+                                }
+                        },
+                    Status = new Status
+                        {
+                            ErrorLevel = ErrorLevel.None
+                        }
+                };
         }
 
         public CollectionResponse<Category> GetFeedCategories()

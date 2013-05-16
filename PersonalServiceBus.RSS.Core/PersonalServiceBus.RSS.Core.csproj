@@ -55,6 +55,7 @@
     <Compile Include="Domain\Model\Feed.cs" />
     <Compile Include="Domain\Model\FeedItem.cs" />
     <Compile Include="Domain\Model\Status.cs" />
+    <Compile Include="Domain\Model\UserFeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

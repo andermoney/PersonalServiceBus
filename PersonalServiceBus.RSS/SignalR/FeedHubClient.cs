@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 
@@ -12,9 +11,9 @@ namespace PersonalServiceBus.RSS.SignalR
             get { return GlobalHost.ConnectionManager.GetHubContext<FeedHub>().Clients; }
         }
 
-        public void UpdateFeedUnreadCount(Feed feed)
+        public void UpdateFeedUnreadCount(UserFeed userFeed)
         {
-            Clients.All.UpdateFeedUnreadCount(feed);
+            Clients.Group(userFeed.User.Username).UpdateFeedUnreadCount(userFeed);
         } 
     }
 }

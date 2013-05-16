@@ -64,7 +64,10 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                         //Update the feed items for any connected users
                         var userFeedItemsResponse = _feedManager.GetUserFeedItems(nextFeed);
 
-                        _feedHubClient.UpdateFeedUnreadCount(nextFeed);
+                        foreach (var userFeed in userFeedItemsResponse.Data)
+                        {
+                            _feedHubClient.UpdateFeedUnreadCount(userFeed);
+                        }
                     }
                 }
             }

@@ -17,6 +17,12 @@
             Id: feed.Id.replace('/', '-')
         });
     }
+    
+    function formatUserFeed(userFeed) {
+        return $.extend(userFeed, {
+            FeedId: userFeed.FeedId.replace('/', '-')
+        });
+    }
 
     function createHub() {
         var feedHub = $.connection.feedHub;
@@ -40,12 +46,12 @@
         function setupClient() {
             //client methods the server will call back
             $.extend(feedHub.client, {
-                UpdateFeedUnreadCount: function (feed) {
-                    var $feed;
-                    feed = formatFeed(feed);
-                    $feed = $('#' + feed.Id, $categoryList);
+                UpdateFeedUnreadCount: function (userFeed) {
+                    var $userFeed;
+                    userFeed = formatUserFeed(userFeed);
+                    $userFeed = $('#' + userFeed.FeedId, $categoryList);
                     
-                    $('.badge', $feed).html(feed.UnreadCount);
+                    $('.badge', $userFeed).html(userFeed.UnreadCount);
                 }
             });
         }
