@@ -20,7 +20,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public Feed GetNextFeed()
         {
-            var nextFeed = _database.Query<Feed>().OrderBy(f => f.FeedRetrieveDate).FirstOrDefault();
+           var nextFeed = _database.Query<Feed>().OrderBy(f => f.FeedRetrieveDate).FirstOrDefault();
             return nextFeed;
         }
 
@@ -227,7 +227,16 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                                         {
                                             Username = "andermoney"
                                         },
-                                    UnreadCount = new Random().Next()
+                                    UnreadCount = new Random().Next(1, 10)
+                                },
+                            new UserFeed
+                                {
+                                    FeedId = feed.Id,
+                                    User = new User
+                                        {
+                                            Username = "dummy"
+                                        },
+                                    UnreadCount = new Random().Next(11,20)
                                 }
                         },
                     Status = new Status
