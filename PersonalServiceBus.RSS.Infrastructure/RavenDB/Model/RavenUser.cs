@@ -12,8 +12,6 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB.Model
 
         public string Email { get; set; }
 
-        public List<string> FeedIds { get; set; }
-
         public List<string> ConnectionIds { get; set; }
 
         public DateTime LastConnectedDate { get; set; }

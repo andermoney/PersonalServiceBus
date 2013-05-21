@@ -18,23 +18,14 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             _database = database;
         }
 
-        public Feed GetNextFeed()
-        {
-           var nextFeed = _database.Query<Feed>().OrderBy(f => f.FeedRetrieveDate).FirstOrDefault();
-            return nextFeed;
-        }
-
-        public SingleResponse<Feed> AddFeed(Feed feed)
+        public SingleResponse<Feed> GetNextFeed()
         {
             try
             {
-                if (!_database.Query<Feed>().Any(f => f.Url == feed.Url))
-                {
-                    _database.Store(feed);
-                }
+                var nextFeed = _database.Query<Feed>().OrderBy(f => f.FeedRetrieveDate).FirstOrDefault();
                 return new SingleResponse<Feed>
                     {
-                        Data = feed,
+                        Data = nextFeed,
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.None
@@ -45,7 +36,45 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             {
                 return new SingleResponse<Feed>
                     {
-                        Data = null,
+                        Data = new Feed(),
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Critical,
+                                ErrorMessage = string.Format("Fatal error getting next feed: {0}", ex),
+                                ErrorException = ex
+                            }
+                    };
+            }
+        }
+
+        public SingleResponse<UserFeed> AddFeed(UserFeed userFeed)
+        {
+            try
+            {
+                var existingFeed = _database.Query<Feed>()
+                                            .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
+                if (existingFeed == null)
+                {
+                    _database.Store(userFeed);
+                    existingFeed = _database.Query<Feed>()
+                                            .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
+                }
+                userFeed.Feed = existingFeed;
+                _database.Store(userFeed);
+                return new SingleResponse<UserFeed>
+                    {
+                        Data = userFeed,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
+                    };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<UserFeed>
+                    {
+                        Data = userFeed,
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.Critical,
@@ -56,14 +85,14 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public SingleResponse<Feed> UpdateFeed(Feed feed)
+        public SingleResponse<UserFeed> UpdateFeed(UserFeed userFeed)
         {
             try
             {
-                _database.Store(feed);
-                return new SingleResponse<Feed>
+                _database.Store(userFeed);
+                return new SingleResponse<UserFeed>
                 {
-                    Data = feed,
+                    Data = userFeed,
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.None
@@ -72,9 +101,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new SingleResponse<Feed>
+                return new SingleResponse<UserFeed>
                 {
-                    Data = null,
+                    Data = userFeed,
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.Critical,
@@ -85,12 +114,13 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public CollectionResponse<Feed> GetFeeds(User user)
+        public CollectionResponse<UserFeed> GetUserFeeds(User user)
         {
             try
             {
-                var userFeeds = _database.QueryWithChildren<RavenUser,Feed>(user.Id, u => u.FeedIds);
-                return new CollectionResponse<Feed>
+                //var userFeeds = _database.QueryWithChildren<RavenUser,UserFeed>(user.Id, u => u.FeedIds);
+                var userFeeds = new List<UserFeed>();
+                return new CollectionResponse<UserFeed>
                     {
                         Data = userFeeds,
                         Status = new Status
@@ -101,9 +131,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new CollectionResponse<Feed>
+                return new CollectionResponse<UserFeed>
                     {
-                        Data = new List<Feed>(),
+                        Data = new List<UserFeed>(),
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.Critical,
@@ -112,6 +142,15 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                             }
                     };
             }
+        }
+
+        public SingleResponse<UserFeed> GetUserFeedByUserId(User user)
+        {
+            return new SingleResponse<UserFeed>
+                {
+                    Data = new UserFeed(),
+                    Status = new Status()
+                };
         }
 
         public SingleResponse<Feed> GetFeedByUrl(string url)
@@ -222,7 +261,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         {
                             new UserFeed
                                 {
-                                    FeedId = feed.Id,
+                                    Feed = feed,
                                     User = new User
                                         {
                                             Username = "andermoney"
@@ -231,7 +270,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                                 },
                             new UserFeed
                                 {
-                                    FeedId = feed.Id,
+                                    Feed = feed,
                                     User = new User
                                         {
                                             Username = "dummy"
@@ -244,41 +283,6 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                             ErrorLevel = ErrorLevel.None
                         }
                 };
-        }
-
-        public CollectionResponse<Category> GetFeedCategories()
-        {
-            try
-            {
-                return new CollectionResponse<Category>
-                    {
-                        Data = _database.Query<Feed>()
-                                        .Select(f => f.Category)
-                                        .Distinct().ToList()
-                                        .Select(c => new Category
-                                            {
-                                                Id = c,
-                                                Name = c
-                                            }),
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.None
-                            }
-                    };
-            }
-            catch (Exception ex)
-            {
-                return new CollectionResponse<Category>
-                    {
-                        Data = new List<Category>(),
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Critical,
-                                ErrorMessage = string.Format("Fatal error getting feed categories: {0}", ex),
-                                ErrorException = ex
-                            }
-                    };
-            }
         }
     }
 }

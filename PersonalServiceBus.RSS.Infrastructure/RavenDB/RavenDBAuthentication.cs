@@ -200,7 +200,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             try
             {
                 RavenUser ravenUser = GetRavenUser(user.Id);
-                ravenUser.FeedIds = user.FeedIds;
+                //ravenUser.FeedIds = user.FeedIds;
 
                 _database.Store(ravenUser);
                 return new SingleResponse<User>
@@ -414,7 +414,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 Id = ravenUser.Id,
                 Username = ravenUser.Username,
                 Email = ravenUser.Email,
-                FeedIds = ravenUser.FeedIds,
+                //FeedIds = ravenUser.FeedIds,
                 ConnectionIds = ravenUser.ConnectionIds,
                 LastConnectedDate = ravenUser.LastConnectedDate
             };

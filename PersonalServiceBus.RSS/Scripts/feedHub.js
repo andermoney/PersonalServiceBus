@@ -20,7 +20,9 @@
     
     function formatUserFeed(userFeed) {
         return $.extend(userFeed, {
-            FeedId: userFeed.FeedId.replace('/', '-')
+            Feed: $.extend(userFeed.Feed, {
+                Id: Id.replace('/', '-')
+            })
         });
     }
 
@@ -37,7 +39,7 @@
                     $(document).trigger('feedListRetrieved');
                 }
                 $.each(feedResponse.Data, function () {
-                    var feed = formatFeed(this);
+                    var feed = formatUserFeed(this);
                     addFeed(feed);
                 });
             });
@@ -49,7 +51,7 @@
                 UpdateFeedUnreadCount: function (userFeed) {
                     var $userFeed;
                     userFeed = formatUserFeed(userFeed);
-                    $userFeed = $('#' + userFeed.FeedId, $categoryList);
+                    $userFeed = $('#' + userFeed.Feed.Id, $categoryList);
                     
                     $('.badge', $userFeed).html(userFeed.UnreadCount);
                 }
@@ -83,7 +85,7 @@
             $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList),
             $feed;
 
-        feed = formatFeed(feed);
+        feed = formatUserFeed(feed);
 
         if ($category.length == 0) {
             var category = {
@@ -96,7 +98,7 @@
         $feed = $('#' + feed.Id, $category);
         if ($feed.length == 0) {
             $category.append(feedTemplate.supplant(feed));
-            $feed = $('#' + feed.Id, $category);
+            $feed = $('#' + feed.Feed.Id, $category);
             if (feed.Status && feed.Status.ErrorLevel > 2) {
                 $('.feed-error', $feed).show();
             }

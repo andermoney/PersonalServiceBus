@@ -19,7 +19,7 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
         public void Handle(AddFeed message)
         {
-            var feedResponse = _feedManager.AddFeed(new Feed());
+            var feedResponse = _feedManager.AddFeed(new UserFeed());
             var response = new AddFeedResponse
             {
                 IsError = feedResponse.Status.ErrorLevel > ErrorLevel.Warning,

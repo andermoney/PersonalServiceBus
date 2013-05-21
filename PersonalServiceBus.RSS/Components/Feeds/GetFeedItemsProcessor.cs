@@ -30,7 +30,8 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
         public void Handle(GetFeedItems message)
         {
-            Feed nextFeed = _feedManager.GetNextFeed();
+            var nextFeedResponse = _feedManager.GetNextFeed();
+            var nextFeed = nextFeedResponse.Data;
 
             if (nextFeed != null)
             {
@@ -42,7 +43,7 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                     nextFeed.Status = feedItemsResponse.Status;
                     nextFeed.Status.ErrorException = null; //Have to strip this out for RavenDB, does not serialize well
                     //TODO log the exception itself
-                    _feedManager.UpdateFeed(nextFeed);
+                    //_feedManager.UpdateFeed(nextFeed);
                 }
                 else
                 {
@@ -56,18 +57,18 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
                     //Set last date feed was retrieved
                     nextFeed.FeedRetrieveDate = DateTime.Now;
-                    _feedManager.UpdateFeed(nextFeed);
+                    //_feedManager.UpdateFeed(nextFeed);
 
                     //If there are new feed items
                     if (newFeedItems.Any())
                     {
                         //Update the feed items for any connected users
-                        var userFeedItemsResponse = _feedManager.GetUserFeedItems(nextFeed);
+                        //var userFeedItemsResponse = _feedManager.GetUserFeeds(user);
 
-                        foreach (var userFeed in userFeedItemsResponse.Data)
-                        {
-                            _feedHubClient.UpdateFeedUnreadCount(userFeed);
-                        }
+                        //foreach (var userFeed in userFeedItemsResponse.Data)
+                        //{
+                        //    _feedHubClient.UpdateFeedUnreadCount(userFeed);
+                        //}
                     }
                 }
             }

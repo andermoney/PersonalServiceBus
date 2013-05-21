@@ -7,6 +7,7 @@ using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
+using PersonalServiceBus.RSS.Models;
 
 namespace PersonalServiceBus.RSS.SignalR
 {
@@ -22,11 +23,6 @@ namespace PersonalServiceBus.RSS.SignalR
         {
             _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
             _authentication = Configure.Instance.Builder.Build<IAuthentication>();
-        }
-
-        public CollectionResponse<Category> GetFeedCategories()
-        {
-            return _feedManager.GetFeedCategories();
         }
 
         public override Task OnConnected()
@@ -68,7 +64,7 @@ namespace PersonalServiceBus.RSS.SignalR
             return base.OnReconnected();
         }
 
-        public SingleResponse<Feed> AddFeed(Feed feed)
+        public SingleResponse<UserFeed> AddFeed(AddFeedViewModel feedModel)
         {
             var userResponse = _authentication.GetUserByUsername(new User
                 {
@@ -76,12 +72,18 @@ namespace PersonalServiceBus.RSS.SignalR
                 });
             var user = userResponse.Data;
 
-            var feedResponse = _feedManager.GetFeedByUrl(feed.Url);
+            var feedResponse = _feedManager.GetFeedByUrl(feedModel.Url);
             if (feedResponse.Status.ErrorLevel > ErrorLevel.None)
             {
-                return new SingleResponse<Feed>
+                return new SingleResponse<UserFeed>
                     {
-                        Data = feed,
+                        Data = new UserFeed
+                        {
+                            Feed = new Feed
+                                {
+                                    Url = feedModel.Url
+                                }
+                        },
                         Status = new Status
                             {
                                 ErrorLevel = feedResponse.Status.ErrorLevel,
@@ -93,10 +95,19 @@ namespace PersonalServiceBus.RSS.SignalR
             //If feed doesn't exist then create it
             if (existingFeed == null)
             {
-                var addFeedResult = _feedManager.AddFeed(feed);
+                var addFeedResult = _feedManager.AddFeed(new UserFeed
+                    {
+                        Feed = new Feed
+                            {
+                                Url = feedModel.Url
+                            },
+                        User = user,
+                        Category = feedModel.Category,
+                        Name = feedModel.Name
+                    });
                 if (addFeedResult.Status.ErrorLevel >= ErrorLevel.Error)
                 {
-                    return new SingleResponse<Feed>
+                    return new SingleResponse<UserFeed>
                         {
                             Data = addFeedResult.Data,
                             Status = new Status
@@ -106,57 +117,70 @@ namespace PersonalServiceBus.RSS.SignalR
                                 }
                         };
                 }
-                existingFeed = addFeedResult.Data;
-            }
-            //Make sure the user has a feed collection property
-            if (user.FeedIds == null)
-            {
-                user.FeedIds = new List<string>();
-            }
-            //Add the user to the feed
-            if (!user.FeedIds.Contains(existingFeed.Id))
-            {
-                user.FeedIds.Add(existingFeed.Id);
-                var userUpdateResponse = _authentication.UpdateUser(user);
-                if (userUpdateResponse.Status.ErrorLevel >= ErrorLevel.Error)
-                {
-                    return new SingleResponse<Feed>
-                        {
-                            Data = existingFeed,
-                            Status = new Status
-                                {
-                                    ErrorLevel = userUpdateResponse.Status.ErrorLevel,
-                                    ErrorMessage = string.Format("Error updating user {0}: {1}", user.Username, userUpdateResponse.Status.ErrorMessage)
-                                }
-                        };
-                }
-                return new SingleResponse<Feed>
+                return new SingleResponse<UserFeed>
                     {
-                        Data = existingFeed,
+                        Data = addFeedResult.Data,
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.None
                             }
                     };
             }
-            return new SingleResponse<Feed>
+            //check for existing user feed
+            var getUseFeedResult = _feedManager.GetUserFeedByUserId(user);
+            if (getUseFeedResult != null)
+            {
+                return new SingleResponse<UserFeed>
+                    {
+                        Data = new UserFeed
+                            {
+                                Feed = existingFeed
+                            },
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Information,
+                                ErrorMessage =
+                                    string.Format("User has already subscribed to feed at {0}", existingFeed.Url)
+                            }
+                    };
+            }
+            //add the user to the feed
+            var addUserFeedResult = _feedManager.AddFeed(new UserFeed
                 {
-                    Data = feed,
+                    Feed = existingFeed,
+                    User = user,
+                    Category = feedModel.Category,
+                    Name = feedModel.Name
+                });
+            if (addUserFeedResult.Status.ErrorLevel >= ErrorLevel.Error)
+            {
+                return new SingleResponse<UserFeed>
+                {
+                    Data = addUserFeedResult.Data,
                     Status = new Status
-                        {
-                            ErrorLevel = ErrorLevel.Information,
-                            ErrorMessage = string.Format("User has already subscribed to feed at {0}", feed.Url)
-                        }
+                    {
+                        ErrorLevel = addUserFeedResult.Status.ErrorLevel,
+                        ErrorMessage = string.Format("Error adding feed: {0}", addUserFeedResult.Status.ErrorMessage)
+                    }
                 };
+            }
+            return new SingleResponse<UserFeed>
+            {
+                Data = addUserFeedResult.Data,
+                Status = new Status
+                {
+                    ErrorLevel = ErrorLevel.None
+                }
+            };
         }
 
-        public CollectionResponse<Feed> GetFeeds()
+        public CollectionResponse<UserFeed> GetFeeds()
         {
             if (string.IsNullOrEmpty(Context.User.Identity.Name))
             {
-                return new CollectionResponse<Feed>
+                return new CollectionResponse<UserFeed>
                     {
-                        Data = new List<Feed>(),
+                        Data = new List<UserFeed>(),
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.Error,
@@ -175,9 +199,9 @@ namespace PersonalServiceBus.RSS.SignalR
             var userResponse = _authentication.GetUserByUsername(userQuery);
             if (userResponse.Status.ErrorLevel > ErrorLevel.Warning)
             {
-                return new CollectionResponse<Feed>
+                return new CollectionResponse<UserFeed>
                     {
-                        Data = new List<Feed>(),
+                        Data = new List<UserFeed>(),
                         Status = new Status
                             {
                                 ErrorLevel = userResponse.Status.ErrorLevel,
@@ -190,9 +214,9 @@ namespace PersonalServiceBus.RSS.SignalR
             if (user == null)
             {
                 {
-                    return new CollectionResponse<Feed>
+                    return new CollectionResponse<UserFeed>
                     {
-                        Data = new List<Feed>(),
+                        Data = new List<UserFeed>(),
                         Status = new Status
                         {
                             ErrorLevel = ErrorLevel.Error,
@@ -202,7 +226,7 @@ namespace PersonalServiceBus.RSS.SignalR
                 }
             }
             
-            return _feedManager.GetFeeds(user);
+            return _feedManager.GetUserFeeds(user);
         }
     }
 }

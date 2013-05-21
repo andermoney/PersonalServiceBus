@@ -24,7 +24,6 @@ namespace PersonalServiceBus.RSS.Infrastructure.RSS
                                 RssId = !string.IsNullOrEmpty(i.Id) ? i.Id : i.Title,
                                 Title = i.Title,
                                 FeedId = feed.Id,
-                                Category = feed.Category,
                                 Url = i.Link,
                                 Author = i.Author,
                                 Content = i.Content,
