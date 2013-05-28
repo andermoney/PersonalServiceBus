@@ -167,3 +167,5 @@ pip-log.txt
 #############
 
 *.log.txt
+*.Test.output.*
+TestReports/
