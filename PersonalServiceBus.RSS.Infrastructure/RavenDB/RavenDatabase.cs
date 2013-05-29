@@ -11,26 +11,26 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 {
     public class RavenDatabase : IDatabase, IDisposable
     {
-        private readonly DocumentStore _documentStore;
+        protected DocumentStore DocumentStore;
 
         public RavenDatabase(IConfiguration configuration)
         {
-            _documentStore = new DocumentStore
+            DocumentStore = new DocumentStore
                 {
                     Url = configuration.RavenDBUrl
                 };
-            _documentStore.Initialize();
+            DocumentStore.Initialize();
         }
 
         public void Dispose()
         {
-            if (_documentStore != null)
-                _documentStore.Dispose();
+            if (DocumentStore != null)
+                DocumentStore.Dispose();
         }
 
         public T Load<T>(string id)
         {
-            using (var documentSession = _documentStore.OpenSession())
+            using (var documentSession = DocumentStore.OpenSession())
             {
                 return documentSession.Load<T>(id);
             }
@@ -38,7 +38,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public IQueryable<T> Query<T>()
         {
-            using (var documentSession = _documentStore.OpenSession())
+            using (var documentSession = DocumentStore.OpenSession())
             {
                 return documentSession.Query<T>();
             }
@@ -57,11 +57,15 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 throw new ArgumentException("childIdCollection must be collection of ids to query");
             }
             
-            using (var documentSession = _documentStore.OpenSession())
+            using (var documentSession = DocumentStore.OpenSession())
             {
                 var result = new List<TChild>();
                 var parent = documentSession.Include(childIdCollection)
                                             .Load(parentId);
+                if (parent == null)
+                {
+                    throw new NullReferenceException("parentId returned a null object");
+                }
                 var childCollection = propertyInfo.GetValue(parent, null) as IEnumerable<string>;
                 if (childCollection != null)
                 {
@@ -82,7 +86,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             {
                 throw new InvalidOperationException("Should not be saving user.  Password must be properly encrypted");
             }
-            using (var documentSession = _documentStore.OpenSession())
+            using (var documentSession = DocumentStore.OpenSession())
             {
                 documentSession.Store(entity);
                 documentSession.SaveChanges();
@@ -91,7 +95,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public void StoreCollection<T>(IEnumerable<T> entities) where T : EntityBase
         {
-            using (var documentSession = _documentStore.OpenSession())
+            using (var documentSession = DocumentStore.OpenSession())
             {
                 foreach (var entity in entities)
                 {
@@ -103,7 +107,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public void Delete<T>(T entity) where T : EntityBase
         {
-            using (var documentSession = _documentStore.OpenSession())
+            using (var documentSession = DocumentStore.OpenSession())
             {
                 var entityToDelete = documentSession.Load<T>(entity.Id);
                 documentSession.Delete(entityToDelete);

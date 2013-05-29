@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{90DC562F-D533-4B74-A4C3-3ED2B53031D4}</ProjectGuid>
+    <ProjectGuid>{4A25461C-C151-4E57-B56F-BB4F8BE00505}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PersonalServiceBus.RSS.Core</RootNamespace>
-    <AssemblyName>PersonalServiceBus.RSS.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>PersonalServiceBus.RSS.Test.Unit</RootNamespace>
+    <AssemblyName>PersonalServiceBus.RSS.Test.Unit</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,26 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contract\CollectionResponse.cs" />
-    <Compile Include="Contract\SingleResponse.cs" />
-    <Compile Include="Domain\Enum\ErrorLevel.cs" />
-    <Compile Include="Domain\Interface\IAuthentication.cs" />
-    <Compile Include="Domain\Interface\IConfiguration.cs" />
-    <Compile Include="Domain\Interface\ICryptography.cs" />
-    <Compile Include="Domain\Interface\IDatabase.cs" />
-    <Compile Include="Domain\Interface\IFeedManager.cs" />
-    <Compile Include="Domain\Interface\IRssManager.cs" />
-    <Compile Include="Domain\Model\User.cs" />
-    <Compile Include="Domain\Model\Category.cs" />
-    <Compile Include="Domain\Model\EntityBase.cs" />
-    <Compile Include="Domain\Model\Feed.cs" />
-    <Compile Include="Domain\Model\FeedItem.cs" />
-    <Compile Include="Domain\Model\Status.cs" />
-    <Compile Include="Domain\Model\UserFeed.cs" />
-    <Compile Include="Helper\ResponseBuilder.cs" />
+    <Compile Include="FeedManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PersonalServiceBus.RSS.Core\PersonalServiceBus.RSS.Core.csproj">
+      <Project>{90dc562f-d533-4b74-a4c3-3ed2b53031d4}</Project>
+      <Name>PersonalServiceBus.RSS.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PersonalServiceBus.RSS.Infrastructure\PersonalServiceBus.RSS.Infrastructure.csproj">
+      <Project>{9d2e2b5f-fc98-469d-88b7-e72904f17336}</Project>
+      <Name>PersonalServiceBus.RSS.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
