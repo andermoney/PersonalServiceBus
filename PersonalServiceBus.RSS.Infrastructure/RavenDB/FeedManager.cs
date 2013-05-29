@@ -6,7 +6,6 @@ using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Helper;
-using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 {
@@ -52,6 +51,11 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
+                if (userFeed == null)
+                    return ResponseBuilder.BuildSingleResponse<UserFeed>(ErrorLevel.Error, "userFeed is required");
+                if (userFeed.Feed == null)
+                    return ResponseBuilder.BuildSingleResponse<UserFeed>(ErrorLevel.Error, "userFeed.Feed is required");
+
                 var existingFeed = _database.Query<Feed>()
                                             .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
                 if (existingFeed == null)
@@ -120,9 +124,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             try
             {
                 if (user == null)
-                    return ResponseBuilder.BuildCollectionResponse<Feed>(ErrorLevel.Error, "user is required");
+                    return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Error, "user is required");
                 if (user.Id == null)
-                    return ResponseBuilder.BuildCollectionResponse<Feed>(ErrorLevel.Error, "User Id is required");
+                    return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Error, "User Id is required");
 
                 //var userFeeds = _database.QueryWithChildren<RavenUser,UserFeed>(user.Id, u => u.FeedIds);
                 var userFeeds = new List<UserFeed>();

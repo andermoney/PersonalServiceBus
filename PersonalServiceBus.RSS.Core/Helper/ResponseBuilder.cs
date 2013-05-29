@@ -7,6 +7,19 @@ namespace PersonalServiceBus.RSS.Core.Helper
 {
     public static class ResponseBuilder
     {
+        public static SingleResponse<T> BuildSingleResponse<T>(ErrorLevel errorLevel, string errorMessage) where T : new()
+        {
+            return new SingleResponse<T>
+            {
+                Data = new T(),
+                Status = new Status
+                {
+                    ErrorLevel = errorLevel,
+                    ErrorMessage = errorMessage
+                }
+            };
+        }
+
         public static CollectionResponse<T> BuildCollectionResponse<T>(ErrorLevel errorLevel, string errorMessage)
         {
             return new CollectionResponse<T>

@@ -66,7 +66,6 @@
     <Compile Include="RavenDB\RavenDatabase.cs" />
     <Compile Include="RavenDB\RavenDBAuthentication.cs" />
     <Compile Include="RavenDB\Model\RavenUser.cs" />
-    <Compile Include="RavenDB\RavenDBClientCommunication.cs" />
     <Compile Include="RavenDB\RavenMemoryDatabase.cs" />
     <Compile Include="RSS\RssManager.cs" />
   </ItemGroup>
