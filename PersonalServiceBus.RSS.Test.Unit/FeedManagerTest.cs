@@ -15,15 +15,18 @@ namespace PersonalServiceBus.RSS.Test.Unit
         {
             //Arrange
             var configuration = new Mock<IConfiguration>();
-            IDatabase database = new RavenDatabase(configuration.Object);
+            configuration.SetupGet(c => c.RavenDBUrl)
+                .Returns("http://localhost:8080");
+
+            IDatabase database = new RavenMemoryDatabase(configuration.Object);
             IFeedManager feedManager = new FeedManager(database);
 
             //Act
-            Feed feed = new Feed();
+            var feed = new Feed();
             var response = feedManager.AddFeed(feed);
 
             //Assert
-            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
         }
     }
 }
