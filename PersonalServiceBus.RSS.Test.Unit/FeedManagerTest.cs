@@ -1,9 +1,10 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB;
+using PersonalServiceBus.RSS.Test.Unit.Helper;
+
 // ReSharper disable InconsistentNaming
 
 namespace PersonalServiceBus.RSS.Test.Unit
@@ -16,11 +17,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         [SetUp]
         public void SetUp()
         {
-            var configuration = new Mock<IConfiguration>();
-            configuration.SetupGet(c => c.RavenDBUrl)
-                .Returns("http://localhost:8080");
-
-            _database = new RavenMemoryDatabase(configuration.Object);
+            _database = DatabaseBuilder.BuildTestDatabase();
         }
 
         [Test]
@@ -30,7 +27,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             IFeedManager feedManager = new FeedManager(_database);
 
             //Act
-            var response = feedManager.AddFeed(null);
+            var response = feedManager.AddUserFeed(null);
 
             //Assert
             Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel);
@@ -45,7 +42,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Act
             var userFeed = new UserFeed();
-            var response = feedManager.AddFeed(userFeed);
+            var response = feedManager.AddUserFeed(userFeed);
 
             //Assert
             Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel);
@@ -59,17 +56,22 @@ namespace PersonalServiceBus.RSS.Test.Unit
             IFeedManager feedManager = new FeedManager(_database);
 
             //Act
+            const string url = "http://test.url.fake";
             var userFeed = new UserFeed
                 {
                     Feed = new Feed
                         {
-                            Id = "feed/1"
+                            Id = "feed/1",
+                            Url = url
                         }
                 };
-            var response = feedManager.AddFeed(userFeed);
+            var response = feedManager.AddUserFeed(userFeed);
 
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            var getFeedResponse = feedManager.GetFeedByUrl(url);
+            Assert.AreEqual(ErrorLevel.None, getFeedResponse.Status.ErrorLevel, getFeedResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getFeedResponse.Data);
         }
 
         [Test]

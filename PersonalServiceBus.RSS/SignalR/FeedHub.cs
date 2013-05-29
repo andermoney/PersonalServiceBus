@@ -95,7 +95,7 @@ namespace PersonalServiceBus.RSS.SignalR
             //If feed doesn't exist then create it
             if (existingFeed == null)
             {
-                var addFeedResult = _feedManager.AddFeed(new UserFeed
+                var addFeedResult = _feedManager.AddUserFeed(new UserFeed
                     {
                         Feed = new Feed
                             {
@@ -127,27 +127,24 @@ namespace PersonalServiceBus.RSS.SignalR
                     };
             }
             //check for existing user feed
-            var getUseFeedResult = _feedManager.GetUserFeedByUserId(user);
-            if (getUseFeedResult != null)
+            var getUserFeedResult = _feedManager.GetUserFeedByUserId(user);
+            if (getUserFeedResult != null)
             {
                 return new SingleResponse<UserFeed>
                     {
-                        Data = new UserFeed
-                            {
-                                Feed = existingFeed
-                            },
+                        Data = existingFeed,
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.Information,
                                 ErrorMessage =
-                                    string.Format("User has already subscribed to feed at {0}", existingFeed.Url)
+                                    string.Format("User has already subscribed to feed at {0}", existingFeed.Feed.Url)
                             }
                     };
             }
             //add the user to the feed
-            var addUserFeedResult = _feedManager.AddFeed(new UserFeed
+            var addUserFeedResult = _feedManager.AddUserFeed(new UserFeed
                 {
-                    Feed = existingFeed,
+                    Feed = existingFeed.Feed,
                     User = user,
                     Category = feedModel.Category,
                     Name = feedModel.Name

@@ -47,7 +47,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public SingleResponse<UserFeed> AddFeed(UserFeed userFeed)
+        public SingleResponse<UserFeed> AddUserFeed(UserFeed userFeed)
         {
             try
             {
@@ -163,14 +163,14 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 };
         }
 
-        public SingleResponse<Feed> GetFeedByUrl(string url)
+        public SingleResponse<UserFeed> GetFeedByUrl(string url)
         {
             try
             {
-                return new SingleResponse<Feed>
+                return new SingleResponse<UserFeed>
                 {
-                    Data = _database.Query<Feed>()
-                                    .FirstOrDefault(f => f.Url == url),
+                    Data = _database.Query<UserFeed>()
+                                    .FirstOrDefault(f => f.Feed.Url == url),
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.None
@@ -179,9 +179,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new SingleResponse<Feed>
+                return new SingleResponse<UserFeed>
                 {
-                    Data = new Feed(),
+                    Data = new UserFeed(),
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.Critical,

@@ -8,9 +8,9 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
     {
         //TODO make this include a status
         SingleResponse<Feed> GetNextFeed();
-        SingleResponse<UserFeed> AddFeed(UserFeed userFeed);
+        SingleResponse<UserFeed> AddUserFeed(UserFeed userFeed);
         SingleResponse<UserFeed> UpdateFeed(UserFeed userFeed);
-        SingleResponse<Feed> GetFeedByUrl(string url);
+        SingleResponse<UserFeed> GetFeedByUrl(string url);
 
         CollectionResponse<FeedItem> AddFeedItems(IEnumerable<FeedItem> feedItems);
         CollectionResponse<UserFeed> GetUserFeeds(User user);
