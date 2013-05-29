@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
@@ -45,6 +46,38 @@ namespace PersonalServiceBus.RSS.Test.Unit
             //Act
             var feed = new Feed();
             var response = feedManager.UpdateFeed(feed);
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+        }
+
+        [Test]
+        public void GetFeedsTest_UserIdRequired()
+        {
+            //Arrange
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            var user = new User();
+            var response = feedManager.GetFeeds(user);
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel);
+            Assert.AreEqual("User Id is required", response.Status.ErrorMessage);
+        }
+
+        [Test]
+        public void GetFeedsTest()
+        {
+            //Arrange
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            var user = new User
+                {
+                    Id = "ravenuser/1"
+                };
+            var response = feedManager.GetFeeds(user);
 
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);

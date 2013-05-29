@@ -62,6 +62,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 var result = new List<TChild>();
                 var parent = documentSession.Include(childIdCollection)
                                             .Load(parentId);
+                if (parent == null)
+                {
+                    throw new NullReferenceException("parentId returned a null object");
+                }
                 var childCollection = propertyInfo.GetValue(parent, null) as IEnumerable<string>;
                 if (childCollection != null)
                 {

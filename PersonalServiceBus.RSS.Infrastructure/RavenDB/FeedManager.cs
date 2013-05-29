@@ -5,6 +5,7 @@ using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Core.Contract;
+using PersonalServiceBus.RSS.Core.Helper;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
@@ -89,6 +90,11 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
+                if (user == null)
+                    return ResponseBuilder.BuildCollectionResponse<Feed>(ErrorLevel.Error, "user is required");
+                if (user.Id == null)
+                    return ResponseBuilder.BuildCollectionResponse<Feed>(ErrorLevel.Error, "User Id is required");
+
                 var userFeeds = _database.QueryWithChildren<RavenUser,Feed>(user.Id, u => u.FeedIds);
                 return new CollectionResponse<Feed>
                     {
