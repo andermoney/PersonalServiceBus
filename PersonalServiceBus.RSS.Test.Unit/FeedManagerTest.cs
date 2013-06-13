@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
@@ -101,6 +102,28 @@ namespace PersonalServiceBus.RSS.Test.Unit
             //Assert
             Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel);
             Assert.AreEqual("User Id is required", response.Status.ErrorMessage);
+        }
+
+        [Test]
+        public void GetUserFeeds()
+        {
+            //Arrange
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            var user = new User
+                {
+                    Id = "ravenuser/1"
+                };
+            var response = feedManager.GetUserFeeds(user);
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            Assert.IsNotEmpty(response.Data);
+            var firstFeed = response.Data.First();
+            Assert.IsNotNull(firstFeed);
+            Assert.IsNotNull(firstFeed.Name);
         }
 
         [Test]

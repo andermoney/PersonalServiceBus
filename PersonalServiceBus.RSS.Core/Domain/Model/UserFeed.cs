@@ -8,7 +8,7 @@
 
         public Feed Feed { get; set; }
 
-        public User User { get; set; }
+        public string RavenUserId { get; set; }
 
         public int UnreadCount { get; set; }
     }

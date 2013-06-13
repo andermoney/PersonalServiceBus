@@ -20,14 +20,24 @@ namespace PersonalServiceBus.RSS.Test.Unit.Helper
         public static RavenMemoryDatabase BuildTestDatabase()
         {
             var database = BuildEmptyDatabase();
-            database.Store(new RavenUser
+            var testUser = new RavenUser
                 {
+                    Id = "ravenuser/1",
                     Username = "testuser"
-                });
-            database.Store(new Feed
+                };
+            database.Store(testUser);
+            var testFeed = new Feed
                 {
-                    Id = "feed/1",
-                    Url = "http://test.url.fake"
+                    Id = "feed/1", Url = "http://test.url.fake"
+                };
+            database.Store(testFeed);
+            database.Store(new UserFeed
+                {
+                    Category = "testuser's test feeds",
+                    Feed = testFeed,
+                    Id = "userfeed/1",
+                    Name = "testuser's test feed",
+                    RavenUserId = testUser.Id
                 });
             return database;
         }

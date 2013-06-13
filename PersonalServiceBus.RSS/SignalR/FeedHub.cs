@@ -101,7 +101,7 @@ namespace PersonalServiceBus.RSS.SignalR
                             {
                                 Url = feedModel.Url
                             },
-                        User = user,
+                        RavenUserId = user.Id,
                         Category = feedModel.Category,
                         Name = feedModel.Name
                     });
@@ -145,7 +145,7 @@ namespace PersonalServiceBus.RSS.SignalR
             var addUserFeedResult = _feedManager.AddUserFeed(new UserFeed
                 {
                     Feed = existingFeed.Feed,
-                    User = user,
+                    RavenUserId = user.Id,
                     Category = feedModel.Category,
                     Name = feedModel.Name
                 });

@@ -128,8 +128,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 if (user.Id == null)
                     return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Error, "User Id is required");
 
-                //var userFeeds = _database.QueryWithChildren<RavenUser,UserFeed>(user.Id, u => u.FeedIds);
-                var userFeeds = new List<UserFeed>();
+                var userFeeds = _database.Query<UserFeed>()
+                         .Where(uf => uf.RavenUserId == user.Id)
+                         .ToList();
                 return new CollectionResponse<UserFeed>
                     {
                         Data = userFeeds,
@@ -272,19 +273,13 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                             new UserFeed
                                 {
                                     Feed = feed,
-                                    User = new User
-                                        {
-                                            Username = "andermoney"
-                                        },
+                                    RavenUserId = "ravenuser/1",
                                     UnreadCount = new Random().Next(1, 10)
                                 },
                             new UserFeed
                                 {
                                     Feed = feed,
-                                    User = new User
-                                        {
-                                            Username = "dummy"
-                                        },
+                                    RavenUserId = "ravenuser/2",
                                     UnreadCount = new Random().Next(11,20)
                                 }
                         },

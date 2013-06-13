@@ -11,9 +11,9 @@ namespace PersonalServiceBus.RSS.SignalR
             get { return GlobalHost.ConnectionManager.GetHubContext<FeedHub>().Clients; }
         }
 
-        public void UpdateFeedUnreadCount(UserFeed userFeed)
+        public void UpdateFeedUnreadCount(string username, UserFeed userFeed)
         {
-            Clients.Group(userFeed.User.Username).UpdateFeedUnreadCount(userFeed);
+            Clients.Group(username).UpdateFeedUnreadCount(userFeed);
         } 
     }
 }
