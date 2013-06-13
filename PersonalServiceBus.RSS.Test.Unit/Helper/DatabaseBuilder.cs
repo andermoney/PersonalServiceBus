@@ -24,6 +24,11 @@ namespace PersonalServiceBus.RSS.Test.Unit.Helper
                 {
                     Username = "testuser"
                 });
+            database.Store(new Feed
+                {
+                    Id = "feed/1",
+                    Url = "http://test.url.fake"
+                });
             return database;
         }
     }
