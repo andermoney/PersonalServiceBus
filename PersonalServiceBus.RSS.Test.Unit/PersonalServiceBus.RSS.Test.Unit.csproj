@@ -50,6 +50,7 @@
     <Compile Include="FeedManagerTest.cs" />
     <Compile Include="Helper\DatabaseBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RssManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
