@@ -80,6 +80,25 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public IEnumerable<TResult> QueryWithIncludes<TResult>(Expression<Func<TResult, object>> path, Expression<Func<TResult, bool>> queryExpression)
+        {
+            using (var documentSession = DocumentStore.OpenSession())
+            {
+                var query = documentSession.Query<TResult>()
+                    .Where(queryExpression);
+                var results = new List<TResult>();
+                foreach (var result in query)
+                {
+                    if (result is EntityBase)
+                    {
+                        var entity = result as EntityBase;
+                        results.Add(documentSession.Include(path).Load(entity.Id));
+                    }
+                }
+                return results;
+            }
+        }
+
         public void Store<T>(T entity) where T : EntityBase
         {
             if (typeof (T) == typeof (User))

@@ -60,7 +60,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                                             .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
                 if (existingFeed == null)
                 {
-                    _database.Store(userFeed);
+                    _database.Store(userFeed.Feed);
                     existingFeed = _database.Query<Feed>()
                                             .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
                 }
@@ -128,9 +128,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 if (user.Id == null)
                     return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Error, "User Id is required");
 
-                var userFeeds = _database.Query<UserFeed>()
-                         .Where(uf => uf.RavenUserId == user.Id)
-                         .ToList();
+                var userFeeds = _database.QueryWithIncludes<UserFeed>(uf => uf.Feed, uf => uf.RavenUserId == user.Id);
                 return new CollectionResponse<UserFeed>
                     {
                         Data = userFeeds,

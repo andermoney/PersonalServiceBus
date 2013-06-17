@@ -127,6 +127,40 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
+        public void GetUserFeeds_AfterAdd()
+        {
+            //Arrange
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            const string url = "http://new.feed.url";
+            var userFeed = new UserFeed
+            {
+                Feed = new Feed
+                {
+                    Id = "feed/2",
+                    Url = url
+                },
+                RavenUserId = "ravenuser/2"
+            };
+            var response = feedManager.AddUserFeed(userFeed);
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            var getFeedsResponse = feedManager.GetUserFeeds(new User
+                {
+                    Id = "ravenuser/2"
+                });
+            Assert.AreEqual(ErrorLevel.None, getFeedsResponse.Status.ErrorLevel, getFeedsResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getFeedsResponse.Data);
+            Assert.IsNotEmpty(getFeedsResponse.Data);
+            var newFeed = getFeedsResponse.Data.FirstOrDefault(f => f.Feed.Url == url);
+            Assert.IsNotNull(newFeed);
+            Assert.AreEqual(newFeed.Feed.Url, url);
+            Assert.AreEqual("ravenuser/2", newFeed.RavenUserId);
+        }
+
+        [Test]
         public void GetFeedsTest()
         {
             //Arrange
