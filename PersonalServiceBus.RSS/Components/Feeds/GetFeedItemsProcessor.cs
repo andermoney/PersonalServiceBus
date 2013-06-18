@@ -43,7 +43,7 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                     nextFeed.Status = feedItemsResponse.Status;
                     nextFeed.Status.ErrorException = null; //Have to strip this out for RavenDB, does not serialize well
                     //TODO log the exception itself
-                    //_feedManager.UpdateFeed(nextFeed);
+                    _feedManager.UpdateFeed(nextFeed);
                 }
                 else
                 {
@@ -57,7 +57,7 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
                     //Set last date feed was retrieved
                     nextFeed.FeedRetrieveDate = DateTime.Now;
-                    //_feedManager.UpdateFeed(nextFeed);
+                    _feedManager.UpdateFeed(nextFeed);
 
                     //If there are new feed items
                     if (newFeedItems.Any())

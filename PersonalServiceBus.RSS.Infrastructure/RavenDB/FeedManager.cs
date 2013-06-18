@@ -29,10 +29,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
-                var nextFeed = _database.Query<Feed>().OrderBy(f => f.FeedRetrieveDate).FirstOrDefault();
+                var nextFeed = _database.Query<RavenFeed>().OrderBy(f => f.FeedRetrieveDate).FirstOrDefault();
                 return new SingleResponse<Feed>
                     {
-                        Data = nextFeed,
+                        Data = Mapper.Map<Feed>(nextFeed),
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.None
@@ -153,20 +153,13 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        private SingleResponse<Feed> UpdateFeed(Feed feed)
+        public SingleResponse<Feed> UpdateFeed(Feed feed)
         {
             try
             {
                 var ravenFeed = Mapper.Map<RavenFeed>(feed);
                 _database.Store(ravenFeed);
-                return new SingleResponse<Feed>
-                    {
-                        Data = feed,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.None
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse(feed, ErrorLevel.None);
             }
             catch (Exception ex)
             {

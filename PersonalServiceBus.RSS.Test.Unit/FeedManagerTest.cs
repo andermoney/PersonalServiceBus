@@ -187,7 +187,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void GetFeedsTest()
+        public void GetUserFeedsTest()
         {
             //Arrange
             IFeedManager feedManager = new FeedManager(_database);
@@ -204,7 +204,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void GetUserGetUserFeedByUserIdAndUrl()
+        public void GetUserFeedByUserIdAndUrl()
         {
             //Arrange
             IFeedManager feedManager = new FeedManager(_database);
@@ -224,6 +224,20 @@ namespace PersonalServiceBus.RSS.Test.Unit
             Assert.IsNotNull(response.Data);
             Assert.AreEqual(url, response.Data.Feed.Url);
             Assert.AreEqual(ravenUserId, response.Data.RavenUserId);
+        }
+
+        [Test]
+        public void GetNextFeed()
+        {
+            //Arrange
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            var response = feedManager.GetNextFeed();
+
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
         }
     }
 }

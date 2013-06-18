@@ -15,5 +15,6 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
         CollectionResponse<UserFeed> GetUserFeeds(User user);
         SingleResponse<UserFeed> GetUserFeedByUserId(User user);
         SingleResponse<UserFeed> GetUserFeedByUserIdAndUrl(User user, string url);
+        SingleResponse<Feed> UpdateFeed(Feed feed);
     }
 }
