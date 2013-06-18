@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
@@ -22,7 +23,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void AddFeed_UserFeedIsRequired()
+        public void AddUserFeed_UserFeedIsRequired()
         {
             //Arrange
             IFeedManager feedManager = new FeedManager(_database);
@@ -36,7 +37,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void AddFeed_FeedIsRequired()
+        public void AddUserFeed_FeedIsRequired()
         {
             //Arrange
             IFeedManager feedManager = new FeedManager(_database);
@@ -51,7 +52,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void AddFeed()
+        public void AddUserFeed()
         {
             //Arrange
             IFeedManager feedManager = new FeedManager(_database);
@@ -79,17 +80,40 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void UpdateFeedTest()
+        public void UpdateUserFeedTest()
         {
             //Arrange
             IFeedManager feedManager = new FeedManager(_database);
 
             //Act
-            var userFeed = new UserFeed();
-            var response = feedManager.UpdateFeed(userFeed);
+            var unreadCount = new Random().Next(1000);
+            const string url = "http://test.url.fake";
+            var userFeed = new UserFeed
+                {
+                    Id = "ravenuserfeed/1",
+                    Category = "updated category",
+                    Name = "updated name",
+                    UnreadCount = unreadCount,
+                    Feed = new Feed
+                        {
+                            Id = "ravenfeed/1",
+                            Url = url
+                        },
+                    RavenUserId = "ravenuser/1"
+                };
+            var response = feedManager.UpdateUserFeed(userFeed);
 
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            var getFeedResponse = feedManager.GetUserFeedByUserIdAndUrl(new User {Id = "ravenuser/1"}, url);
+            Assert.IsNotNull(getFeedResponse);
+            Assert.AreEqual(ErrorLevel.None, getFeedResponse.Status.ErrorLevel, getFeedResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getFeedResponse.Data);
+            Assert.IsNotNull(getFeedResponse.Data.Feed);
+            Assert.AreEqual(url, getFeedResponse.Data.Feed.Url);
+            Assert.AreEqual(unreadCount, getFeedResponse.Data.UnreadCount);
+            Assert.AreEqual("updated category", getFeedResponse.Data.Category);
+            Assert.AreEqual("updated name", getFeedResponse.Data.Name);
         }
 
         [Test]

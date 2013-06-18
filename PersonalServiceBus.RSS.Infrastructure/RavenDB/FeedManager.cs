@@ -111,19 +111,32 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public SingleResponse<UserFeed> UpdateFeed(UserFeed userFeed)
+        public SingleResponse<UserFeed> UpdateUserFeed(UserFeed userFeed)
         {
             try
             {
-                _database.Store(userFeed);
-                return new SingleResponse<UserFeed>
+                if (userFeed == null)
+                    return ResponseBuilder.BuildSingleResponse<UserFeed>(ErrorLevel.Error, "userFeed is required");
+                if (userFeed.Feed == null)
+                    return ResponseBuilder.BuildSingleResponse<UserFeed>(ErrorLevel.Error, "userFeed.Feed is required");
+                if (userFeed.Feed.Id == null)
+                    return ResponseBuilder.BuildSingleResponse<UserFeed>(ErrorLevel.Error, "userFeed.Feed.Id is required");
+
+                var existingFeed = _database.Load<RavenFeed>(userFeed.Feed.Id);
+                if (existingFeed == null)
                 {
-                    Data = userFeed,
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.None
-                    }
-                };
+                    return ResponseBuilder.BuildSingleResponse(userFeed, ErrorLevel.Error, string.Format("Feed not found with id {0}", userFeed.Feed.Id));
+                }
+                var updateFeedResponse = UpdateFeed(userFeed.Feed);
+                if (updateFeedResponse.Status.ErrorLevel > ErrorLevel.None)
+                {
+                    return ResponseBuilder.BuildSingleResponse(userFeed, updateFeedResponse.Status.ErrorLevel, updateFeedResponse.Status.ErrorMessage);
+                }
+
+                var ravenUserFeed = Mapper.Map<RavenUserFeed>(userFeed);
+                ravenUserFeed.RavenFeedId = existingFeed.Id;
+                _database.Store(ravenUserFeed);
+                return ResponseBuilder.BuildSingleResponse(userFeed, ErrorLevel.None);
             }
             catch (Exception ex)
             {
@@ -133,10 +146,39 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error updating feed: {0}", ex),
+                        ErrorMessage = string.Format("Fatal error updating user feed: {0}", ex),
                         ErrorException = ex
                     }
                 };
+            }
+        }
+
+        private SingleResponse<Feed> UpdateFeed(Feed feed)
+        {
+            try
+            {
+                var ravenFeed = Mapper.Map<RavenFeed>(feed);
+                _database.Store(ravenFeed);
+                return new SingleResponse<Feed>
+                    {
+                        Data = feed,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.None
+                            }
+                    };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<Feed>
+                    {
+                        Data = feed,
+                        Status = new Status
+                            {
+                                ErrorLevel = ErrorLevel.Critical,
+                                ErrorMessage = string.Format("Fatal error updating feed: {0}", ex)
+                            }
+                    };
             }
         }
 

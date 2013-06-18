@@ -20,6 +20,31 @@ namespace PersonalServiceBus.RSS.Core.Helper
             };
         }
 
+        public static SingleResponse<T> BuildSingleResponse<T>(T data, ErrorLevel errorLevel, string errorMessage)
+        {
+            return new SingleResponse<T>
+                {
+                    Data = data,
+                    Status = new Status
+                        {
+                            ErrorLevel = errorLevel,
+                            ErrorMessage = errorMessage
+                        }
+                };
+        }
+
+        public static SingleResponse<T> BuildSingleResponse<T>(T data, ErrorLevel errorLevel)
+        {
+            return new SingleResponse<T>
+                {
+                    Data = data,
+                    Status = new Status
+                        {
+                            ErrorLevel = ErrorLevel.None
+                        }
+                };
+        }
+
         public static CollectionResponse<T> BuildCollectionResponse<T>(ErrorLevel errorLevel, string errorMessage)
         {
             return new CollectionResponse<T>
