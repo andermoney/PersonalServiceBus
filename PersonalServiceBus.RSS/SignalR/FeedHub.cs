@@ -73,7 +73,7 @@ namespace PersonalServiceBus.RSS.SignalR
                 });
             var user = userResponse.Data;
 
-            var feedResponse = _feedManager.GetUserFeedsByUrl(feedModel.Url);
+            var feedResponse = _feedManager.GetUserFeedByUserIdAndUrl(user, feedModel.Url);
             if (feedResponse.Status.ErrorLevel > ErrorLevel.None)
             {
                 return new SingleResponse<UserFeed>
@@ -92,7 +92,7 @@ namespace PersonalServiceBus.RSS.SignalR
                             }
                     };
             }
-            var existingFeed = feedResponse.Data.FirstOrDefault();
+            var existingFeed = feedResponse.Data;
             //If feed doesn't exist then create it
             if (existingFeed == null)
             {

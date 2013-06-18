@@ -194,6 +194,64 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 };
         }
 
+        public SingleResponse<UserFeed> GetUserFeedByUserIdAndUrl(User user, string url)
+        {
+            try
+            {
+                var ravenFeed = _database.Query<RavenFeed>().FirstOrDefault(f => f.Url == url);
+                if (ravenFeed == null)
+                {
+                    return new SingleResponse<UserFeed>
+                    {
+                        Data = null,
+                        Status = new Status
+                        {
+                            ErrorLevel = ErrorLevel.None
+                        }
+                    };
+                }
+                var ravenUserFeed = _database.Query<RavenUserFeed>()
+                    .FirstOrDefault(uf => uf.RavenFeedId == ravenFeed.Id && uf.RavenUserId == user.Id);
+
+                if (ravenUserFeed == null)
+                {
+                    return new SingleResponse<UserFeed>
+                        {
+                            Data = null,
+                            Status = new Status
+                                {
+                                    ErrorLevel = ErrorLevel.None
+                                }
+                        };
+                }
+
+                var userFeed = Mapper.Map<UserFeed>(ravenUserFeed);
+                userFeed.Feed = Mapper.Map<Feed>(ravenFeed);
+
+                return new SingleResponse<UserFeed>
+                {
+                    Data = userFeed,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.None
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new SingleResponse<UserFeed>
+                {
+                    Data = null,
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error getting feed by URL: {0}", ex),
+                        ErrorException = ex
+                    }
+                };
+            }
+        }
+
         public CollectionResponse<UserFeed> GetUserFeedsByUrl(string url)
         {
             try

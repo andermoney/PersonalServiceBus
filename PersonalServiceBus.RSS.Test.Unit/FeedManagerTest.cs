@@ -178,6 +178,29 @@ namespace PersonalServiceBus.RSS.Test.Unit
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
         }
+
+        [Test]
+        public void GetUserGetUserFeedByUserIdAndUrl()
+        {
+            //Arrange
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            const string ravenUserId = "ravenuser/1";
+            var user = new User
+                {
+                    Id = ravenUserId
+                };
+            const string url = "http://test.url.fake";
+            var response = feedManager.GetUserFeedByUserIdAndUrl(user, url);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            Assert.AreEqual(url, response.Data.Feed.Url);
+            Assert.AreEqual(ravenUserId, response.Data.RavenUserId);
+        }
     }
 }
 // ReSharper restore InconsistentNaming

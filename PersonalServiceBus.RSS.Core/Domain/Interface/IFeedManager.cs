@@ -6,7 +6,6 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
 {
     public interface IFeedManager
     {
-        //TODO make this include a status
         SingleResponse<Feed> GetNextFeed();
         SingleResponse<UserFeed> AddUserFeed(UserFeed userFeed);
         SingleResponse<UserFeed> UpdateFeed(UserFeed userFeed);
@@ -15,5 +14,6 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
         CollectionResponse<FeedItem> AddFeedItems(IEnumerable<FeedItem> feedItems);
         CollectionResponse<UserFeed> GetUserFeeds(User user);
         SingleResponse<UserFeed> GetUserFeedByUserId(User user);
+        SingleResponse<UserFeed> GetUserFeedByUserIdAndUrl(User user, string url);
     }
 }
