@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AutoMapper;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
+using IConfiguration = PersonalServiceBus.RSS.Core.Domain.Interface.IConfiguration;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 {
@@ -23,6 +25,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             _database = database;
             _cryptography = cryptography;
             _configuration = configuration;
+
+            Mapper.CreateMap<RavenUser, User>();
         }
 
         public Status Register(User user)
@@ -174,7 +178,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
                 return new SingleResponse<User>
                     {
-                        Data = MapRavenUser(ravenUser),
+                        Data = Mapper.Map<User>(ravenUser),
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.None
@@ -287,7 +291,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 _database.Store(existingUser);
                 return new SingleResponse<User>
                 {
-                    Data = MapRavenUser(existingUser),
+                    Data = Mapper.Map<User>(existingUser),
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.None
@@ -329,7 +333,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 _database.Store(existingUser);
                 return new SingleResponse<User>
                 {
-                    Data = MapRavenUser(existingUser),
+                    Data = Mapper.Map<User>(existingUser),
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.None
@@ -371,7 +375,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 _database.Store(existingUser);
                 return new SingleResponse<User>
                 {
-                    Data = MapRavenUser(existingUser),
+                    Data = Mapper.Map<User>(existingUser),
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.None
@@ -404,21 +408,6 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             var storageUser = _database.Query<RavenUser>()
                                        .FirstOrDefault(u => u.Username == user.Username);
             return storageUser;
-        }
-
-        private static User MapRavenUser(RavenUser ravenUser)
-        {
-            //TODO automapper? I hardly know er
-            var data = new User
-            {
-                Id = ravenUser.Id,
-                Username = ravenUser.Username,
-                Email = ravenUser.Email,
-                //FeedIds = ravenUser.FeedIds,
-                ConnectionIds = ravenUser.ConnectionIds,
-                LastConnectedDate = ravenUser.LastConnectedDate
-            };
-            return data;
         }
 
         private Status ValidateNewUser(User user)

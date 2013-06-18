@@ -62,7 +62,6 @@ namespace PersonalServiceBus.RSS.Test.Unit
                 {
                     Feed = new Feed
                         {
-                            Id = "feed/1",
                             Url = url
                         }
                 };
@@ -70,9 +69,13 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
-            var getFeedResponse = feedManager.GetFeedByUrl(url);
+            var getFeedResponse = feedManager.GetUserFeedsByUrl(url);
             Assert.AreEqual(ErrorLevel.None, getFeedResponse.Status.ErrorLevel, getFeedResponse.Status.ErrorMessage);
             Assert.IsNotNull(getFeedResponse.Data);
+            Assert.IsNotEmpty(getFeedResponse.Data);
+            var feedResponse = getFeedResponse.Data.First();
+            Assert.IsNotNull(feedResponse);
+            Assert.AreEqual(url, feedResponse.Feed.Url);
         }
 
         [Test]
@@ -138,7 +141,6 @@ namespace PersonalServiceBus.RSS.Test.Unit
             {
                 Feed = new Feed
                 {
-                    Id = "feed/2",
                     Url = url
                 },
                 RavenUserId = "ravenuser/2"

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -72,7 +73,7 @@ namespace PersonalServiceBus.RSS.SignalR
                 });
             var user = userResponse.Data;
 
-            var feedResponse = _feedManager.GetFeedByUrl(feedModel.Url);
+            var feedResponse = _feedManager.GetUserFeedsByUrl(feedModel.Url);
             if (feedResponse.Status.ErrorLevel > ErrorLevel.None)
             {
                 return new SingleResponse<UserFeed>
@@ -91,7 +92,7 @@ namespace PersonalServiceBus.RSS.SignalR
                             }
                     };
             }
-            var existingFeed = feedResponse.Data;
+            var existingFeed = feedResponse.Data.FirstOrDefault();
             //If feed doesn't exist then create it
             if (existingFeed == null)
             {

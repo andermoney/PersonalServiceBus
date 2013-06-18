@@ -26,16 +26,17 @@ namespace PersonalServiceBus.RSS.Test.Unit.Helper
                     Username = "testuser"
                 };
             database.Store(testUser);
-            var testFeed = new Feed
+            var testFeed = new RavenFeed
                 {
-                    Id = "feed/1", Url = "http://test.url.fake"
+                    Id = "ravenfeed/1", 
+                    Url = "http://test.url.fake"
                 };
             database.Store(testFeed);
-            database.Store(new UserFeed
+            database.Store(new RavenUserFeed
                 {
                     Category = "testuser's test feeds",
-                    Feed = testFeed,
-                    Id = "userfeed/1",
+                    RavenFeedId = testFeed.Id,
+                    Id = "ravenuserfeed/1",
                     Name = "testuser's test feed",
                     RavenUserId = testUser.Id
                 });

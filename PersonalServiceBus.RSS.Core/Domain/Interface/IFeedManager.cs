@@ -10,7 +10,7 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
         SingleResponse<Feed> GetNextFeed();
         SingleResponse<UserFeed> AddUserFeed(UserFeed userFeed);
         SingleResponse<UserFeed> UpdateFeed(UserFeed userFeed);
-        SingleResponse<UserFeed> GetFeedByUrl(string url);
+        CollectionResponse<UserFeed> GetUserFeedsByUrl(string url);
 
         CollectionResponse<FeedItem> AddFeedItems(IEnumerable<FeedItem> feedItems);
         CollectionResponse<UserFeed> GetUserFeeds(User user);

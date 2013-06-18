@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Helper;
+using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 {
@@ -16,6 +18,11 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         public FeedManager(IDatabase database)
         {
             _database = database;
+
+            Mapper.CreateMap<Feed, RavenFeed>();
+            Mapper.CreateMap<UserFeed, RavenUserFeed>();
+            Mapper.CreateMap<RavenFeed, Feed>();
+            Mapper.CreateMap<RavenUserFeed, UserFeed>();
         }
 
         public SingleResponse<Feed> GetNextFeed()
@@ -56,16 +63,30 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 if (userFeed.Feed == null)
                     return ResponseBuilder.BuildSingleResponse<UserFeed>(ErrorLevel.Error, "userFeed.Feed is required");
 
-                var existingFeed = _database.Query<Feed>()
+                var existingFeed = _database.Query<RavenFeed>()
                                             .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
                 if (existingFeed == null)
                 {
-                    _database.Store(userFeed.Feed);
-                    existingFeed = _database.Query<Feed>()
+                    var ravenFeed = Mapper.Map<RavenFeed>(userFeed.Feed);
+                    _database.Store(ravenFeed);
+                    existingFeed = _database.Query<RavenFeed>()
                                             .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
+                    if (existingFeed == null)
+                    {
+                        return new SingleResponse<UserFeed>
+                            {
+                                Data = userFeed,
+                                Status = new Status
+                                    {
+                                        ErrorLevel = ErrorLevel.Error,
+                                        ErrorMessage = "Unknown error storing user feed"
+                                    }
+                            };
+                    }
                 }
-                userFeed.Feed = existingFeed;
-                _database.Store(userFeed);
+                var ravenUserFeed = Mapper.Map<RavenUserFeed>(userFeed);
+                ravenUserFeed.RavenFeedId = existingFeed.Id;
+                _database.Store(ravenUserFeed);
                 return new SingleResponse<UserFeed>
                     {
                         Data = userFeed,
@@ -128,7 +149,18 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 if (user.Id == null)
                     return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Error, "User Id is required");
 
-                var userFeeds = _database.QueryWithIncludes<UserFeed>(uf => uf.Feed, uf => uf.RavenUserId == user.Id);
+                var ravenUserFeeds = _database.Query<RavenUserFeed>()
+                    .Where(uf => uf.RavenUserId == user.Id)
+                    .ToList();
+                var userFeeds = new List<UserFeed>();
+                foreach (var ravenUserFeed in ravenUserFeeds)
+                {
+                    var userFeed = Mapper.Map<UserFeed>(ravenUserFeed);
+                    var feed = _database.Load<RavenFeed>(ravenUserFeed.RavenFeedId);
+                    userFeed.Feed = Mapper.Map<Feed>(feed);
+                    userFeeds.Add(userFeed);
+                }
+
                 return new CollectionResponse<UserFeed>
                     {
                         Data = userFeeds,
@@ -162,14 +194,35 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 };
         }
 
-        public SingleResponse<UserFeed> GetFeedByUrl(string url)
+        public CollectionResponse<UserFeed> GetUserFeedsByUrl(string url)
         {
             try
             {
-                return new SingleResponse<UserFeed>
+                var ravenFeed = _database.Query<RavenFeed>().FirstOrDefault(f => f.Url == url);
+                if (ravenFeed == null)
                 {
-                    Data = _database.Query<UserFeed>()
-                                    .FirstOrDefault(f => f.Feed.Url == url),
+                    return new CollectionResponse<UserFeed>
+                        {
+                            Data = new List<UserFeed>(),
+                            Status = new Status
+                                {
+                                    ErrorLevel = ErrorLevel.None
+                                }
+                        };
+                }
+                var ravenUserFeeds = _database.Query<RavenUserFeed>()
+                    .Where(uf => uf.RavenFeedId == ravenFeed.Id)
+                    .ToList();
+                var userFeeds = new List<UserFeed>();
+                foreach (var ravenUserFeed in ravenUserFeeds)
+                {
+                    var userFeed = Mapper.Map<UserFeed>(ravenUserFeed);
+                    userFeed.Feed = Mapper.Map<Feed>(ravenFeed);
+                    userFeeds.Add(userFeed);
+                }
+                return new CollectionResponse<UserFeed>
+                {
+                    Data = userFeeds,
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.None
@@ -178,9 +231,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new SingleResponse<UserFeed>
+                return new CollectionResponse<UserFeed>
                 {
-                    Data = new UserFeed(),
+                    Data = new List<UserFeed>(),
                     Status = new Status
                     {
                         ErrorLevel = ErrorLevel.Critical,
