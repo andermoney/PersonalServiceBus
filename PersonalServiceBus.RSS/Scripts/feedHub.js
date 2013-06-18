@@ -20,8 +20,9 @@
     
     function formatUserFeed(userFeed) {
         return $.extend(userFeed, {
+            Id: userFeed.Id.replace('/', '-'),
             Feed: $.extend(userFeed.Feed, {
-                Id: Id.replace('/', '-')
+                Id: userFeed.Feed.Id.replace('/', '-')
             })
         });
     }
