@@ -348,14 +348,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
                     _database.StoreCollection(newFeedItems);
                 }
-                return new CollectionResponse<FeedItem>
-                {
-                    Data = feedItems,
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.None
-                    }
-                };
+                return ResponseBuilder.BuildCollectionResponse(feedItems, ErrorLevel.None);
             }
             catch (Exception ex)
             {
@@ -374,7 +367,42 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         public CollectionResponse<UserFeedItem> AddUserFeedItems(IEnumerable<FeedItem> feedItems)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var newUserFeedItems = feedItems
+                    .Where(feedItem => !_database.Query<UserFeedItem>()
+                        .Any(i => i.FeedItemId == feedItem.Id))
+                    .Select(i => new UserFeedItem
+                        {
+                            FeedItemId = i.Id
+                        })
+                    .ToList();
+                if (newUserFeedItems.Any())
+                {
+                    //Mark the date each item is created
+                    var createdDate = DateTime.Now;
+                    foreach (var newUserFeedItem in newUserFeedItems)
+                    {
+                        newUserFeedItem.CreatedDate = createdDate;
+                    }
+
+                    _database.StoreCollection(newUserFeedItems);
+                }
+                return ResponseBuilder.BuildCollectionResponse(newUserFeedItems, ErrorLevel.None);
+            }
+            catch (Exception ex)
+            {
+                return new CollectionResponse<UserFeedItem>
+                {
+                    Data = new List<UserFeedItem>(),
+                    Status = new Status
+                    {
+                        ErrorLevel = ErrorLevel.Critical,
+                        ErrorMessage = string.Format("Fatal error adding user feed items: {0}", ex),
+                        ErrorException = ex
+                    }
+                };
+            }
         }
 
         public CollectionResponse<UserFeed> GetUserFeedItems(Feed feed)

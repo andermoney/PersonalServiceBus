@@ -57,5 +57,30 @@ namespace PersonalServiceBus.RSS.Core.Helper
                         }
                 };
         }
+
+        public static CollectionResponse<T> BuildCollectionResponse<T>(IEnumerable<T> data, ErrorLevel errorLevel, string errorMessage)
+        {
+            return new CollectionResponse<T>
+                {
+                    Data = data,
+                    Status = new Status
+                        {
+                            ErrorLevel = errorLevel,
+                            ErrorMessage = errorMessage
+                        }
+                };
+        }
+
+        public static CollectionResponse<T> BuildCollectionResponse<T>(IEnumerable<T> data, ErrorLevel errorLevel)
+        {
+            return new CollectionResponse<T>
+                {
+                    Data = data,
+                    Status = new Status
+                        {
+                            ErrorLevel = errorLevel
+                        }
+                };
+        }
     }
 }
