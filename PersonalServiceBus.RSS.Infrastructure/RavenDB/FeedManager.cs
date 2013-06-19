@@ -65,27 +65,18 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
                 var existingFeed = _database.Query<RavenFeed>()
                                             .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
+                string existingFeedId;
                 if (existingFeed == null)
                 {
                     var ravenFeed = Mapper.Map<RavenFeed>(userFeed.Feed);
-                    _database.Store(ravenFeed);
-                    existingFeed = _database.Query<RavenFeed>()
-                                            .FirstOrDefault(f => f.Url == userFeed.Feed.Url);
-                    if (existingFeed == null)
-                    {
-                        return new SingleResponse<UserFeed>
-                            {
-                                Data = userFeed,
-                                Status = new Status
-                                    {
-                                        ErrorLevel = ErrorLevel.Error,
-                                        ErrorMessage = "Unknown error storing user feed"
-                                    }
-                            };
-                    }
+                    existingFeedId = _database.Store(ravenFeed);
+                }
+                else
+                {
+                    existingFeedId = existingFeed.Id;
                 }
                 var ravenUserFeed = Mapper.Map<RavenUserFeed>(userFeed);
-                ravenUserFeed.RavenFeedId = existingFeed.Id;
+                ravenUserFeed.RavenFeedId = existingFeedId;
                 _database.Store(ravenUserFeed);
                 return new SingleResponse<UserFeed>
                     {

@@ -99,7 +99,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public void Store<T>(T entity) where T : EntityBase
+        public string Store<T>(T entity) where T : EntityBase
         {
             if (typeof (T) == typeof (User))
             {
@@ -108,7 +108,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             using (var documentSession = DocumentStore.OpenSession())
             {
                 documentSession.Store(entity);
+                var id = documentSession.Advanced.GetDocumentId(entity);
                 documentSession.SaveChanges();
+                return id;
             }
         }
 
