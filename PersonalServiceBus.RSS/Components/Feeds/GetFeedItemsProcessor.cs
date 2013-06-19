@@ -71,7 +71,7 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                         foreach (var userFeed in userFeedsResponse.Data)
                         {
                             //Add the items for each feed
-                            //CollectionResponse<UserFeedItem> feedItemsAddResponse = _feedManager.AddUserFeedItems(newFeedItems);
+                            CollectionResponse<UserFeedItem> feedItemsAddResponse = _feedManager.AddUserFeedItems(newFeedItems);
                             //User user = _authentication.GetUserByUserId(userFeed.RavenUserId);
                             //_feedHubClient.UpdateFeedUnreadCount(user.Username, userFeed);
                         }

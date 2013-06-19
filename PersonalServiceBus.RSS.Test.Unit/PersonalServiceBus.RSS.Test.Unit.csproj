@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationTest.cs" />
     <Compile Include="DatabaseTest.cs" />
     <Compile Include="FeedManagerTest.cs" />
     <Compile Include="Helper\DatabaseBuilder.cs" />
