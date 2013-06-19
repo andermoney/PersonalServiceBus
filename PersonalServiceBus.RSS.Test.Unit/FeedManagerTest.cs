@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
@@ -235,6 +237,23 @@ namespace PersonalServiceBus.RSS.Test.Unit
             //Act
             var response = feedManager.GetNextFeed();
 
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+        }
+
+        [Test]
+        public void AddUserFeedItems()
+        {
+            //Arrange
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            IEnumerable<FeedItem> newFeedItems = new List<FeedItem>();
+            CollectionResponse<UserFeedItem> response = feedManager.AddUserFeedItems(newFeedItems);
+
+            //Assert
             Assert.IsNotNull(response);
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
             Assert.IsNotNull(response.Data);

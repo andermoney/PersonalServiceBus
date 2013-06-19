@@ -372,6 +372,11 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public CollectionResponse<UserFeedItem> AddUserFeedItems(IEnumerable<FeedItem> feedItems)
+        {
+            throw new NotImplementedException();
+        }
+
         public CollectionResponse<UserFeed> GetUserFeedItems(Feed feed)
         {
             //CollectionResponse<ClientConnection> connectionsResponse = _clientCommunication.GetAllConnections();

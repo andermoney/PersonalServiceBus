@@ -17,14 +17,17 @@ namespace PersonalServiceBus.RSS.Components.Feeds
 
         private readonly IFeedManager _feedManager;
         private readonly IRssManager _rssManager;
+        private readonly IAuthentication _authentication;
         private readonly FeedHubClient _feedHubClient;
 
         public GetFeedItemsProcessor(IFeedManager feedManager,
             IRssManager rssManager,
+            IAuthentication authentication,
             FeedHubClient feedHubClient)
         {
             _feedManager = feedManager;
             _rssManager = rssManager;
+            _authentication = authentication;
             _feedHubClient = feedHubClient;
         }
 
@@ -50,6 +53,7 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                     IEnumerable<FeedItem> newFeedItems = new List<FeedItem>();
                     if (feedItemsResponse.Data.Any())
                     {
+                        //Add the items for the feed and get any new ones
                         var addFeedItemsResponse = _feedManager.AddFeedItems(feedItemsResponse.Data);
                         //TODO log the error response if we're unable to save feed items
                         newFeedItems = addFeedItemsResponse.Data;
@@ -62,13 +66,15 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                     //If there are new feed items
                     if (newFeedItems.Any())
                     {
-                        //Update the feed items for any connected users
-                        //var userFeedItemsResponse = _feedManager.GetUserFeeds(user);
-
-                        //foreach (var userFeed in userFeedItemsResponse.Data)
-                        //{
-                        //    _feedHubClient.UpdateFeedUnreadCount(userFeed);
-                        //}
+                        //Get all users subscribed to this feed
+                        var userFeedsResponse = _feedManager.GetUserFeedsByUrl(nextFeed.Url);
+                        foreach (var userFeed in userFeedsResponse.Data)
+                        {
+                            //Add the items for each feed
+                            //CollectionResponse<UserFeedItem> feedItemsAddResponse = _feedManager.AddUserFeedItems(newFeedItems);
+                            //User user = _authentication.GetUserByUserId(userFeed.RavenUserId);
+                            //_feedHubClient.UpdateFeedUnreadCount(user.Username, userFeed);
+                        }
                     }
                 }
             }
