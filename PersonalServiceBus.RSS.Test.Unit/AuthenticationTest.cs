@@ -157,7 +157,22 @@ namespace PersonalServiceBus.RSS.Test.Unit
         [Test]
         public void ChangePassword()
         {
-            Assert.Fail("Not written yet");
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+            {
+                Username = "testuser",
+                Password = "Abc123",
+                Email = "fakeemail@jake-anderson.com"
+            };
+            var response = authentication.ChangePassword("testuser", "Abc123", "Abc12345");
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsTrue(response.Data, "Password was not changed successfully");
         }
 
         [Test]
