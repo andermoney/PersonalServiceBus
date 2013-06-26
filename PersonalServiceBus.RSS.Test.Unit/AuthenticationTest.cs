@@ -242,13 +242,63 @@ namespace PersonalServiceBus.RSS.Test.Unit
         [Test]
         public void AddConnection()
         {
-            Assert.Fail("Not written yet");
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+                {
+                    Username = "testuser"
+                };
+            var connectionId = Guid.NewGuid().ToString();
+            var response = authentication.AddConnection(connectionId, user);
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            var getUserResponse = authentication.GetUserByUserId(new User
+            {
+                Id = "RavenUser/1"
+            });
+            Assert.AreEqual(ErrorLevel.None, getUserResponse.Status.ErrorLevel, getUserResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getUserResponse.Data);
+            Assert.IsTrue(getUserResponse.Data.ConnectionIds.Contains(connectionId), "Connection ID failed to add");
         }
 
         [Test]
         public void RemoveConnection()
         {
-            Assert.Fail("Not written yet");
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+            {
+                Username = "testuser"
+            };
+            var connectionId = Guid.NewGuid().ToString();
+            var response = authentication.AddConnection(connectionId, user);
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            var getUserResponse = authentication.GetUserByUserId(new User
+            {
+                Id = "RavenUser/1"
+            });
+            Assert.AreEqual(ErrorLevel.None, getUserResponse.Status.ErrorLevel, getUserResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getUserResponse.Data);
+            Assert.IsTrue(getUserResponse.Data.ConnectionIds.Contains(connectionId), "Connection ID failed to add");
+            var removeConnectionResponse = authentication.RemoveConnection(connectionId, user);
+            Assert.AreEqual(ErrorLevel.None, removeConnectionResponse.Status.ErrorLevel, removeConnectionResponse.Status.ErrorMessage);
+            Assert.IsNotNull(removeConnectionResponse.Data);
+            getUserResponse = authentication.GetUserByUserId(new User
+            {
+                Id = "RavenUser/1"
+            });
+            Assert.AreEqual(ErrorLevel.None, getUserResponse.Status.ErrorLevel, getUserResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getUserResponse.Data);
+            Assert.IsFalse(getUserResponse.Data.ConnectionIds.Contains(connectionId), "Connection ID failed to remove");
         }
 
         [Test]
