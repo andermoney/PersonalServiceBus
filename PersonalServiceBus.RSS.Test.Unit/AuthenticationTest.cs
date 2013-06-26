@@ -185,7 +185,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
 
             //Act
-            SingleResponse<User> response = authentication.GetUserByUserId(new User
+            SingleResponse<User> response = authentication.GetUserByUsername(new User
             {
                 Username = "testuser"
             });
