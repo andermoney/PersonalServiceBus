@@ -304,7 +304,27 @@ namespace PersonalServiceBus.RSS.Test.Unit
         [Test]
         public void UpdateConnection()
         {
-            Assert.Fail("Not written yet");
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+            {
+                Username = "testuser"
+            };
+            var connectionId = Guid.NewGuid().ToString();
+            var response = authentication.UpdateConnection(connectionId, user);
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            var getUserResponse = authentication.GetUserByUserId(new User
+            {
+                Id = "RavenUser/1"
+            });
+            Assert.AreEqual(ErrorLevel.None, getUserResponse.Status.ErrorLevel, getUserResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getUserResponse.Data);
+            Assert.IsTrue(getUserResponse.Data.ConnectionIds.Contains(connectionId), "Connection ID failed to add");
         }
         // ReSharper restore InconsistentNaming
     }
