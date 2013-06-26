@@ -17,7 +17,7 @@ namespace PersonalServiceBus.RSS.Test.Unit.IoC
             IKernel kernel = new StandardKernel();
             kernel.Bind<IFeedManager>().To<FeedManager>().InSingletonScope();
             kernel.Bind<IRssManager>().To<RssManager>().InSingletonScope();
-            kernel.Bind<IDatabase>().ToConstant(DatabaseBuilder.BuildTestDatabase()).InSingletonScope();
+            kernel.Bind<IDatabase>().ToMethod(c => DatabaseBuilder.BuildTestDatabase()).InTransientScope();
             
             var configuration = new Mock<IConfiguration>();
             configuration.SetupGet(c => c.RavenDBUrl)
@@ -26,7 +26,7 @@ namespace PersonalServiceBus.RSS.Test.Unit.IoC
                          .Returns(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$");
 
             kernel.Bind<IConfiguration>().ToConstant(configuration.Object).InSingletonScope();
-            kernel.Bind<IAuthentication>().To<RavenDBAuthentication>().InSingletonScope();
+            kernel.Bind<IAuthentication>().To<RavenDBAuthentication>().InTransientScope();
             kernel.Bind<ICryptography>().To<Cryptography>();
             return kernel;
         }

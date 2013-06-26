@@ -164,7 +164,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             var user = new User
             {
                 Username = "testuser",
-                Password = "Abc123",
+                Password = "Abc12345",
                 Email = "fakeemail@jake-anderson.com"
             };
             var response = authentication.ChangePassword("testuser", "Abc123", "Abc12345");
@@ -173,12 +173,26 @@ namespace PersonalServiceBus.RSS.Test.Unit
             Assert.IsNotNull(response);
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
             Assert.IsTrue(response.Data, "Password was not changed successfully");
+
+            var validateUserResponse = authentication.ValidateUser(user);
+            Assert.AreEqual(ErrorLevel.None, validateUserResponse.Status.ErrorLevel, validateUserResponse.Status.ErrorMessage);
         }
 
         [Test]
         public void GetUserByUsername()
         {
-            Assert.Fail("Not written yet");
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            SingleResponse<User> response = authentication.GetUserByUserId(new User
+            {
+                Username = "testuser"
+            });
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
         }
 
         [Test]
