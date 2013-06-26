@@ -19,7 +19,11 @@ namespace PersonalServiceBus.RSS.Test.Unit
             var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
 
             //Act
-            var user = new User();
+            var user = new User
+                {
+                    Username = "testuser2",
+                    Email = "fakeemail@jake-anderson.com"
+                };
             var status = authentication.Register(user);
 
             //Assert
@@ -37,6 +41,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             //Act
             var user = new User
                 {
+                    Username = "testuser2",
                     Password = "Abc123"
                 };
             var status = authentication.Register(user);
@@ -68,6 +73,27 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
+        public void Register_UserExists()
+        {
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+            {
+                Username = "testuser",
+                Password = "Abc123",
+                Email = "fakeemail@jake-anderson.com"
+            };
+            var status = authentication.Register(user);
+
+            //Assert
+            Assert.IsNotNull(status);
+            Assert.AreEqual(ErrorLevel.Error, status.ErrorLevel, "Username should throw error for existing");
+            Assert.IsTrue(status.ErrorMessage.Contains("User name already exists"), "Error message was: " + status.ErrorMessage);
+        }
+
+        [Test]
         public void Register()
         {
             //Arrange
@@ -76,6 +102,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             //Act
             var user = new User
                 {
+                    Username = "testuser2",
                     Password = "Abc123",
                     Email = "fakeemail@jake-anderson.com"
                 };
