@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
+using Ninject;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
-using PersonalServiceBus.RSS.Core.Domain.Model;
-using PersonalServiceBus.RSS.Infrastructure.RavenDB;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
-using PersonalServiceBus.RSS.Test.Unit.Helper;
+using PersonalServiceBus.RSS.Test.Unit.IoC;
 
 namespace PersonalServiceBus.RSS.Test.Unit
 {
@@ -15,7 +14,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         public void Store_ReturnsId()
         {
             //Arrange
-            IDatabase database = DatabaseBuilder.BuildTestDatabase();
+            IDatabase database = TestRegistry.GetKernel().Get<IDatabase>();
 
             //Act
             string id = database.Store(new RavenFeed());

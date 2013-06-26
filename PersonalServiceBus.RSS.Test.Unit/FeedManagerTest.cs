@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
+using Ninject;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB;
-using PersonalServiceBus.RSS.Test.Unit.Helper;
+using PersonalServiceBus.RSS.Test.Unit.IoC;
 
 // ReSharper disable InconsistentNaming
 
@@ -21,7 +23,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
         [SetUp]
         public void SetUp()
         {
-            _database = DatabaseBuilder.BuildTestDatabase();
+            _database = TestRegistry.GetKernel().Get<IDatabase>();
         }
 
         [Test]
@@ -175,6 +177,8 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            //TODO there has to be a better way to deal with eventual consistency here
+            Thread.Sleep(500);
             var getFeedsResponse = feedManager.GetUserFeeds(new User
                 {
                     Id = "ravenuser/2"

@@ -1,8 +1,10 @@
 ﻿using Moq;
+using Ninject;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
+using PersonalServiceBus.RSS.Test.Unit.IoC;
 
 namespace PersonalServiceBus.RSS.Test.Unit.Helper
 {

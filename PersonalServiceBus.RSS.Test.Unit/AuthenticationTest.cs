@@ -1,26 +1,149 @@
 ﻿using NUnit.Framework;
+using Ninject;
 using PersonalServiceBus.RSS.Core.Contract;
+using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
-using PersonalServiceBus.RSS.Infrastructure.RavenDB;
+using PersonalServiceBus.RSS.Test.Unit.IoC;
 
 namespace PersonalServiceBus.RSS.Test.Unit
 {
+    // ReSharper disable InconsistentNaming
     [TestFixture]
     public class AuthenticationTest
     {
         [Test]
+        public void Register_PasswordRequired()
+        {
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User();
+            var status = authentication.Register(user);
+
+            //Assert
+            Assert.IsNotNull(status);
+            Assert.AreEqual(ErrorLevel.Error, status.ErrorLevel, "Password should be required");
+            Assert.IsTrue(status.ErrorMessage.Contains("Password is required"), "Error message was: " + status.ErrorMessage);
+        }
+
+        [Test]
+        public void Register_EmailRequired()
+        {
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+                {
+                    Password = "Abc123"
+                };
+            var status = authentication.Register(user);
+
+            //Assert
+            Assert.IsNotNull(status);
+            Assert.AreEqual(ErrorLevel.Error, status.ErrorLevel, "Email should be required");
+            Assert.IsTrue(status.ErrorMessage.Contains("Email is required"), "Error message was: " + status.ErrorMessage);
+        }
+
+        [Test]
+        public void Register_UsernameRequired()
+        {
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+            {
+                Password = "Abc123",
+                Email = "fakeemail@jake-anderson.com"
+            };
+            var status = authentication.Register(user);
+
+            //Assert
+            Assert.IsNotNull(status);
+            Assert.AreEqual(ErrorLevel.Error, status.ErrorLevel, "Username should be required");
+            Assert.IsTrue(status.ErrorMessage.Contains("Username is required"), "Error message was: " + status.ErrorMessage);
+        }
+
+        [Test]
+        public void Register()
+        {
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+                {
+                    Password = "Abc123",
+                    Email = "fakeemail@jake-anderson.com"
+                };
+            var status = authentication.Register(user);
+
+            //Assert
+            Assert.IsNotNull(status);
+            Assert.AreEqual(ErrorLevel.None, status.ErrorLevel, status.ErrorMessage);
+        }
+
+        [Test]
+        public void ValidateUser()
+        {
+            Assert.Fail("Not written yet");
+        }
+
+        [Test]
+        public void ChangePassword()
+        {
+            Assert.Fail("Not written yet");
+        }
+
+        [Test]
+        public void GetUserByUsername()
+        {
+            Assert.Fail("Not written yet");
+        }
+
+        [Test]
         public void GetUserByUserId()
         {
             //Arrange
-            //IAuthentication authentication = new RavenDBAuthentication(_database, _cryptography, _configuration);
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
             
             //Act
-            //SingleResponse<User> user = authentication.GetUserByUserId("RavenUser/1");
+            SingleResponse<User> response = authentication.GetUserByUserId(new User
+                {
+                    Id = "RavenUser/1"
+                });
 
             //Assert
-            //Assert.IsNotNull(user);
-            Assert.Fail("Need to figure out dependency injection for unit tests");
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
         }
+
+        [Test]
+        public void UpdateUser()
+        {
+            Assert.Fail("Not written yet");
+        }
+
+        [Test]
+        public void AddConnection()
+        {
+            Assert.Fail("Not written yet");
+        }
+
+        [Test]
+        public void RemoveConnection()
+        {
+            Assert.Fail("Not written yet");
+        }
+
+        [Test]
+        public void UpdateConnection()
+        {
+            Assert.Fail("Not written yet");
+        }
+        // ReSharper restore InconsistentNaming
     }
 }

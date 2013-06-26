@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Model;
@@ -45,6 +46,20 @@ namespace PersonalServiceBus.RSS.Core.Helper
                 };
         }
 
+        public static SingleResponse<T> BuildSingleResponse<T>(T data, ErrorLevel errorLevel, string errorMessage, Exception ex)
+        {
+            return new SingleResponse<T>
+                {
+                    Data = data,
+                    Status = new Status
+                        {
+                            ErrorLevel = errorLevel,
+                            ErrorMessage = errorMessage,
+                            ErrorException = ex
+                        }
+                };
+        }
+
         public static CollectionResponse<T> BuildCollectionResponse<T>(ErrorLevel errorLevel, string errorMessage)
         {
             return new CollectionResponse<T>
@@ -79,6 +94,20 @@ namespace PersonalServiceBus.RSS.Core.Helper
                     Status = new Status
                         {
                             ErrorLevel = errorLevel
+                        }
+                };
+        }
+
+        public static CollectionResponse<T> BuildCollectionResponse<T>(ErrorLevel errorLevel, string errorMessage, Exception ex)
+        {
+            return new CollectionResponse<T>
+                {
+                    Data = new List<T>(),
+                    Status = new Status
+                        {
+                            ErrorLevel = errorLevel,
+                            ErrorMessage = errorMessage,
+                            ErrorException = ex
                         }
                 };
         }

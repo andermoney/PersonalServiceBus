@@ -7,6 +7,7 @@ using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
+using PersonalServiceBus.RSS.Core.Helper;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
 using IConfiguration = PersonalServiceBus.RSS.Core.Domain.Interface.IConfiguration;
 
@@ -29,10 +30,43 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             Mapper.CreateMap<RavenUser, User>();
         }
 
+        //TODO switch to response object
         public Status Register(User user)
         {
             try
             {
+                if (user == null)
+                {
+                    return new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "User cannot be null"
+                        };
+                }
+                if (string.IsNullOrEmpty(user.Username))
+                {
+                    return new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "Username is required"
+                        };
+                }
+                if (string.IsNullOrEmpty(user.Password))
+                {
+                    return new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "Password is required"
+                        };
+                }
+                if (string.IsNullOrEmpty(user.Email))
+                {
+                    return new Status
+                        {
+                            ErrorLevel = ErrorLevel.Error,
+                            ErrorMessage = "Email is required"
+                        };
+                }
                 var storageUser = new RavenUser
                     {
                         Username = user.Username,
@@ -57,7 +91,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 return new Status
                     {
                         ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = "Fatal error registering user",
+                        ErrorMessage = string.Format("Fatal error registering user: {0}", ex),
                         ErrorException = ex
                     };
             }
@@ -199,34 +233,40 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public SingleResponse<User> GetUserByUserId(User user)
+        {
+            try
+            {
+                var ravenUser = _database.Load<RavenUser>(user.Id);
+                if (ravenUser == null)
+                {
+                    return ResponseBuilder.BuildSingleResponse<User>(ErrorLevel.Error,
+                                                                     string.Format("User \"{0}\" not found", user.Username));
+                }
+
+                return ResponseBuilder.BuildSingleResponse(Mapper.Map<User>(ravenUser), ErrorLevel.None);
+            }
+            catch (Exception ex)
+            {
+                return ResponseBuilder.BuildSingleResponse(user, ErrorLevel.Critical, 
+                    string.Format("Fatal error retrieving user {0}: {1}", user.Username, ex), ex);
+            }
+        }
+
         public SingleResponse<User> UpdateUser(User user)
         {
             try
             {
-                RavenUser ravenUser = GetRavenUser(user.Id);
-                //ravenUser.FeedIds = user.FeedIds;
+                var ravenUser = GetRavenUser(user.Id);
 
                 _database.Store(ravenUser);
-                return new SingleResponse<User>
-                    {
-                        Data = user,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.None
-                            }
-                    };
+
+                return ResponseBuilder.BuildSingleResponse(user, ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return new SingleResponse<User>
-                    {
-                        Data = user,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Critical,
-                                ErrorMessage = string.Format("Fatal error updating user {0}: {1}", user.Username, ex)
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse(user, ErrorLevel.Critical, 
+                    string.Format("Fatal error updating user {0}: {1}", user.Username, ex), ex);
             }
         }
 
@@ -238,27 +278,12 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                                           .Where(u => u.Username == user.Username)
                                           .Select(u => u.ConnectionIds)
                                           .FirstOrDefault();
-                return new CollectionResponse<string>
-                {
-                    Data = connectionIds,
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.None
-                    }
-                };
+                return ResponseBuilder.BuildCollectionResponse(connectionIds, ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return new CollectionResponse<string>
-                {
-                    Data = new List<string>(),
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error getting client connections: {0}", ex),
-                        ErrorException = ex
-                    }
-                };
+                return ResponseBuilder.BuildCollectionResponse<string>(ErrorLevel.Critical, 
+                    string.Format("Fatal error getting client connections: {0}", ex), ex);
             }
         }
 
