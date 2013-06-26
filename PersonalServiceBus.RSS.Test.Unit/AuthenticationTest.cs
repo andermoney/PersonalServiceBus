@@ -114,9 +114,44 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
+        public void ValidateUser_InvalidPassword()
+        {
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+            {
+                Username = "testuser",
+                Password = "Abc1234",
+                Email = "fakeemail@jake-anderson.com"
+            };
+            var response = authentication.ValidateUser(user);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel, "Password should be invalid");
+            Assert.IsTrue(response.Status.ErrorMessage.Contains("Username or password is not valid"), "Error message was: " + response.Status.ErrorMessage);
+        }
+
+        [Test]
         public void ValidateUser()
         {
-            Assert.Fail("Not written yet");
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var user = new User
+            {
+                Username = "testuser",
+                Password = "Abc123",
+                Email = "fakeemail@jake-anderson.com"
+            };
+            var response = authentication.ValidateUser(user);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
         }
 
         [Test]

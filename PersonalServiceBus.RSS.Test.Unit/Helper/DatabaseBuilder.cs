@@ -1,10 +1,8 @@
 ﻿using Moq;
-using Ninject;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
-using PersonalServiceBus.RSS.Core.Domain.Model;
+using PersonalServiceBus.RSS.Infrastructure.Cryptography;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
-using PersonalServiceBus.RSS.Test.Unit.IoC;
 
 namespace PersonalServiceBus.RSS.Test.Unit.Helper
 {
@@ -22,10 +20,12 @@ namespace PersonalServiceBus.RSS.Test.Unit.Helper
         public static RavenMemoryDatabase BuildTestDatabase()
         {
             var database = BuildEmptyDatabase();
+            var cryptography = new Cryptography();
             var testUser = new RavenUser
                 {
                     Id = "ravenuser/1",
-                    Username = "testuser"
+                    Username = "testuser",
+                    PasswordHash = cryptography.CreateHash("Abc123")
                 };
             database.Store(testUser);
             var testFeed = new RavenFeed
