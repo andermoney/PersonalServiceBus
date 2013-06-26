@@ -28,6 +28,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             _configuration = configuration;
 
             Mapper.CreateMap<RavenUser, User>();
+            Mapper.CreateMap<User, RavenUser>();
         }
 
         //TODO switch to response object
@@ -257,7 +258,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         {
             try
             {
-                var ravenUser = GetRavenUser(user.Id);
+                //var ravenUser = GetRavenUser(user.Id);
+                var ravenUser = Mapper.Map<RavenUser>(user);
 
                 _database.Store(ravenUser);
 
@@ -420,12 +422,6 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                     }
                 };
             }
-        }
-
-        private RavenUser GetRavenUser(string id)
-        {
-            var storageUser = _database.Load<RavenUser>(id);
-            return storageUser;
         }
 
         private RavenUser GetRavenUserByUsername(User user)

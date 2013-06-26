@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Ninject;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
@@ -215,7 +216,27 @@ namespace PersonalServiceBus.RSS.Test.Unit
         [Test]
         public void UpdateUser()
         {
-            Assert.Fail("Not written yet");
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            var lastConnectedDate = DateTime.Now;
+            SingleResponse<User> response = authentication.UpdateUser(new User
+            {
+                Id = "RavenUser/1",
+                LastConnectedDate = lastConnectedDate
+            });
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            var getUserResponse = authentication.GetUserByUserId(new User
+                {
+                    Id = "RavenUser/1"
+                });
+            Assert.AreEqual(ErrorLevel.None, getUserResponse.Status.ErrorLevel, getUserResponse.Status.ErrorMessage);
+            Assert.IsNotNull(getUserResponse.Data);
+            Assert.AreEqual(lastConnectedDate, getUserResponse.Data.LastConnectedDate);
         }
 
         [Test]
