@@ -254,13 +254,21 @@ namespace PersonalServiceBus.RSS.Test.Unit
             IFeedManager feedManager = new FeedManager(_database);
 
             //Act
-            IEnumerable<FeedItem> newFeedItems = new List<FeedItem>();
+            IEnumerable<FeedItem> newFeedItems = new List<FeedItem>
+                {
+                    new FeedItem
+                        {
+                            Id = "FeedItem/1"
+                        }
+                };
             CollectionResponse<UserFeedItem> response = feedManager.AddUserFeedItems(newFeedItems);
 
             //Assert
             Assert.IsNotNull(response);
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
             Assert.IsNotNull(response.Data);
+            Assert.Greater(response.Data.Count(), 0);
+            Assert.IsNotNull(response.Data.First().FeedItemId);
         }
     }
 }

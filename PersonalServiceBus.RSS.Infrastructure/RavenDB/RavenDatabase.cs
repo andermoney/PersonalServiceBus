@@ -114,15 +114,20 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public void StoreCollection<T>(IEnumerable<T> entities) where T : EntityBase
+        public IEnumerable<T> StoreCollection<T>(IEnumerable<T> entities) where T : EntityBase
         {
             using (var documentSession = DocumentStore.OpenSession())
             {
+                var entityResult = new List<T>();
                 foreach (var entity in entities)
                 {
                     documentSession.Store(entity);
+                    var id = documentSession.Advanced.GetDocumentId(entity);
+                    entity.Id = id;
+                    entityResult.Add(entity);
                 }
                 documentSession.SaveChanges();
+                return entityResult;
             }
         }
 

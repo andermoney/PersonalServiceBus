@@ -72,8 +72,17 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                         {
                             //Add the items for each feed
                             CollectionResponse<UserFeedItem> feedItemsAddResponse = _feedManager.AddUserFeedItems(newFeedItems);
-                            //User user = _authentication.GetUserByUserId(userFeed.RavenUserId);
-                            //_feedHubClient.UpdateFeedUnreadCount(user.Username, userFeed);
+
+                            //TODO log items add issues
+                            var getUserResponse = _authentication.GetUserByUserId(new User
+                                {
+                                    Id = userFeed.RavenUserId
+                                });
+                            if (getUserResponse.Data != null)
+                            {
+                                var user = getUserResponse.Data;
+                                _feedHubClient.UpdateFeedUnreadCount(user.Username, userFeed);
+                            }
                         }
                     }
                 }
