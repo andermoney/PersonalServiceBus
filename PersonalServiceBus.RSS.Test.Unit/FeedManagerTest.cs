@@ -248,6 +248,30 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
+        public void AddFeedItems()
+        {
+            //Arrange
+            var feedManager = TestRegistry.GetKernel().Get<IFeedManager>();
+
+            //Act
+            IEnumerable<FeedItem> newFeedItems = new List<FeedItem>
+                {
+                    new FeedItem
+                        {
+                            Title = "Test item"
+                        }
+                };
+            var response = feedManager.AddFeedItems(newFeedItems);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            Assert.Greater(response.Data.Count(), 0);
+            Assert.IsNotNull(response.Data.First().Id);
+        }
+
+        [Test]
         public void AddUserFeedItems()
         {
             //Arrange

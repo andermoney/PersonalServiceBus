@@ -337,6 +337,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                     .Where(feedItem => !_database.Query<FeedItem>()
                         .Any(i => i.RssId == feedItem.RssId && i.FeedId == feedItem.FeedId))
                     .ToList();
+                IEnumerable<FeedItem> newItems = new List<FeedItem>();
                 if (newFeedItems.Any())
                 {
                     //Mark the date each item is created
@@ -346,22 +347,14 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         newFeedItem.CreatedDate = createdDate;
                     }
 
-                    _database.StoreCollection(newFeedItems);
+                    newItems = _database.StoreCollection(newFeedItems);
                 }
-                return ResponseBuilder.BuildCollectionResponse(feedItems, ErrorLevel.None);
+                return ResponseBuilder.BuildCollectionResponse(newItems, ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return new CollectionResponse<FeedItem>
-                    {
-                    Data = new List<FeedItem>(),
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error adding feed items: {0}", ex),
-                        ErrorException = ex
-                    }
-                };
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Critical,
+                                                                         string.Format("Fatal error adding feed items: {0}", ex));
             }
         }
 
