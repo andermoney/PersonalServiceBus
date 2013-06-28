@@ -341,6 +341,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             Assert.IsNotNull(response.Data);
             Assert.Greater(response.Data.Count(), 0);
             Assert.IsNotNull(response.Data.First().FeedItemId);
+            Assert.IsTrue(response.Data.First().IsUnread);
         }
     }
 }

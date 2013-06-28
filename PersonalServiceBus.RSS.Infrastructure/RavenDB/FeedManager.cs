@@ -388,7 +388,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         {
                             FeedItemId = i.Id,
                             FeedId = i.FeedId,
-                            RavenUserId = user.Id
+                            RavenUserId = user.Id,
+                            IsUnread = true
                         })
                     .ToList();
                 if (newUserFeedItems.Any())
