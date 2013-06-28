@@ -46,6 +46,20 @@ namespace PersonalServiceBus.RSS.Core.Helper
                 };
         }
 
+        public static SingleResponse<T> BuildSingleResponse<T>(ErrorLevel errorLevel, string errorMessage, Exception ex) where T : new()
+        {
+            return new SingleResponse<T>
+                {
+                    Data = new T(),
+                    Status = new Status
+                        {
+                            ErrorLevel = errorLevel,
+                            ErrorMessage = errorMessage,
+                            ErrorException = ex
+                        }
+                };
+        }
+
         public static SingleResponse<T> BuildSingleResponse<T>(T data, ErrorLevel errorLevel, string errorMessage, Exception ex)
         {
             return new SingleResponse<T>

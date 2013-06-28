@@ -11,5 +11,7 @@
         public string RavenUserId { get; set; }
 
         public int UnreadCount { get; set; }
+
+        public Status Status { get; set; }
     }
 }

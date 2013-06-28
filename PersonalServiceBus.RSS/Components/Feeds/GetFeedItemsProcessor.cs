@@ -71,17 +71,30 @@ namespace PersonalServiceBus.RSS.Components.Feeds
                         foreach (var userFeed in userFeedsResponse.Data)
                         {
                             //Add the items for each feed
-                            CollectionResponse<UserFeedItem> feedItemsAddResponse = _feedManager.AddUserFeedItems(newFeedItems);
+                            var user = new User
+                            {
+                                Id = userFeed.RavenUserId
+                            };
+                            CollectionResponse<UserFeedItem> feedItemsAddResponse = _feedManager.AddUserFeedItems(newFeedItems, user);
 
                             //TODO log items add issues
-                            var getUserResponse = _authentication.GetUserByUserId(new User
-                                {
-                                    Id = userFeed.RavenUserId
-                                });
+                            var getUserResponse = _authentication.GetUserByUserId(user);
                             if (getUserResponse.Data != null)
                             {
-                                var user = getUserResponse.Data;
-                                _feedHubClient.UpdateFeedUnreadCount(user.Username, userFeed);
+                                user = getUserResponse.Data;
+                                SingleResponse<int> unreadCountResponse = _feedManager.GetUserFeedUnreadCount(userFeed);
+                                if (unreadCountResponse.Status.ErrorLevel > ErrorLevel.Warning)
+                                {
+                                    userFeed.Status = unreadCountResponse.Status;
+                                    userFeed.Status.ErrorException = null;
+                                    _feedManager.UpdateUserFeed(userFeed);
+                                }
+                                else
+                                {
+                                    userFeed.UnreadCount = unreadCountResponse.Data;
+                                    _feedManager.UpdateUserFeed(userFeed);
+                                    _feedHubClient.UpdateFeedUnreadCount(user.Username, userFeed);
+                                }
                             }
                         }
                     }

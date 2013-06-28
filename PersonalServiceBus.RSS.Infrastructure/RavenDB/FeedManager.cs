@@ -265,16 +265,35 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new SingleResponse<UserFeed>
+                return ResponseBuilder.BuildSingleResponse<UserFeed>(ErrorLevel.Critical,
+                                                                     string.Format("Fatal error getting feed by URL: {0}", ex), ex);
+            }
+        }
+
+        public SingleResponse<int> GetUserFeedUnreadCount(UserFeed userFeed)
+        {
+            try
+            {
+                if (userFeed == null)
                 {
-                    Data = null,
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error getting feed by URL: {0}", ex),
-                        ErrorException = ex
-                    }
-                };
+                    return ResponseBuilder.BuildSingleResponse<int>(ErrorLevel.Error, "User feed is required");
+                }
+                if (userFeed.Feed == null)
+                {
+                    return ResponseBuilder.BuildSingleResponse<int>(ErrorLevel.Error, "userFeed.Feed cannot be null");
+                }
+                var feedId = userFeed.Feed.Id;
+                var count = _database.Query<UserFeedItem>()
+                         .Count(uf => uf.FeedId == feedId && 
+                             uf.RavenUserId == userFeed.RavenUserId && 
+                             uf.IsUnread);
+
+                return ResponseBuilder.BuildSingleResponse(count, ErrorLevel.None);
+            }
+            catch (Exception ex)
+            {
+                return ResponseBuilder.BuildSingleResponse<int>(ErrorLevel.Critical,
+                                                                     string.Format("Fatal error getting user feed unread count: {0}", ex), ex);
             }
         }
 
@@ -358,7 +377,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public CollectionResponse<UserFeedItem> AddUserFeedItems(IEnumerable<FeedItem> feedItems)
+        public CollectionResponse<UserFeedItem> AddUserFeedItems(IEnumerable<FeedItem> feedItems, User user)
         {
             try
             {
@@ -367,7 +386,9 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         .Any(i => i.FeedItemId == feedItem.Id))
                     .Select(i => new UserFeedItem
                         {
-                            FeedItemId = i.Id
+                            FeedItemId = i.Id,
+                            FeedId = i.FeedId,
+                            RavenUserId = user.Id
                         })
                     .ToList();
                 if (newUserFeedItems.Any())

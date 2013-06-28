@@ -233,6 +233,50 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
+        public void GetUserFeedUnreadCount_FeedRequired()
+        {
+            //Arrange
+            var feedManager = TestRegistry.GetKernel().Get<IFeedManager>();
+
+            //Act
+            var userFeed = new UserFeed
+            {
+                Id = "UserFeeds/1"
+            };
+            var response = feedManager.GetUserFeedUnreadCount(userFeed);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel);
+            Assert.IsTrue(response.Status.ErrorMessage.Contains("Feed cannot be null"), 
+                "Error message should contain \"Feed cannot be null\": " + response.Status.ErrorMessage);
+        }
+
+        [Test]
+        public void GetUserFeedUnreadCount()
+        {
+            //Arrange
+            var feedManager = TestRegistry.GetKernel().Get<IFeedManager>();
+
+            //Act
+            var userFeed = new UserFeed
+                {
+                    Id = "UserFeeds/1",
+                    RavenUserId = "ravenuser/1",
+                    Feed = new Feed
+                        {
+                            Id = "ravenfeed/1"
+                        }
+                };
+            var response = feedManager.GetUserFeedUnreadCount(userFeed);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.Greater(response.Data, 0);
+        }
+
+        [Test]
         public void GetNextFeed()
         {
             //Arrange
@@ -285,7 +329,11 @@ namespace PersonalServiceBus.RSS.Test.Unit
                             Id = "FeedItem/1"
                         }
                 };
-            CollectionResponse<UserFeedItem> response = feedManager.AddUserFeedItems(newFeedItems);
+            var user = new User
+                {
+                    Id = "RavenUsers/1"
+                };
+            CollectionResponse<UserFeedItem> response = feedManager.AddUserFeedItems(newFeedItems, user);
 
             //Assert
             Assert.IsNotNull(response);
