@@ -12,18 +12,18 @@
             .animate({ backgroundColor: current }, duration / 2);
     };
 
-    function formatFeed(feed) {
-        return $.extend(feed, {
-            Id: feed.Id.replace('/', '-')
-        });
-    }
-    
     function formatUserFeed(userFeed) {
         return $.extend(userFeed, {
             Id: userFeed.Id.replace('/', '-'),
             Feed: $.extend(userFeed.Feed, {
                 Id: userFeed.Feed.Id.replace('/', '-')
             })
+        });
+    }
+    
+    function formatFeedItem(userFeedItem) {
+        return $.extend(userFeedItem, {
+            Id: userFeedItem.Id.replace('/', '-')
         });
     }
 
@@ -82,9 +82,10 @@
 
     function addFeed(feed, showAnimation) {
         var feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
-            feedTemplate = '<li id="{Id}"><a href="#">{Name} <span class="badge badge-important feed-error" style="display:none">!</span>&nbsp;<span class="badge badge-info badge-unread">{UnreadCount}</span></a></li>',
+            feedTemplate = '<li id="{Id}" class="feed"><a href="#">{Name} <span class="badge badge-important feed-error" style="display:none">!</span>&nbsp;<span class="badge badge-info badge-unread">{UnreadCount}</span></a></li>',
             $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList),
-            $feed;
+            $feed,
+            feedId = feed.Id;
 
         feed = formatUserFeed(feed);
 
@@ -103,14 +104,33 @@
             if (feed.Status && feed.Status.ErrorLevel > 2) {
                 $('.feed-error', $feed).show();
             }
+            $feed.click(function(e) {
+                getFeedItems(feedId);
+            });
         }
         if (showAnimation == true) {
             addFeedAnimation(feed.Category, $feed);
         }
     }
+    
+    function getFeedItems(feedId) {
+        
+    }
+    
+    function addFeedItems(feedItems) {
+        var feedItemTemplate = '<div class="feed-item"><div class="feed-item-title"><span class="title">{Title}</span><span>{Author}</span></div><div class="feed-item-content">{Content}</div></div>',
+            $feedView = $('.feed-view'),
+            i,
+            feedItem;
+        for (i = 0; i < feedItems.length; i++) {
+            feedItem = formatFeedItem(feedItems[i]);
+            $feedView.append(feedItemTemplate.supplant(feedItem));
+        }
+    }
 
     return {
         hub: createHub(),
-        addFeed: addFeed
+        addFeed: addFeed,
+        addFeedItems: addFeedItems
     };
 });
