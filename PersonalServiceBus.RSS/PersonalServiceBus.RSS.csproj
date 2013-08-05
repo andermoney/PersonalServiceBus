@@ -325,6 +325,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\AWS.pubxml" />
+    <None Include="Properties\PublishProfiles\AWS_Web.pubxml" />
     <None Include="RSS.endpoints">
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
       <ItemGuid>1c3dbeeb-bd59-449d-8183-92fc77b9bcc3</ItemGuid>

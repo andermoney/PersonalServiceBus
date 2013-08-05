@@ -122,7 +122,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                         Status = new Status
                             {
                                 ErrorLevel = ErrorLevel.Critical,
-                                ErrorMessage = "Fatal error logging in",
+                                ErrorMessage = "Fatal error logging in: " + ex,
                                 ErrorException = ex
                             }
                     };

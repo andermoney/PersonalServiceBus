@@ -32,16 +32,21 @@
 
         function getFeeds() {
             loading.addLoadingIcon($categoryList);
-            feedHub.server.getFeeds().done(function (feedResponse) {
+            feedHub.server.getFeeds().done(function(feedResponse) {
                 loading.removeLoadingIcon($categoryList);
                 if (feedResponse.Status.ErrorLevel > 2) {
                     notificationHelper.showError(feedResponse.Status);
                 } else {
                     $(document).trigger('feedListRetrieved');
                 }
-                $.each(feedResponse.Data, function () {
+                $.each(feedResponse.Data, function() {
                     var feed = formatUserFeed(this);
                     addFeed(feed);
+                });
+            }).fail(function(error) {
+                notificationHelper.showError({
+                    ErrorLevel: 4,
+                    ErrorMessage: 'Error getting feeds:' + error
                 });
             });
         }
