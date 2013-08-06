@@ -33,6 +33,12 @@
                 .replace(/ /g, '-')
         });
     }
+    
+    function formatUserFeedItem(feedItem) {
+        return $.extend(feedItem, {            
+           Id: feedItem.Id.replace(/\//g, '-') 
+        });
+    }
 
     function createHub() {
         var feedHub = $.connection.feedHub;
@@ -112,12 +118,12 @@
         $feed = $('#' + feed.Id, $category);
         if ($feed.length == 0) {
             $category.append(feedTemplate.supplant(feed));
-            $feed = $('#' + feed.Feed.Id, $category);
+            $feed = $('#' + feed.Id, $category);
             if (feed.Status && feed.Status.ErrorLevel > 2) {
                 $('.feed-error', $feed).show();
             }
-            $feed.click(function(e) {
-                getFeedItems(feedId);
+            $feed.click(function() {
+                getFeedItems(feedId, $feed);
             });
         }
         if (showAnimation == true) {
@@ -125,8 +131,29 @@
         }
     }
     
-    function getFeedItems(feedId) {
-        
+    function getFeedItems(feedId, $feed) {
+        var feedHub = $.connection.feedHub,
+            feedItems = [];
+
+        loading.addLoadingIcon($feed);
+        feedHub.server.getFeedItems({ Id: feedId }).done(function (getFeedItemsResponse) {
+            loading.removeLoadingIcon($feed);
+            if (getFeedItemsResponse.Status.ErrorLevel > 2) {
+                notificationHelper.showError(getFeedItemsResponse.Status);
+            } else {
+                $(document).trigger('feedItemsRetrieved');
+            }
+            $.each(getFeedItemsResponse.Data, function() {
+                var feedItem = formatUserFeedItem(this);
+                feedItems.append(feedItem);
+            });
+            addFeedItems(feedItems);
+        }).fail(function(error) {
+            notificationHelper.showError({
+                ErrorLevel: 4,
+                ErrorMessage: 'Error getting feed items:' + error
+            });
+        });
     }
     
     function addFeedItems(feedItems) {

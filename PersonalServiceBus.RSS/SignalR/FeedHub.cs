@@ -8,6 +8,7 @@ using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
+using PersonalServiceBus.RSS.Core.Helper;
 using PersonalServiceBus.RSS.Models;
 
 namespace PersonalServiceBus.RSS.SignalR
@@ -195,7 +196,7 @@ namespace PersonalServiceBus.RSS.SignalR
                     Username = Context.User.Identity.Name
                 };
             var userResponse = _authentication.GetUserByUsername(userQuery);
-            if (userResponse.Status.ErrorLevel > ErrorLevel.Warning)
+            if (userResponse.Status.ErrorLevel > ErrorLevel.Warning || userResponse.Data == null)
             {
                 return new CollectionResponse<UserFeed>
                     {
@@ -209,22 +210,37 @@ namespace PersonalServiceBus.RSS.SignalR
             }
 
             var user = userResponse.Data;
-            if (user == null)
-            {
-                {
-                    return new CollectionResponse<UserFeed>
-                    {
-                        Data = new List<UserFeed>(),
-                        Status = new Status
-                        {
-                            ErrorLevel = ErrorLevel.Error,
-                            ErrorMessage = "Please log in to view feeds"
-                        }
-                    };
-                }
-            }
-            
             return _feedManager.GetUserFeeds(user);
         }
+
+        public CollectionResponse<UserFeedItem> GetFeedItems(UserFeed userFeed)
+        {
+            if (string.IsNullOrEmpty(Context.User.Identity.Name))
+            {
+                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Please log in to view feed items");
+            }
+
+            //TODO use client connection for this
+            Groups.Add(Context.ConnectionId, Context.User.Identity.Name);
+
+            var userQuery = new User
+            {
+                Username = Context.User.Identity.Name
+            };
+            var userResponse = _authentication.GetUserByUsername(userQuery);
+            if (userResponse.Status.ErrorLevel > ErrorLevel.Warning || userResponse.Data == null)
+            {
+                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(userResponse.Status.ErrorLevel,
+                    string.Format("Unable to retrieve feed items for user \"{0}\": {1}", userQuery.Username, userResponse.Status.ErrorMessage));
+            }
+
+            var user = userResponse.Data;
+            if (user.Id != userFeed.RavenUserId)
+            {
+                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Please log in to view feed items");
+            }
+
+            return _feedManager.GetUserFeedItems(userFeed);
+        } 
     }
 }
