@@ -14,16 +14,29 @@
 
     function formatUserFeed(userFeed) {
         return $.extend(userFeed, {
-            Id: userFeed.Id.replace('/', '-'),
+            Id: userFeed.Id.replace(/\//g, '-'),
             Feed: $.extend(userFeed.Feed, {
-                Id: userFeed.Feed.Id.replace('/', '-')
+                Id: userFeed.Feed.Id.replace(/\//g, '-')
             })
         });
     }
     
     function formatFeedItem(userFeedItem) {
         return $.extend(userFeedItem, {
-            Id: userFeedItem.Id.replace('/', '-')
+            Id: userFeedItem.Id.replace(/\//g, '-')
+        });
+    }
+
+    function formatFeedCategory(category) {
+        return $.extend(category, {            
+            Id: category.Id.replace(/\//g, '-')
+                .replace(/ /g, '-')
+        });
+    }
+    
+    function formatUserFeedItem(feedItem) {
+        return $.extend(feedItem, {            
+           Id: feedItem.Id.replace(/\//g, '-') 
         });
     }
 
@@ -95,22 +108,22 @@
         feed = formatUserFeed(feed);
 
         if ($category.length == 0) {
-            var category = {
+            var category = formatFeedCategory({
                 Id: feed.Category,
                 Name: feed.Category
-            };
+            });
             $categoryList.append(feedCategoryTemplate.supplant(category));
-            $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList);
+            $category = $('#' + category.Id + ' .accordion-inner ul', $categoryList);
         }
         $feed = $('#' + feed.Id, $category);
         if ($feed.length == 0) {
             $category.append(feedTemplate.supplant(feed));
-            $feed = $('#' + feed.Feed.Id, $category);
+            $feed = $('#' + feed.Id, $category);
             if (feed.Status && feed.Status.ErrorLevel > 2) {
                 $('.feed-error', $feed).show();
             }
-            $feed.click(function(e) {
-                getFeedItems(feedId);
+            $feed.click(function() {
+                getFeedItems(feedId, $feed);
             });
         }
         if (showAnimation == true) {
@@ -118,8 +131,29 @@
         }
     }
     
-    function getFeedItems(feedId) {
-        
+    function getFeedItems(feedId, $feed) {
+        var feedHub = $.connection.feedHub,
+            feedItems = [];
+
+        loading.addLoadingIcon($feed);
+        feedHub.server.getFeedItems({ Id: feedId }).done(function (getFeedItemsResponse) {
+            loading.removeLoadingIcon($feed);
+            if (getFeedItemsResponse.Status.ErrorLevel > 2) {
+                notificationHelper.showError(getFeedItemsResponse.Status);
+            } else {
+                $(document).trigger('feedItemsRetrieved');
+            }
+            $.each(getFeedItemsResponse.Data, function() {
+                var feedItem = formatUserFeedItem(this);
+                feedItems.append(feedItem);
+            });
+            addFeedItems(feedItems);
+        }).fail(function(error) {
+            notificationHelper.showError({
+                ErrorLevel: 4,
+                ErrorMessage: 'Error getting feed items:' + error
+            });
+        });
     }
     
     function addFeedItems(feedItems) {
