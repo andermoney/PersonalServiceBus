@@ -304,14 +304,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 var ravenFeed = _database.Query<RavenFeed>().FirstOrDefault(f => f.Url == url);
                 if (ravenFeed == null)
                 {
-                    return new CollectionResponse<UserFeed>
-                        {
-                            Data = new List<UserFeed>(),
-                            Status = new Status
-                                {
-                                    ErrorLevel = ErrorLevel.None
-                                }
-                        };
+                    return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.None, "");
                 }
                 var ravenUserFeeds = _database.Query<RavenUserFeed>()
                     .Where(uf => uf.RavenFeedId == ravenFeed.Id)
@@ -407,22 +400,40 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new CollectionResponse<UserFeedItem>
-                {
-                    Data = new List<UserFeedItem>(),
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error adding user feed items: {0}", ex),
-                        ErrorException = ex
-                    }
-                };
+                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Critical,
+                    string.Format("Fatal error adding feed items: {0}", ex), ex);
             }
         }
 
         public CollectionResponse<UserFeedItem> GetUserFeedItems(UserFeed userFeed)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (userFeed == null)
+                {
+                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "User feed is required");
+                }
+                if (string.IsNullOrEmpty(userFeed.RavenUserId))
+                {
+                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "User Id is required");
+                }
+                if (userFeed.Feed == null || string.IsNullOrEmpty(userFeed.Feed.Id))
+                {
+                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Feed is required");
+                }
+
+                var feedId = userFeed.Feed.Id;
+                var userFeedItems = _database.Query<UserFeedItem>()
+                    .Where(ufi => ufi.RavenUserId == userFeed.RavenUserId && ufi.FeedId == feedId)
+                    .ToList();
+
+                return ResponseBuilder.BuildCollectionResponse(userFeedItems, ErrorLevel.None);
+            }
+            catch (Exception ex)
+            {
+                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Critical,
+                    string.Format("Fatal error getting feed items: {0}", ex), ex);
+            }
         }
 
         public CollectionResponse<UserFeed> GetUserFeedItems(Feed feed)

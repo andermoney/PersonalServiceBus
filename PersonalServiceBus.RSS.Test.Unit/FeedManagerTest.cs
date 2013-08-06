@@ -345,7 +345,23 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void GetUserFeedItems()
+        public void GetUserFeedItems_UserFeedRequired()
+        {
+            //Arrange
+            //TODO use servicelocator for this
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(null);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Status);
+            Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel, "userFeed should be required");
+        }
+
+        [Test]
+        public void GetUserFeedItems_UserIdRequired()
         {
             //Arrange
             //TODO use servicelocator for this
@@ -357,6 +373,72 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Assert
             Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Status);
+            Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel, "User Id should be required");
+        }
+
+        [Test]
+        public void GetUserFeedItems_FeedRequired()
+        {
+            //Arrange
+            //TODO use servicelocator for this
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            var userFeed = new UserFeed
+            {
+                RavenUserId = "ravenuser/1"
+            };
+            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Status);
+            Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel, "Feed should be required");
+        }
+
+        [Test]
+        public void GetUserFeedItems_FeedIdRequired()
+        {
+            //Arrange
+            //TODO use servicelocator for this
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            var userFeed = new UserFeed
+            {
+                RavenUserId = "ravenuser/1",
+                Feed = new Feed()
+            };
+            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Status);
+            Assert.AreEqual(ErrorLevel.Error, response.Status.ErrorLevel, "Feed Id should be required");
+        }
+
+        [Test]
+        public void GetUserFeedItems()
+        {
+            //Arrange
+            //TODO use servicelocator for this
+            IFeedManager feedManager = new FeedManager(_database);
+
+            //Act
+            var userFeed = new UserFeed
+            {
+                RavenUserId = "ravenuser/1",
+                Feed = new Feed
+                {
+                    Id = "ravenfeed/1"
+                }
+            };
+            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+
+            //Assert
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Status);
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
             Assert.IsNotNull(response.Data);
             Assert.Greater(response.Data.Count(), 0);
