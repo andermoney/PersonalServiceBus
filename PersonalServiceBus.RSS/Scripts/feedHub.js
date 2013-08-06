@@ -14,16 +14,23 @@
 
     function formatUserFeed(userFeed) {
         return $.extend(userFeed, {
-            Id: userFeed.Id.replace('/', '-'),
+            Id: userFeed.Id.replace(/\//g, '-'),
             Feed: $.extend(userFeed.Feed, {
-                Id: userFeed.Feed.Id.replace('/', '-')
+                Id: userFeed.Feed.Id.replace(/\//g, '-')
             })
         });
     }
     
     function formatFeedItem(userFeedItem) {
         return $.extend(userFeedItem, {
-            Id: userFeedItem.Id.replace('/', '-')
+            Id: userFeedItem.Id.replace(/\//g, '-')
+        });
+    }
+
+    function formatFeedCategory(category) {
+        return $.extend(category, {            
+            Id: category.Id.replace(/\//g, '-')
+                .replace(/ /g, '-')
         });
     }
 
@@ -95,12 +102,12 @@
         feed = formatUserFeed(feed);
 
         if ($category.length == 0) {
-            var category = {
+            var category = formatFeedCategory({
                 Id: feed.Category,
                 Name: feed.Category
-            };
+            });
             $categoryList.append(feedCategoryTemplate.supplant(category));
-            $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList);
+            $category = $('#' + category.Id + ' .accordion-inner ul', $categoryList);
         }
         $feed = $('#' + feed.Id, $category);
         if ($feed.length == 0) {
