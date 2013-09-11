@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NServiceBus;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
@@ -11,10 +10,8 @@ using PersonalServiceBus.RSS.SignalR;
 
 namespace PersonalServiceBus.RSS.Components.Feeds
 {
-    public class GetFeedItemsProcessor : IHandleMessages<GetFeedItems>
+    public class GetFeedItemsProcessor
     {
-        public IBus Bus { get; set; }
-
         private readonly IFeedManager _feedManager;
         private readonly IRssManager _rssManager;
         private readonly IAuthentication _authentication;

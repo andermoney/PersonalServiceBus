@@ -3,12 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using NServiceBus;
+using Ninject;
 using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Core.Helper;
+using PersonalServiceBus.RSS.Infrastructure;
 using PersonalServiceBus.RSS.Models;
 
 namespace PersonalServiceBus.RSS.SignalR
@@ -16,15 +17,13 @@ namespace PersonalServiceBus.RSS.SignalR
     [HubName("feedHub")]
     public class FeedHub : Hub
     {
-        public IBus Bus { get; set; }
-
         private readonly IFeedManager _feedManager;
         private readonly IAuthentication _authentication;
 
         public FeedHub()
         {
-            _feedManager = Configure.Instance.Builder.Build<IFeedManager>();
-            _authentication = Configure.Instance.Builder.Build<IAuthentication>();
+            _feedManager = NinjectRegistry.GetKernel().Get<IFeedManager>();
+            _authentication = NinjectRegistry.GetKernel().Get<IAuthentication>();
         }
 
         public override Task OnConnected()

@@ -49,8 +49,21 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Magnum">
+      <HintPath>..\packages\Magnum.2.1.0\lib\NET40\Magnum.dll</HintPath>
+    </Reference>
+    <Reference Include="MassTransit">
+      <HintPath>..\packages\MassTransit.2.8.0\lib\net40\MassTransit.dll</HintPath>
+    </Reference>
+    <Reference Include="MassTransit.Log4NetIntegration">
+      <HintPath>..\packages\MassTransit.Log4Net.2.8.0\lib\net40\MassTransit.Log4NetIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="MassTransit.Transports.MSMQ">
+      <HintPath>..\packages\MassTransit.2.8.0\lib\net40\MassTransit.Transports.MSMQ.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.1.0.1\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -71,15 +84,17 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus, Version=3.3.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NServiceBus.Interfaces.3.3.5\lib\net40\NServiceBus.dll</HintPath>
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NServiceBus.3.3.5\lib\net40\NServiceBus.Core.dll</HintPath>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\packages\Ninject.Web.Common.3.0.0.7\lib\net40-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\packages\Ninject.MVC3.3.0.0.6\lib\net40-full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -120,11 +135,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RegisterHubs.cs" />
     <Compile Include="Components\Feeds\AddFeedProcessor.cs" />
-    <Compile Include="Components\Feeds\AddFeedSender.cs" />
     <Compile Include="Components\Feeds\GetFeedItemsProcessor.cs" />
-    <Compile Include="Components\Feeds\GetFeedItemsSender.cs" />
     <Compile Include="Components\Videos\FoundVideoProcessor.cs">
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f16174f46-3c49-4e83-9336-8e6360ab7a6a</SourceModelReference>
       <ItemGuid>20a40bbc-1bac-44f5-a920-3b5c29aaf600</ItemGuid>
@@ -133,31 +147,15 @@
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252ff12276bf-f11a-47c3-9c3d-5b974636b13e</SourceModelReference>
       <ItemGuid>4e23116e-97aa-412d-a70f-278bf8d04c46</ItemGuid>
     </Compile>
-    <Compile Include="Components\Videos\GetVideoSender.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f7de1b279-4915-4316-a9db-36786ed88e88</SourceModelReference>
-      <ItemGuid>2e92b9bf-4a6f-4ec9-b194-60319d0b928b</ItemGuid>
-    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\ConfigureRegistry.cs" />
-    <Compile Include="Infrastructure\ConfigureMvcDependencyInjection.cs" />
-    <Compile Include="Infrastructure\GeneratedCode\Videos\FoundVideoProcessor.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Element/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252f16174f46-3c49-4e83-9336-8e6360ab7a6a</SourceModelReference>
-      <ItemGuid>cce96c57-ccf8-4fbc-9c8e-54a2a56f7627</ItemGuid>
-    </Compile>
-    <Compile Include="Infrastructure\MessageConventions.cs">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
-      <ItemGuid>489f3786-cd3b-4e6d-ae69-9787cad7dbcf</ItemGuid>
-    </Compile>
-    <Compile Include="Infrastructure\NServiceBusControllerActivator.cs" />
-    <Compile Include="Infrastructure\NServiceBusDependencyResolverAdapter.cs" />
+    <Compile Include="Infrastructure\NinjectRegistry.cs" />
     <Compile Include="Infrastructure\Scheduler.cs" />
     <Compile Include="Infrastructure\WebConfiguration.cs" />
     <Compile Include="Infrastructure\WebGlobalInitialization.cs" />
-    <Compile Include="Infrastructure\INServiceBusComponent.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\AddFeedViewModel.cs" />
     <Compile Include="Models\LogOnModel.cs" />
@@ -260,7 +258,6 @@
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
@@ -276,34 +273,6 @@
     <Content Include="packages.config">
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
       <ItemGuid>82240613-16d9-4742-ba5a-bc7fbef6188c</ItemGuid>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Infrastructure\Logging.config">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ItemGuid>68d3b99e-95c9-450b-bacd-60979f2689f4</ItemGuid>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Infrastructure\GeneratedCode\Config\MessageForwardingInCaseOfFaultConfig.config">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ItemGuid>8eeb9a26-bec9-4d04-9505-07ec0c84f9ab</ItemGuid>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Infrastructure\GeneratedCode\Config\MsmqTransportConfig.config">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ItemGuid>2a5a8abd-fa22-4288-820a-6ffc0e5f7716</ItemGuid>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Infrastructure\GeneratedCode\Config\UnicastBusConfig.config">
-      <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ItemGuid>7deedc7a-82a4-49e4-baa2-09715739faaa</ItemGuid>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +300,7 @@
       <SourceModelReference>modelbus://Microsoft.VisualStudio.Patterning.Runtime.Store/PersonalServiceBus/Product/C:\src\PersonalServiceBus\PersonalServiceBus.slnbldr%252fbbe19812-ac92-4ad2-9dd9-62ce20c68e41</SourceModelReference>
       <ItemGuid>1c3dbeeb-bd59-449d-8183-92fc77b9bcc3</ItemGuid>
     </None>
+    <Content Include="Scripts\jquery.min.map" />
     <None Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\SubscribeForm.cshtml" />
   </ItemGroup>

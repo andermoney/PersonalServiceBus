@@ -1,7 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using NServiceBus;
 using PersonalServiceBus.RSS.Infrastructure;
 
 namespace PersonalServiceBus.RSS
@@ -11,8 +10,6 @@ namespace PersonalServiceBus.RSS
 
     public class MvcApplication : HttpApplication
     {
-        public static IBus Bus { get; private set; }
-
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -37,7 +34,7 @@ namespace PersonalServiceBus.RSS
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Bus = WebGlobalInitialization.InitializeNServiceBus();
+            WebGlobalInitialization.InitializeBus();
         }
     }
 }
