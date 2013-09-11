@@ -19,6 +19,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 {
                     Url = configuration.RavenDBUrl
                 };
+            DocumentStore.DefaultDatabase = "RSS";
             DocumentStore.Initialize();
         }
 
