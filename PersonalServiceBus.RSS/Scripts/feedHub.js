@@ -123,7 +123,7 @@
                 $('.feed-error', $feed).show();
             }
             $feed.click(function() {
-                getFeedItems(feedId, $feed);
+                getFeedItems(feedId, feed, $feed);
             });
         }
         if (showAnimation == true) {
@@ -131,12 +131,15 @@
         }
     }
     
-    function getFeedItems(feedId, $feed) {
+    function getFeedItems(feedId, feed, $feed) {
         var feedHub = $.connection.feedHub,
-            feedItems = [];
+            feedItems = [],
+            feedRequest = $.extend(feed, {
+                Id: feedId
+            });
 
         loading.addLoadingIcon($feed);
-        feedHub.server.getFeedItems({ Id: feedId }).done(function (getFeedItemsResponse) {
+        feedHub.server.getFeedItems(feedRequest).done(function (getFeedItemsResponse) {
             loading.removeLoadingIcon($feed);
             if (getFeedItemsResponse.Status.ErrorLevel > 2) {
                 notificationHelper.showError(getFeedItemsResponse.Status);

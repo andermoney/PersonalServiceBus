@@ -16,10 +16,10 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
         public RavenDatabase(IConfiguration configuration)
         {
             DocumentStore = new DocumentStore
-                {
-                    Url = configuration.RavenDBUrl
-                };
-            DocumentStore.DefaultDatabase = "RSS";
+            {
+                Url = configuration.RavenDBUrl,
+                DefaultDatabase = "RSS"
+            };
             DocumentStore.Initialize();
         }
 
