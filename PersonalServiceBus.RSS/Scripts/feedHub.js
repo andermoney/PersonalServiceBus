@@ -1,8 +1,8 @@
-﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs', '/Scripts/template.js', '/Scripts/loading.js' , '/Scripts/notificationHelper.js'], function (signalR, hubs, template, loading, notificationHelper) {
+﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs', '/Scripts/template.js', '/Scripts/loading.js' , '/Scripts/notificationHelper.js'], function(signalR, hubs, template, loading, notificationHelper) {
     var $categoryList = $('#feed-category-list');
 
     // A simple background color flash effect that uses jQuery Color plugin
-    $.fn.flash = function (color, duration) {
+    $.fn.flash = function(color, duration) {
         var current = this.css('backgroundColor');
         this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
             .animate({ backgroundColor: current }, duration / 2)
@@ -20,7 +20,7 @@
             })
         });
     }
-    
+
     function formatFeedItem(userFeedItem) {
         return $.extend(userFeedItem, {
             Id: userFeedItem.Id.replace(/\//g, '-')
@@ -28,15 +28,15 @@
     }
 
     function formatFeedCategory(category) {
-        return $.extend(category, {            
+        return $.extend(category, {
             Id: category.Id.replace(/\//g, '-')
                 .replace(/ /g, '-')
         });
     }
-    
+
     function formatUserFeedItem(feedItem) {
-        return $.extend(feedItem, {            
-           Id: feedItem.Id.replace(/\//g, '-') 
+        return $.extend(feedItem, {
+            Id: feedItem.Id.replace(/\//g, '-')
         });
     }
 
@@ -67,11 +67,11 @@
         function setupClient() {
             //client methods the server will call back
             $.extend(feedHub.client, {
-                UpdateFeedUnreadCount: function (userFeed) {
+                UpdateFeedUnreadCount: function(userFeed) {
                     var $userFeed;
                     userFeed = formatUserFeed(userFeed);
                     $userFeed = $('#' + userFeed.Id, $categoryList);
-                    
+
                     $('.badge-unread', $userFeed).html(userFeed.UnreadCount);
                 }
             });
@@ -81,7 +81,7 @@
 
         //start the connection
         $.connection.hub.start({ waitForPageLoad: false })
-            .done(function () {
+            .done(function() {
                 $(document).trigger('hubStarted');
                 getFeeds();
             });
@@ -101,17 +101,17 @@
     function addFeed(feed, showAnimation) {
         var feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
             feedTemplate = '<li id="{Id}" class="feed"><a href="#">{Name} <span class="badge badge-important feed-error" style="display:none">!</span>&nbsp;<span class="badge badge-info badge-unread">{UnreadCount}</span></a></li>',
-            $category = $('#' + feed.Category + ' .accordion-inner ul', $categoryList),
+            category = formatFeedCategory({
+                Id: feed.Category,
+                Name: feed.Category
+            }),
+            $category = $('#' + category.Id + ' .accordion-inner ul', $categoryList),
             $feed,
             feedId = feed.Id;
 
         feed = formatUserFeed(feed);
 
         if ($category.length == 0) {
-            var category = formatFeedCategory({
-                Id: feed.Category,
-                Name: feed.Category
-            });
             $categoryList.append(feedCategoryTemplate.supplant(category));
             $category = $('#' + category.Id + ' .accordion-inner ul', $categoryList);
         }
