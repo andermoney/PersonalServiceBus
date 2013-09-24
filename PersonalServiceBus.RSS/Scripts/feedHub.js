@@ -53,8 +53,7 @@
                     $(document).trigger('feedListRetrieved');
                 }
                 $.each(feedResponse.Data, function() {
-                    var feed = formatUserFeed(this);
-                    addFeed(feed);
+                    addFeed(this);
                 });
             }).fail(function(error) {
                 notificationHelper.showError({
@@ -99,15 +98,15 @@
     }
 
     function addFeed(feed, showAnimation) {
-        var feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
+        var feedId = feed.Feed.Id,
+            feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
             feedTemplate = '<li id="{Id}" class="feed"><a href="#">{Name} <span class="badge badge-important feed-error" style="display:none">!</span>&nbsp;<span class="badge badge-info badge-unread">{UnreadCount}</span></a></li>',
             category = formatFeedCategory({
                 Id: feed.Category,
                 Name: feed.Category
             }),
             $category = $('#' + category.Id + ' .accordion-inner ul', $categoryList),
-            $feed,
-            feedId = feed.Id;
+            $feed;
 
         feed = formatUserFeed(feed);
 
@@ -135,7 +134,9 @@
         var feedHub = $.connection.feedHub,
             feedItems = [],
             feedRequest = $.extend(feed, {
-                Id: feedId
+                Feed: $.extend(feed.Feed, {
+                    Id: feedId
+                })
             });
 
         loading.addLoadingIcon($feed);
@@ -148,7 +149,7 @@
             }
             $.each(getFeedItemsResponse.Data, function() {
                 var feedItem = formatUserFeedItem(this);
-                feedItems.append(feedItem);
+                feedItems.push(feedItem);
             });
             addFeedItems(feedItems);
         }).fail(function(error) {
