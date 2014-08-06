@@ -1,3 +1,5 @@
+choco install MSMQ-Server -source windowsfeatures
+
 #Create IIS sites
 $site = Get-Website -Name "Feeds"
 if ($site -eq $null) {
