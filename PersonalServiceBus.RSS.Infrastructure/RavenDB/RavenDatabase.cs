@@ -5,7 +5,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
+using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
 using Raven.Client.Document;
+using Raven.Client.Indexes;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 {
@@ -21,6 +23,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 DefaultDatabase = "RSS"
             };
             DocumentStore.Initialize();
+
+            BuildIndexes();
         }
 
         public void Dispose()
@@ -140,6 +144,16 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 documentSession.Delete(entityToDelete);
                 documentSession.SaveChanges();
             }
+        }
+
+        private void BuildIndexes()
+        {
+            DocumentStore.DatabaseCommands.PutIndex("RavenUsersByName",
+                new IndexDefinitionBuilder<RavenUser>
+                {
+                    Map = users => from user in users
+                        select new {user.Username}
+                });
         }
     }
 }
