@@ -1,7 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DD937A5-C131-4622-851D-A2281EDB136E}"
@@ -26,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Messages", "PersonalServiceBus.RSS.Messages\PersonalServiceBus.RSS.Messages.csproj", "{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Test.Unit", "PersonalServiceBus.RSS.Test.Unit\PersonalServiceBus.RSS.Test.Unit.csproj", "{4A25461C-C151-4E57-B56F-BB4F8BE00505}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Hub", "PersonalServiceBus.Hub\PersonalServiceBus.Hub.csproj", "{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +62,10 @@ Global
 		{4A25461C-C151-4E57-B56F-BB4F8BE00505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A25461C-C151-4E57-B56F-BB4F8BE00505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A25461C-C151-4E57-B56F-BB4F8BE00505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
