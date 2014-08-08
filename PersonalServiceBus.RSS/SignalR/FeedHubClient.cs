@@ -6,7 +6,7 @@ namespace PersonalServiceBus.RSS.SignalR
 {
     public class FeedHubClient
     {
-        private IHubConnectionContext Clients
+        private IHubConnectionContext<dynamic> Clients
         {
             get { return GlobalHost.ConnectionManager.GetHubContext<FeedHub>().Clients; }
         }

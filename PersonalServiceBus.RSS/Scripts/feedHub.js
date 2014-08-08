@@ -14,7 +14,8 @@
 
     function formatUserFeed(userFeed) {
         return $.extend(userFeed, {
-            Id: userFeed.Id.replace(/\//g, '-'),
+            Id: userFeed.Id.replace(/\//g, '-').replace(/\./g, 'dot'),
+            Category: userFeed.Category.replace(/\//g, '-').replace(/\./g, 'dot'),
             Feed: $.extend(userFeed.Feed, {
                 Id: userFeed.Feed.Id.replace(/\//g, '-')
             })
@@ -28,8 +29,8 @@
     }
 
     function formatFeedCategory(category) {
-        return $.extend(category, {
-            Id: category.Id.replace(/\//g, '-')
+        return $.extend(category, {            
+            Id: category.Id.replace(/\//g, '-').replace(/\./g, 'dot')
                 .replace(/ /g, '-')
         });
     }

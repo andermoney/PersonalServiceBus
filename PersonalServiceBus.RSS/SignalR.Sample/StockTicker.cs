@@ -19,7 +19,7 @@ namespace Microsoft.AspNet.SignalR.StockTicker
         private bool _updatingStockPrices = false;
         private readonly Random _updateOrNotRandom = new Random();
         private MarketState _marketState = MarketState.Closed;
-        private readonly Lazy<IHubConnectionContext> _clientsInstance = new Lazy<IHubConnectionContext>(() => GlobalHost.ConnectionManager.GetHubContext<StockTickerHub>().Clients);
+        private readonly Lazy<IHubConnectionContext<dynamic>> _clientsInstance = new Lazy<IHubConnectionContext<dynamic>>(() => GlobalHost.ConnectionManager.GetHubContext<StockTickerHub>().Clients);
 
         private StockTicker()
         {
@@ -34,7 +34,7 @@ namespace Microsoft.AspNet.SignalR.StockTicker
             }
         }
 
-        private IHubConnectionContext Clients
+        private IHubConnectionContext<dynamic> Clients
         {
             get { return _clientsInstance.Value; }
         }

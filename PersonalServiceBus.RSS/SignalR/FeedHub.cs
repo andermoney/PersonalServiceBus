@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -40,17 +39,17 @@ namespace PersonalServiceBus.RSS.SignalR
             return base.OnConnected();
         }
 
-        public override Task OnDisconnected()
+        public override Task OnDisconnected(bool stopCalled)
         {
             var user = new User
-                {
-                    Username = Context.User.Identity.Name
-                };
+            {
+                Username = Context.User.Identity.Name
+            };
             var removeConnectionResponse = _authentication.RemoveConnection(Context.ConnectionId, user);
             //TODO log connection errors
             Groups.Remove(Context.ConnectionId, Context.User.Identity.Name);
 
-            return base.OnDisconnected();
+            return base.OnDisconnected(stopCalled);
         }
 
         public override Task OnReconnected()

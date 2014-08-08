@@ -18,7 +18,8 @@ namespace PersonalServiceBus.RSS.Test.Unit.IoC
             kernel.Bind<IFeedManager>().To<FeedManager>().InSingletonScope();
             kernel.Bind<IRssManager>().To<RssManager>().InSingletonScope();
             kernel.Bind<IDatabase>().ToMethod(c => DatabaseBuilder.BuildTestDatabase()).InTransientScope();
-            
+            //kernel.Bind<IDatabase>().To<RavenDatabase>().InSingletonScope();
+
             var configuration = new Mock<IConfiguration>();
             configuration.SetupGet(c => c.RavenDBUrl)
                          .Returns("http://localhost:8080");
