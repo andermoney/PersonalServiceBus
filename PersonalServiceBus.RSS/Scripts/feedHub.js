@@ -112,11 +112,6 @@
                 $(document).trigger('feedLookup');
             }
             $name.val(lookupUserFeedResponse.Data.Name);
-            //$.each(lookupUserFeedResponse.Data, function () {
-            //    var feedItem = formatUserFeedItem(this);
-            //    feedItems.push(feedItem);
-            //});
-            //addFeedItems(feedItems);
         }).fail(function (error) {
             notificationHelper.showError({
                 ErrorLevel: 4,
