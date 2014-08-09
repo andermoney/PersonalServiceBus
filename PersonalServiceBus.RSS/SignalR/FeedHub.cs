@@ -211,11 +211,11 @@ namespace PersonalServiceBus.RSS.SignalR
             return _feedManager.GetUserFeeds(user);
         }
 
-        public CollectionResponse<UserFeedItem> GetFeedItems(UserFeed userFeed)
+        public CollectionResponse<FeedItem> GetFeedItems(UserFeed userFeed)
         {
             if (string.IsNullOrEmpty(Context.User.Identity.Name))
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Please log in to view feed items");
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "Please log in to view feed items");
             }
 
             //TODO use client connection for this
@@ -228,14 +228,14 @@ namespace PersonalServiceBus.RSS.SignalR
             var userResponse = _authentication.GetUserByUsername(userQuery);
             if (userResponse.Status.ErrorLevel > ErrorLevel.Warning || userResponse.Data == null)
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(userResponse.Status.ErrorLevel,
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(userResponse.Status.ErrorLevel,
                     string.Format("Unable to retrieve feed items for user \"{0}\": {1}", userQuery.Username, userResponse.Status.ErrorMessage));
             }
 
             var user = userResponse.Data;
             if (user.Id != userFeed.RavenUserId)
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Please log in to view feed items");
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "Please log in to view feed items");
             }
 
             return _feedManager.GetUserFeedItems(userFeed);

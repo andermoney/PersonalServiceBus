@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
+using Raven.Client;
 using Raven.Client.Document;
 
 namespace PersonalServiceBus.RSS.Infrastructure.RavenDB

@@ -352,7 +352,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             IFeedManager feedManager = new FeedManager(_database);
 
             //Act
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(null);
+            var response = feedManager.GetUserFeedItems(null);
 
             //Assert
             Assert.IsNotNull(response);
@@ -369,7 +369,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Act
             var userFeed = new UserFeed();
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);
@@ -389,7 +389,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             {
                 RavenUserId = "ravenuser/1"
             };
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);
@@ -410,7 +410,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
                 RavenUserId = "ravenuser/1",
                 Feed = new Feed()
             };
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);
@@ -434,7 +434,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
                     Id = "ravenfeed/1"
                 }
             };
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);

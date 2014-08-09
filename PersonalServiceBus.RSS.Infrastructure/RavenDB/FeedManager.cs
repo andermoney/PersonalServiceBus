@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
@@ -405,33 +406,45 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public CollectionResponse<UserFeedItem> GetUserFeedItems(UserFeed userFeed)
+        public CollectionResponse<FeedItem> GetUserFeedItems(UserFeed userFeed)
         {
             try
             {
                 if (userFeed == null)
                 {
-                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "User feed is required");
+                    return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "User feed is required");
                 }
                 if (string.IsNullOrEmpty(userFeed.RavenUserId))
                 {
-                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "User Id is required");
+                    return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "User Id is required");
                 }
                 if (userFeed.Feed == null || string.IsNullOrEmpty(userFeed.Feed.Id))
                 {
-                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Feed is required");
+                    return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "Feed is required");
                 }
 
                 var feedId = userFeed.Feed.Id;
-                var userFeedItems = _database.Query<UserFeedItem>()
-                    .Where(ufi => ufi.RavenUserId == userFeed.RavenUserId && ufi.FeedId == feedId)
-                    .ToList();
 
-                return ResponseBuilder.BuildCollectionResponse(userFeedItems, ErrorLevel.None);
+                //TODO need to find another way to query this
+                Expression<Func<UserFeedItem, bool>> expression = ufi => ufi.RavenUserId == userFeed.RavenUserId && ufi.FeedId == feedId;
+                var userFeedItems = _database.Query<UserFeedItem>()
+                    .Where(expression)
+                    .ToList();
+                var feedItems = new List<FeedItem>();
+                foreach (var userFeedItem in userFeedItems)
+                {
+                    FeedItem feedItem = _database.Load<FeedItem>(userFeedItem.FeedItemId);
+                    if (feedItem != null)
+                    {
+                        feedItems.Add(feedItem);
+                    }
+                }
+
+                return ResponseBuilder.BuildCollectionResponse(feedItems, ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Critical,
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Critical,
                     string.Format("Fatal error getting feed items: {0}", ex), ex);
             }
         }
