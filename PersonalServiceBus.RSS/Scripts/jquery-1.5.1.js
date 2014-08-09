@@ -100,12 +100,12 @@ jQuery.fn = jQuery.prototype = {
 	init: function( selector, context, rootjQuery ) {
 		var match, elem, ret, doc;
 
-		// Handle $(""), $(null), or $(undefined)
+		// UpdateFeedItems $(""), $(null), or $(undefined)
 		if ( !selector ) {
 			return this;
 		}
 
-		// Handle $(DOMElement)
+		// UpdateFeedItems $(DOMElement)
 		if ( selector.nodeType ) {
 			this.context = this[0] = selector;
 			this.length = 1;
@@ -121,7 +121,7 @@ jQuery.fn = jQuery.prototype = {
 			return this;
 		}
 
-		// Handle HTML strings
+		// UpdateFeedItems HTML strings
 		if ( typeof selector === "string" ) {
 			// Are we dealing with HTML string or an ID?
 			match = quickExpr.exec( selector );
@@ -161,7 +161,7 @@ jQuery.fn = jQuery.prototype = {
 					// Check parentNode to catch when Blackberry 4.6 returns
 					// nodes that are no longer in the document #6963
 					if ( elem && elem.parentNode ) {
-						// Handle the case where IE and Opera return items
+						// UpdateFeedItems the case where IE and Opera return items
 						// by name instead of ID
 						if ( elem.id !== match[2] ) {
 							return rootjQuery.find( selector );
@@ -322,7 +322,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		length = arguments.length,
 		deep = false;
 
-	// Handle a deep copy situation
+	// UpdateFeedItems a deep copy situation
 	if ( typeof target === "boolean" ) {
 		deep = target;
 		target = arguments[1] || {};
@@ -330,7 +330,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		i = 2;
 	}
 
-	// Handle case when target is a string or something (possible in deep copy)
+	// UpdateFeedItems case when target is a string or something (possible in deep copy)
 	if ( typeof target !== "object" && !jQuery.isFunction(target) ) {
 		target = {};
 	}
@@ -397,7 +397,7 @@ jQuery.extend({
 	// the ready event fires. See #6781
 	readyWait: 1,
 
-	// Handle when the DOM is ready
+	// UpdateFeedItems when the DOM is ready
 	ready: function( wait ) {
 		// A third-party is pushing the ready event forwards
 		if ( wait === true ) {
@@ -439,7 +439,7 @@ jQuery.extend({
 		// Catch cases where $(document).ready() is called after the
 		// browser event has already occurred.
 		if ( document.readyState === "complete" ) {
-			// Handle it asynchronously to allow scripts the opportunity to delay ready
+			// UpdateFeedItems it asynchronously to allow scripts the opportunity to delay ready
 			return setTimeout( jQuery.ready, 1 );
 		}
 
@@ -1944,7 +1944,7 @@ jQuery.fn.extend({
 					return values;
 				}
 
-				// Handle the case where in Webkit "" is returned instead of "on" if a value isn't specified
+				// UpdateFeedItems the case where in Webkit "" is returned instead of "on" if a value isn't specified
 				if ( rradiocheck.test( elem.type ) && !jQuery.support.checkOn ) {
 					return elem.getAttribute("value") === null ? "on" : elem.value;
 				}
@@ -2116,7 +2116,7 @@ jQuery.extend({
 			// Non-existent attributes return null, we normalize to undefined
 			return attr === null ? undefined : attr;
 		}
-		// Handle everything which isn't a DOM element node
+		// UpdateFeedItems everything which isn't a DOM element node
 		if ( set ) {
 			elem[ name ] = value;
 		}
@@ -2198,7 +2198,7 @@ jQuery.event = {
 
 		if ( !eventHandle ) {
 			elemData.handle = eventHandle = function() {
-				// Handle the second event of a trigger and when
+				// UpdateFeedItems the second event of a trigger and when
 				// an event is called after a page has unloaded
 				return typeof jQuery !== "undefined" && !jQuery.event.triggered ?
 					jQuery.event.handle.apply( eventHandle.elem, arguments ) :
@@ -2210,7 +2210,7 @@ jQuery.event = {
 		// This is to prevent a memory leak with non-native events in IE.
 		eventHandle.elem = elem;
 
-		// Handle multiple events separated by a space
+		// UpdateFeedItems multiple events separated by a space
 		// jQuery(...).bind("mouseover mouseout", fn);
 		types = types.split(" ");
 
@@ -2316,7 +2316,7 @@ jQuery.event = {
 			return;
 		}
 
-		// Handle multiple events separated by a space
+		// UpdateFeedItems multiple events separated by a space
 		// jQuery(...).unbind("mouseover mouseout", fn);
 		types = types.split(" ");
 
@@ -2424,7 +2424,7 @@ jQuery.event = {
 				event.exclusive = true;
 			}
 
-			// Handle a global trigger
+			// UpdateFeedItems a global trigger
 			if ( !elem ) {
 				// Don't bubble custom events when global (to avoid too much overhead)
 				event.stopPropagation();
@@ -2446,7 +2446,7 @@ jQuery.event = {
 				}
 			}
 
-			// Handle triggering a single element
+			// UpdateFeedItems triggering a single element
 
 			// don't do events on text and comment nodes
 			if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 ) {
@@ -2973,7 +2973,7 @@ if ( !jQuery.support.changeBubbles ) {
 
 	changeFilters = jQuery.event.special.change.filters;
 
-	// Handle when the input is .focus()'d
+	// UpdateFeedItems when the input is .focus()'d
 	changeFilters.focus = changeFilters.beforeactivate;
 }
 
@@ -3014,7 +3014,7 @@ if ( document.addEventListener ) {
 
 jQuery.each(["bind", "one"], function( i, name ) {
 	jQuery.fn[ name ] = function( type, data, fn ) {
-		// Handle object literals
+		// UpdateFeedItems object literals
 		if ( typeof type === "object" ) {
 			for ( var key in type ) {
 				this[ name ](key, data, type[key], fn);
@@ -3047,7 +3047,7 @@ jQuery.each(["bind", "one"], function( i, name ) {
 
 jQuery.fn.extend({
 	unbind: function( type, fn ) {
-		// Handle object literals
+		// UpdateFeedItems object literals
 		if ( typeof type === "object" && !type.preventDefault ) {
 			for ( var key in type ) {
 				this.unbind(key, type[key]);
@@ -3279,7 +3279,7 @@ jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblcl
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup error").split(" "), function( i, name ) {
 
-	// Handle event binding
+	// UpdateFeedItems event binding
 	jQuery.fn[ name ] = function( data, fn ) {
 		if ( fn == null ) {
 			fn = data;
@@ -3847,7 +3847,7 @@ var Expr = Sizzle.selectors = {
 				match[1] = Expr.attrMap[name];
 			}
 
-			// Handle if an un-quoted value was used
+			// UpdateFeedItems if an un-quoted value was used
 			match[4] = ( match[4] || match[5] || "" ).replace( rBackslash, "" );
 
 			if ( match[2] === "~=" ) {
@@ -4442,7 +4442,7 @@ if ( document.querySelectorAll ) {
 						// Check parentNode to catch when Blackberry 4.6 returns
 						// nodes that are no longer in the document #6963
 						if ( elem && elem.parentNode ) {
-							// Handle the case where IE and Opera return items
+							// UpdateFeedItems the case where IE and Opera return items
 							// by name instead of ID
 							if ( elem.id === match[3] ) {
 								return makeArray( [ elem ], extra );
@@ -6616,7 +6616,7 @@ jQuery.extend({
 
 			if ( fireGlobals ) {
 				globalEventContext.trigger( "ajaxComplete", [ jqXHR, s] );
-				// Handle the global AJAX counter
+				// UpdateFeedItems the global AJAX counter
 				if ( !( --jQuery.active ) ) {
 					jQuery.event.trigger( "ajaxStop" );
 				}
@@ -7129,7 +7129,7 @@ jQuery.ajaxSetup({
 	}
 });
 
-// Handle cache's special case and global
+// UpdateFeedItems cache's special case and global
 jQuery.ajaxPrefilter( "script", function( s ) {
 	if ( s.cache === undefined ) {
 		s.cache = false;
@@ -7168,7 +7168,7 @@ jQuery.ajaxTransport( "script", function(s) {
 
 					if ( !script.readyState || /loaded|complete/.test( script.readyState ) ) {
 
-						// Handle memory leak in IE
+						// UpdateFeedItems memory leak in IE
 						script.onload = script.onreadystatechange = null;
 
 						// Remove the script

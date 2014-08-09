@@ -5,19 +5,18 @@ using PersonalServiceBus.RSS.Core.Contract;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
-using PersonalServiceBus.RSS.Messages.Feeds;
 using PersonalServiceBus.RSS.SignalR;
 
 namespace PersonalServiceBus.RSS.Components.Feeds
 {
-    public class GetFeedItemsProcessor
+    public class FeedItemsProcessor : IFeedItemsProcessor
     {
         private readonly IFeedManager _feedManager;
         private readonly IRssManager _rssManager;
         private readonly IAuthentication _authentication;
         private readonly FeedHubClient _feedHubClient;
 
-        public GetFeedItemsProcessor(IFeedManager feedManager,
+        public FeedItemsProcessor(IFeedManager feedManager,
             IRssManager rssManager,
             IAuthentication authentication,
             FeedHubClient feedHubClient)
@@ -28,7 +27,7 @@ namespace PersonalServiceBus.RSS.Components.Feeds
             _feedHubClient = feedHubClient;
         }
 
-        public void Handle(GetFeedItems message)
+        public void UpdateFeedItems()
         {
             var nextFeedResponse = _feedManager.GetNextFeed();
             var nextFeed = nextFeedResponse.Data;

@@ -8701,7 +8701,7 @@ $.extend(Datepicker.prototype, {
 		return (inst ? this._getDate(inst) : null);
 	},
 
-	/* Handle keystrokes. */
+	/* UpdateFeedItems keystrokes. */
 	_doKeyDown: function(event) {
 		var inst = $.datepicker._getInst(event.target);
 		var handled = true;
@@ -9544,7 +9544,7 @@ $.extend(Datepicker.prototype, {
 		return this._daylightSavingAdjust(newDate);
 	},
 
-	/* Handle switch to/from daylight saving.
+	/* UpdateFeedItems switch to/from daylight saving.
 	   Hours may be non-zero on daylight saving cut-over:
 	   > 12 when midnight changeover, but then cannot generate
 	   midnight datetime, so jump to 1AM, otherwise reset.
