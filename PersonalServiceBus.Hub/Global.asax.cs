@@ -35,12 +35,15 @@ namespace PersonalServiceBus.Hub
                 Register(_documentStore);
                 RegisterAs<RavenDBLogger, ILogger>();
                 RegisterAs<JsonPublisher, IPublisher>();
+                RegisterAs<RavenDBSubscriber, ISubscriber>();
 
                 Mapper.CreateMap<AddLogRequest, LogEntry>()
                     .ForMember(l => l.CreatedDate, opt => opt.MapFrom(d => DateTime.Now));
                 Mapper.CreateMap<Response, AddLogResponse>();
                 Mapper.CreateMap<Response<List<LogEntry>>, GetLogsResponse>();
                 Mapper.CreateMap<GetLogsRequest, PagedRequest>();
+                Mapper.CreateMap<SubscribeRequest, Subscription>();
+                Mapper.CreateMap<Response, SubscribeResponse>();
 
                 GlobalResponseFilters.Add((req, res, dto) =>
                 {

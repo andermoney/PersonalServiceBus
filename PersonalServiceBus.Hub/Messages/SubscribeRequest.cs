@@ -6,5 +6,6 @@ namespace PersonalServiceBus.Hub.Messages
     public class SubscribeRequest
     {
         public string Publisher { get; set; }
+        public string Host { get; set; }
     }
 }

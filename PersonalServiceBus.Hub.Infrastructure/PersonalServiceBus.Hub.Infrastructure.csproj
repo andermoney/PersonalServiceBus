@@ -51,6 +51,7 @@
     <Compile Include="JsonClient\JsonPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RavenDB\RavenDBLogger.cs" />
+    <Compile Include="RavenDB\RavenDBSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PersonalServiceBus.Hub.Core\PersonalServiceBus.Hub.Core.csproj">
