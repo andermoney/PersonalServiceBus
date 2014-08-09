@@ -1,4 +1,4 @@
-﻿using PersonalServiceBus.Hub.Enumeration;
+﻿using PersonalServiceBus.Hub.Core.Domain.Enum;
 using ServiceStack;
 
 namespace PersonalServiceBus.Hub.Messages

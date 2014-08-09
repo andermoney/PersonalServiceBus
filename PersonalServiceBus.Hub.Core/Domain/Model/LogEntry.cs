@@ -1,7 +1,7 @@
 ﻿using System;
-using PersonalServiceBus.Hub.Enumeration;
+using PersonalServiceBus.Hub.Core.Domain.Enum;
 
-namespace PersonalServiceBus.Hub.Model
+namespace PersonalServiceBus.Hub.Core.Domain.Model
 {
     public class LogEntry
     {

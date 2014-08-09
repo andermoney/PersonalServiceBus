@@ -1,6 +1,6 @@
-﻿using PersonalServiceBus.Hub.Enumeration;
+﻿using PersonalServiceBus.Hub.Core.Domain.Enum;
 
-namespace PersonalServiceBus.Hub.Messages
+namespace PersonalServiceBus.Hub.Core.Contract
 {
     public class Response
     {

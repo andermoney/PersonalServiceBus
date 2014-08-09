@@ -1,4 +1,4 @@
-﻿namespace PersonalServiceBus.Hub.Enumeration
+﻿namespace PersonalServiceBus.Hub.Core.Domain.Enum
 {
     public enum ErrorLevel
     {

@@ -1,8 +1,11 @@
 ﻿using System;
 using AutoMapper;
 using Funq;
+using PersonalServiceBus.Hub.Core.Contract;
+using PersonalServiceBus.Hub.Core.Domain.Interface;
+using PersonalServiceBus.Hub.Core.Domain.Model;
+using PersonalServiceBus.Hub.Infrastructure.RavenDB;
 using PersonalServiceBus.Hub.Messages;
-using PersonalServiceBus.Hub.Model;
 using PersonalServiceBus.Hub.Services;
 using Raven.Client.Document;
 using ServiceStack;
@@ -27,9 +30,11 @@ namespace PersonalServiceBus.Hub
                 };
                 _documentStore.Initialize();
                 Register(_documentStore);
+                RegisterAs<RavenDBLogger, ILogger>();
 
                 Mapper.CreateMap<AddLogRequest, LogEntry>()
                     .ForMember(l => l.CreatedDate, opt => opt.MapFrom(d => DateTime.Now));
+                Mapper.CreateMap<Response, AddLogResponse>();
             }
 
             public override void OnUncaughtException(IRequest httpReq, IResponse httpRes, string operationName, Exception ex)
