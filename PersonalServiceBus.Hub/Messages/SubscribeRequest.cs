@@ -7,5 +7,6 @@ namespace PersonalServiceBus.Hub.Messages
     {
         public string Publisher { get; set; }
         public string Host { get; set; }
+        public string Destination { get; set; }
     }
 }
