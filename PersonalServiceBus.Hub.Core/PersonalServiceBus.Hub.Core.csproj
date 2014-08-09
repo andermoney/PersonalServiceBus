@@ -43,6 +43,8 @@
     <Compile Include="Contract\Response.cs" />
     <Compile Include="Domain\Enum\ErrorLevel.cs" />
     <Compile Include="Domain\Interface\ILogger.cs" />
+    <Compile Include="Domain\Interface\IPublisher.cs" />
+    <Compile Include="Domain\Model\HubEvent.cs" />
     <Compile Include="Domain\Model\LogEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
