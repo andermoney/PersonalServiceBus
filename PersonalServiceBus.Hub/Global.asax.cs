@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using AutoMapper;
 using Funq;
 using PersonalServiceBus.Hub.Core.Contract;
@@ -21,7 +22,8 @@ namespace PersonalServiceBus.Hub
         public class AppHost : AppHostBase
         {
             private DocumentStore _documentStore;
-            //Tell ServiceStack the name of your application and where to find your services
+            private Timer _timer;
+
             public AppHost() : base("Subscription Web Service", typeof(SubscribeService).Assembly) { }
 
             public override void Configure(Container container)
@@ -45,13 +47,30 @@ namespace PersonalServiceBus.Hub
                 Mapper.CreateMap<SubscribeRequest, Subscription>();
                 Mapper.CreateMap<Response, SubscribeResponse>();
 
+                var publisher = TryResolve<IPublisher>();
+                var logger = TryResolve<ILogger>();
+
+                _timer = new Timer(obj =>
+                {
+                    logger.Log(new LogEntry
+                    {
+                        Host = "127.0.0.1",
+                        Source = "Timer",
+                        Description = string.Format("Timer fired at {0}", DateTime.Now)
+                    });
+                    publisher.Publish(new HubEvent
+                    {
+                        Host = "localhost",
+                        Name = "Timer",
+                        Source = "Timer"
+                    });
+                }, null, new TimeSpan(0, 0, 0), new TimeSpan(0, 1, 0));
+
                 GlobalResponseFilters.Add((req, res, dto) =>
                 {
                     var responseName = dto.GetType().Name.Replace("Response", "");
                     if (!string.IsNullOrEmpty(responseName))
                     {
-                        var publisher = TryResolve<IPublisher>();
-                        var logger = TryResolve<ILogger>();
                         string host = new Uri(req.AbsoluteUri).Host;
                         Response publishResponse = publisher.Publish(new HubEvent
                         {
