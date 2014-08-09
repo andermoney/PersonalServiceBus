@@ -57,6 +57,7 @@ namespace PersonalServiceBus.RSS.Test.Unit.Helper
                     FeedItemId = feedItemId,
                     IsUnread = true
                 });
+            database.Store(new Connection());
             return database;
         }
     }

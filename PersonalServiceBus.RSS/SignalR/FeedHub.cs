@@ -121,39 +121,18 @@ namespace PersonalServiceBus.RSS.SignalR
                     });
                 if (addFeedResult.Status.ErrorLevel >= ErrorLevel.Error)
                 {
-                    return new SingleResponse<UserFeed>
-                        {
-                            Data = addFeedResult.Data,
-                            Status = new Status
-                                {
-                                    ErrorLevel = addFeedResult.Status.ErrorLevel,
-                                    ErrorMessage = string.Format("Error adding feed: {0}", addFeedResult.Status.ErrorMessage)
-                                }
-                        };
+                    return ResponseBuilder.BuildSingleResponse(addFeedResult.Data,
+                        addFeedResult.Status.ErrorLevel,
+                        string.Format("Error adding feed: {0}", addFeedResult.Status.ErrorMessage));
                 }
-                return new SingleResponse<UserFeed>
-                    {
-                        Data = addFeedResult.Data,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.None
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse(addFeedResult.Data, ErrorLevel.None);
             }
             //check for existing user feed
             var getUserFeedResult = _feedManager.GetUserFeedByUserId(user);
             if (getUserFeedResult != null)
             {
-                return new SingleResponse<UserFeed>
-                    {
-                        Data = existingFeed,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Information,
-                                ErrorMessage =
-                                    string.Format("User has already subscribed to feed at {0}", existingFeed.Feed.Url)
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse(existingFeed, ErrorLevel.Information,
+                    string.Format("User has already subscribed to feed at {0}", existingFeed.Feed.Url));
             }
             //add the user to the feed
             var addUserFeedResult = _feedManager.AddUserFeed(new UserFeed
@@ -165,39 +144,18 @@ namespace PersonalServiceBus.RSS.SignalR
                 });
             if (addUserFeedResult.Status.ErrorLevel >= ErrorLevel.Error)
             {
-                return new SingleResponse<UserFeed>
-                {
-                    Data = addUserFeedResult.Data,
-                    Status = new Status
-                    {
-                        ErrorLevel = addUserFeedResult.Status.ErrorLevel,
-                        ErrorMessage = string.Format("Error adding feed: {0}", addUserFeedResult.Status.ErrorMessage)
-                    }
-                };
+                return ResponseBuilder.BuildSingleResponse(addUserFeedResult.Data,
+                    addUserFeedResult.Status.ErrorLevel,
+                    string.Format("Error adding feed: {0}", addUserFeedResult.Status.ErrorMessage));
             }
-            return new SingleResponse<UserFeed>
-            {
-                Data = addUserFeedResult.Data,
-                Status = new Status
-                {
-                    ErrorLevel = ErrorLevel.None
-                }
-            };
+            return ResponseBuilder.BuildSingleResponse(addUserFeedResult.Data, ErrorLevel.None);
         }
 
         public CollectionResponse<UserFeed> GetFeeds()
         {
             if (string.IsNullOrEmpty(Context.User.Identity.Name))
             {
-                return new CollectionResponse<UserFeed>
-                    {
-                        Data = new List<UserFeed>(),
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Error,
-                                ErrorMessage = "Please log in to view feeds"
-                            }
-                    };
+                return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Error, "Please log in to view feeds");
             }
 
             //TODO use client connection for this
@@ -210,15 +168,8 @@ namespace PersonalServiceBus.RSS.SignalR
             var userResponse = _authentication.GetUserByUsername(userQuery);
             if (userResponse.Status.ErrorLevel > ErrorLevel.Warning || userResponse.Data == null)
             {
-                return new CollectionResponse<UserFeed>
-                    {
-                        Data = new List<UserFeed>(),
-                        Status = new Status
-                            {
-                                ErrorLevel = userResponse.Status.ErrorLevel,
-                                ErrorMessage = string.Format("Unable to retrieve feeds for user \"{0}\": {1}", userQuery.Username, userResponse.Status.ErrorMessage)
-                            }
-                    };
+                return ResponseBuilder.BuildCollectionResponse<UserFeed>(userResponse.Status.ErrorLevel,
+                    string.Format("Unable to retrieve feeds for user \"{0}\": {1}", userQuery.Username, userResponse.Status.ErrorMessage));
             }
 
             var user = userResponse.Data;

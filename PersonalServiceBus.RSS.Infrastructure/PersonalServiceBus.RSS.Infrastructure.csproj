@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Cryptography\Cryptography.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenDB\ConnectionManager.cs" />
     <Compile Include="RavenDB\FeedManager.cs" />
     <Compile Include="RavenDB\Model\RavenFeed.cs" />
     <Compile Include="RavenDB\Model\RavenUserFeed.cs" />
