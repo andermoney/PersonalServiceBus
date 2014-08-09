@@ -1,6 +1,10 @@
 ﻿using System;
+using AutoMapper;
 using Funq;
+using PersonalServiceBus.Hub.Messages;
+using PersonalServiceBus.Hub.Model;
 using PersonalServiceBus.Hub.Services;
+using Raven.Client.Document;
 using ServiceStack;
 using ServiceStack.Web;
 
@@ -10,12 +14,22 @@ namespace PersonalServiceBus.Hub
     {
         public class AppHost : AppHostBase
         {
+            private DocumentStore _documentStore;
             //Tell ServiceStack the name of your application and where to find your services
             public AppHost() : base("Subscription Web Service", typeof(SubscribeService).Assembly) { }
 
             public override void Configure(Container container)
             {
-                
+                _documentStore = new DocumentStore
+                {
+                    Url = "http://localhost:8080",
+                    DefaultDatabase = "PersonalServiceBus.Log"
+                };
+                _documentStore.Initialize();
+                Register(_documentStore);
+
+                Mapper.CreateMap<AddLogRequest, LogEntry>()
+                    .ForMember(l => l.CreatedDate, opt => opt.MapFrom(d => DateTime.Now));
             }
 
             public override void OnUncaughtException(IRequest httpReq, IResponse httpRes, string operationName, Exception ex)

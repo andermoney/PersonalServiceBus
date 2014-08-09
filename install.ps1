@@ -12,6 +12,13 @@ if ($site -eq $null) {
     Write-Host "Feeds site already created" -ForegroundColor Yellow
 }
 
+$site = Get-Website -Name "Hub"
+if ($site -eq $null){
+	New-Website -Name "Hub" -Port 15713 -PhysicalPath "$(Get-Location)\PersonalServiceBus.Hub" -ApplicationPool "HubAppPool"
+} else {
+	Write-Host "Hub site already created" -ForegroundColor Yellow
+}
+
 #$site = Get-Website -Name "RavenDB"
 #if ($site -eq $null) {
 #    New-Website -name "RavenDB" -Port 8080 -PhysicalPath "c:\inetpub\wwwroot\RavenDB"
