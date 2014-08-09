@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\PagedRequest.cs" />
     <Compile Include="Contract\Response.cs" />
     <Compile Include="Domain\Enum\ErrorLevel.cs" />
     <Compile Include="Domain\Interface\ILogger.cs" />

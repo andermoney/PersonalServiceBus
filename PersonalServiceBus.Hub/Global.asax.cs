@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Funq;
 using PersonalServiceBus.Hub.Core.Contract;
@@ -35,6 +36,8 @@ namespace PersonalServiceBus.Hub
                 Mapper.CreateMap<AddLogRequest, LogEntry>()
                     .ForMember(l => l.CreatedDate, opt => opt.MapFrom(d => DateTime.Now));
                 Mapper.CreateMap<Response, AddLogResponse>();
+                Mapper.CreateMap<Response<List<LogEntry>>, GetLogsResponse>();
+                Mapper.CreateMap<GetLogsRequest, PagedRequest>();
             }
 
             public override void OnUncaughtException(IRequest httpReq, IResponse httpRes, string operationName, Exception ex)
