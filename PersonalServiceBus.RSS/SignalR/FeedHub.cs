@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Magnum;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Ninject;
@@ -18,11 +19,13 @@ namespace PersonalServiceBus.RSS.SignalR
     {
         private readonly IFeedManager _feedManager;
         private readonly IAuthentication _authentication;
+        private readonly IRssManager _rssManager;
 
         public FeedHub()
         {
             _feedManager = NinjectRegistry.GetKernel().Get<IFeedManager>();
             _authentication = NinjectRegistry.GetKernel().Get<IAuthentication>();
+            _rssManager = NinjectRegistry.GetKernel().Get<IRssManager>();
         }
 
         public override Task OnConnected()
@@ -62,6 +65,17 @@ namespace PersonalServiceBus.RSS.SignalR
             //TODO log connection errors
 
             return base.OnReconnected();
+        }
+
+        public SingleResponse<UserFeed> LookupUserFeed(AddFeedViewModel feedModel)
+        {
+            return _rssManager.LookupUserFeed(new UserFeed
+            {
+                Feed = new Feed
+                {
+                    Url = feedModel.Url
+                }
+            });
         }
 
         public SingleResponse<UserFeed> AddFeed(AddFeedViewModel feedModel)

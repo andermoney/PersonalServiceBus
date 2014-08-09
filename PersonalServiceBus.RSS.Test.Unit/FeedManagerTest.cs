@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading;
 using NUnit.Framework;
 using Ninject;
@@ -74,6 +75,10 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            Assert.IsNotNullOrEmpty(response.Data.Id);
+            Assert.IsNotNull(response.Data.Feed);
+            Assert.IsNotNullOrEmpty(response.Data.Feed.Id);
             var getFeedResponse = feedManager.GetUserFeedsByUrl(url);
             Assert.AreEqual(ErrorLevel.None, getFeedResponse.Status.ErrorLevel, getFeedResponse.Status.ErrorMessage);
             Assert.IsNotNull(getFeedResponse.Data);

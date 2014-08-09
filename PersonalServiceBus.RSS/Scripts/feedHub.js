@@ -98,6 +98,33 @@
         $feed.flash('255, 248, 86', 500);
     }
 
+    function lookupFeed(feed) {
+        var feedHub = $.connection.feedHub,
+            $form = $('.form-addfeed'),
+            $name = $('#AddFeed-Name', $form);
+
+        loading.addLoadingIcon($form);
+        feedHub.server.lookupUserFeed(feed).done(function (lookupUserFeedResponse) {
+            loading.removeLoadingIcon($form);
+            if (lookupUserFeedResponse.Status.ErrorLevel > 2) {
+                notificationHelper.showError(lookupUserFeedResponse.Status);
+            } else {
+                $(document).trigger('feedLookup');
+            }
+            $name.val(lookupUserFeedResponse.Data.Name);
+            //$.each(lookupUserFeedResponse.Data, function () {
+            //    var feedItem = formatUserFeedItem(this);
+            //    feedItems.push(feedItem);
+            //});
+            //addFeedItems(feedItems);
+        }).fail(function (error) {
+            notificationHelper.showError({
+                ErrorLevel: 4,
+                ErrorMessage: 'Error looking up feed:' + error
+            });
+        });
+    }
+
     function addFeed(feed, showAnimation) {
         var feedId = feed.Feed.Id,
             feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
@@ -175,6 +202,7 @@
     return {
         hub: createHub(),
         addFeed: addFeed,
-        addFeedItems: addFeedItems
+        addFeedItems: addFeedItems,
+        lookupFeed: lookupFeed
     };
 });
