@@ -10,20 +10,20 @@ namespace PersonalServiceBus.RSS.Infrastructure
     {
         public static void InitializeBus()
         {
-            Bus.Initialize(bus =>
-            {
-                bus.UseMsmq();
-                bus.ReceiveFrom("msmq://localhost/personalservicebus.rss");
-                bus.UseLog4Net();
-                //TODO use container for this
-                bus.Subscribe(subs =>
-                {
-                    subs.Handler<GetFeedItems>(h => NinjectRegistry.GetKernel().Get<GetFeedItemsProcessor>().Handle(h));
-                    subs.Handler<AddFeed>(h => NinjectRegistry.GetKernel().Get<AddFeedProcessor>().Handle(h));
-                });
-            });
+            //Bus.Initialize(bus =>
+            //{
+            //    bus.UseMsmq();
+            //    bus.ReceiveFrom("msmq://localhost/personalservicebus.rss");
+            //    bus.UseLog4Net();
+            //    //TODO use container for this
+            //    bus.Subscribe(subs =>
+            //    {
+            //        subs.Handler<UpdateFeedItems>(h => NinjectRegistry.GetKernel().Get<FeedItemsProcessor>().UpdateFeedItems(h));
+            //        subs.Handler<AddFeed>(h => NinjectRegistry.GetKernel().Get<AddFeedProcessor>().UpdateFeedItems(h));
+            //    });
+            //});
             //Set up scheduler
-            Scheduler.Run();
+            //Scheduler.Run();
         }
     }
 }

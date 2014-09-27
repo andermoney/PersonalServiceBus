@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DD937A5-C131-4622-851D-A2281EDB136E}"
 EndProject
@@ -14,14 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18C914
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Contract", "PersonalServiceBus.Contract\PersonalServiceBus.Contract.csproj", "{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email", "PersonalServiceBus.Email\PersonalServiceBus.Email.csproj", "{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email.Core", "PersonalServiceBus.Email.Core\PersonalServiceBus.Email.Core.csproj", "{3F18421F-7DEB-4A39-85DF-D21960E3606A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email.Infrastructure", "PersonalServiceBus.Email.Infrastructure\PersonalServiceBus.Email.Infrastructure.csproj", "{C53EDB01-6561-4EEA-B503-C5889ED8635C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email.DependencyResolution", "PersonalServiceBus.Email.DependencyResolution\PersonalServiceBus.Email.DependencyResolution.csproj", "{8534E9DF-F468-4D74-B3C0-E479A0903340}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Core", "PersonalServiceBus.RSS.Core\PersonalServiceBus.RSS.Core.csproj", "{90DC562F-D533-4B74-A4C3-3ED2B53031D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Infrastructure", "PersonalServiceBus.RSS.Infrastructure\PersonalServiceBus.RSS.Infrastructure.csproj", "{9D2E2B5F-FC98-469D-88B7-E72904F17336}"
@@ -32,9 +24,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Messages", "PersonalServiceBus.RSS.Messages\PersonalServiceBus.RSS.Messages.csproj", "{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Email.Messages", "PersonalServiceBus.Email.Messages\PersonalServiceBus.Email.Messages.csproj", "{CD163C93-9226-4996-9C3C-06C847DEEB5A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.RSS.Test.Unit", "PersonalServiceBus.RSS.Test.Unit\PersonalServiceBus.RSS.Test.Unit.csproj", "{4A25461C-C151-4E57-B56F-BB4F8BE00505}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Hub", "PersonalServiceBus.Hub\PersonalServiceBus.Hub.csproj", "{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Hub.Core", "PersonalServiceBus.Hub.Core\PersonalServiceBus.Hub.Core.csproj", "{0AE2D0BE-23AE-43ED-A20F-4EF513C6E03D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalServiceBus.Hub.Infrastructure", "PersonalServiceBus.Hub.Infrastructure\PersonalServiceBus.Hub.Infrastructure.csproj", "{73D47F48-0615-44A0-8285-EC0209AE0D3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,22 +42,6 @@ Global
 		{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0501C0B-06B8-4720-A6C1-5F41B1B83F1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2AC7A5A-552B-4567-BC5E-BAB97E8AD964}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F18421F-7DEB-4A39-85DF-D21960E3606A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F18421F-7DEB-4A39-85DF-D21960E3606A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F18421F-7DEB-4A39-85DF-D21960E3606A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F18421F-7DEB-4A39-85DF-D21960E3606A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C53EDB01-6561-4EEA-B503-C5889ED8635C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C53EDB01-6561-4EEA-B503-C5889ED8635C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C53EDB01-6561-4EEA-B503-C5889ED8635C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C53EDB01-6561-4EEA-B503-C5889ED8635C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8534E9DF-F468-4D74-B3C0-E479A0903340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8534E9DF-F468-4D74-B3C0-E479A0903340}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8534E9DF-F468-4D74-B3C0-E479A0903340}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8534E9DF-F468-4D74-B3C0-E479A0903340}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90DC562F-D533-4B74-A4C3-3ED2B53031D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90DC562F-D533-4B74-A4C3-3ED2B53031D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90DC562F-D533-4B74-A4C3-3ED2B53031D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -82,14 +62,22 @@ Global
 		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE86ACE8-6126-4963-A6AF-F02BFD0E676A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD163C93-9226-4996-9C3C-06C847DEEB5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A25461C-C151-4E57-B56F-BB4F8BE00505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A25461C-C151-4E57-B56F-BB4F8BE00505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A25461C-C151-4E57-B56F-BB4F8BE00505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A25461C-C151-4E57-B56F-BB4F8BE00505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E39B3C-B45E-442D-B5E1-F62528A1FFE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE2D0BE-23AE-43ED-A20F-4EF513C6E03D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE2D0BE-23AE-43ED-A20F-4EF513C6E03D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE2D0BE-23AE-43ED-A20F-4EF513C6E03D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE2D0BE-23AE-43ED-A20F-4EF513C6E03D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D47F48-0615-44A0-8285-EC0209AE0D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D47F48-0615-44A0-8285-EC0209AE0D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D47F48-0615-44A0-8285-EC0209AE0D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D47F48-0615-44A0-8285-EC0209AE0D3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

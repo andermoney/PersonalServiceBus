@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Magnum;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Ninject;
@@ -19,11 +19,13 @@ namespace PersonalServiceBus.RSS.SignalR
     {
         private readonly IFeedManager _feedManager;
         private readonly IAuthentication _authentication;
+        private readonly IRssManager _rssManager;
 
         public FeedHub()
         {
             _feedManager = NinjectRegistry.GetKernel().Get<IFeedManager>();
             _authentication = NinjectRegistry.GetKernel().Get<IAuthentication>();
+            _rssManager = NinjectRegistry.GetKernel().Get<IRssManager>();
         }
 
         public override Task OnConnected()
@@ -40,17 +42,17 @@ namespace PersonalServiceBus.RSS.SignalR
             return base.OnConnected();
         }
 
-        public override Task OnDisconnected()
+        public override Task OnDisconnected(bool stopCalled)
         {
             var user = new User
-                {
-                    Username = Context.User.Identity.Name
-                };
+            {
+                Username = Context.User.Identity.Name
+            };
             var removeConnectionResponse = _authentication.RemoveConnection(Context.ConnectionId, user);
             //TODO log connection errors
             Groups.Remove(Context.ConnectionId, Context.User.Identity.Name);
 
-            return base.OnDisconnected();
+            return base.OnDisconnected(stopCalled);
         }
 
         public override Task OnReconnected()
@@ -63,6 +65,17 @@ namespace PersonalServiceBus.RSS.SignalR
             //TODO log connection errors
 
             return base.OnReconnected();
+        }
+
+        public SingleResponse<UserFeed> LookupUserFeed(AddFeedViewModel feedModel)
+        {
+            return _rssManager.LookupUserFeed(new UserFeed
+            {
+                Feed = new Feed
+                {
+                    Url = feedModel.Url
+                }
+            });
         }
 
         public SingleResponse<UserFeed> AddFeed(AddFeedViewModel feedModel)
@@ -212,11 +225,11 @@ namespace PersonalServiceBus.RSS.SignalR
             return _feedManager.GetUserFeeds(user);
         }
 
-        public CollectionResponse<UserFeedItem> GetFeedItems(UserFeed userFeed)
+        public CollectionResponse<FeedItem> GetFeedItems(UserFeed userFeed)
         {
             if (string.IsNullOrEmpty(Context.User.Identity.Name))
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Please log in to view feed items");
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "Please log in to view feed items");
             }
 
             //TODO use client connection for this
@@ -229,14 +242,14 @@ namespace PersonalServiceBus.RSS.SignalR
             var userResponse = _authentication.GetUserByUsername(userQuery);
             if (userResponse.Status.ErrorLevel > ErrorLevel.Warning || userResponse.Data == null)
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(userResponse.Status.ErrorLevel,
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(userResponse.Status.ErrorLevel,
                     string.Format("Unable to retrieve feed items for user \"{0}\": {1}", userQuery.Username, userResponse.Status.ErrorMessage));
             }
 
             var user = userResponse.Data;
             if (user.Id != userFeed.RavenUserId)
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Please log in to view feed items");
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "Please log in to view feed items");
             }
 
             return _feedManager.GetUserFeedItems(userFeed);

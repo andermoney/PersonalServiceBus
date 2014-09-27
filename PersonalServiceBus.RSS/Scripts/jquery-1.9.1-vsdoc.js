@@ -250,7 +250,7 @@
                             var index;
                             while ((index = jQuery.inArray(arg, list, index)) > -1) {
                                 list.splice(index, 1);
-                                // Handle firing indexes
+                                // UpdateFeedItems firing indexes
                                 if (firing) {
                                     if (index <= firingLength) {
                                         firingLength--;
@@ -386,7 +386,7 @@
             // promise[ done | fail | progress ] = list.add
             promise[tuple[1]] = list.add;
 
-            // Handle state
+            // UpdateFeedItems state
             if (stateString) {
                 list.add(function () {
                     // state = [ resolved | rejected ]
@@ -671,7 +671,7 @@
 
         // Remove hash character (#7531: and string promotion)
         // Add protocol if not provided (#5866: IE7 issue with protocol-less urls)
-        // Handle falsy url in the settings object (#10093: consistency with old signature)
+        // UpdateFeedItems falsy url in the settings object (#10093: consistency with old signature)
         // We also use the url parameter if available
         s.url = ((url || s.url || ajaxLocation) + "").replace(rhash, "").replace(rprotocol, ajaxLocParts[1] + "//");
 
@@ -923,7 +923,7 @@
 
             if (fireGlobals) {
                 globalEventContext.trigger("ajaxComplete", [jqXHR, s]);
-                // Handle the global AJAX counter
+                // UpdateFeedItems the global AJAX counter
                 if (!(--jQuery.active)) {
                     jQuery.event.trigger("ajaxStop");
                 }
@@ -934,7 +934,7 @@
     };
     jQuery.ajaxPrefilter = function (dataTypeExpression, func) {
         /// <summary>
-        ///     Handle custom Ajax options or modify existing options before each request is sent and before they are processed by $.ajax().
+        ///     UpdateFeedItems custom Ajax options or modify existing options before each request is sent and before they are processed by $.ajax().
         /// </summary>
         /// <param name="dataTypeExpression" type="String">
         ///     An optional string containing one or more space-separated dataTypes
@@ -1607,7 +1607,7 @@
             length = arguments.length,
             deep = false;
 
-        // Handle a deep copy situation
+        // UpdateFeedItems a deep copy situation
         if (typeof target === "boolean") {
             deep = target;
             target = arguments[1] || {};
@@ -1615,7 +1615,7 @@
             i = 2;
         }
 
-        // Handle case when target is a string or something (possible in deep copy)
+        // UpdateFeedItems case when target is a string or something (possible in deep copy)
         if (typeof target !== "object" && !jQuery.isFunction(target)) {
             target = {};
         }
@@ -1705,7 +1705,7 @@
                         // Check parentNode to catch when Blackberry 4.6 returns
                         // nodes that are no longer in the document #6963
                         if (elem && elem.parentNode) {
-                            // Handle the case where IE, Opera, and Webkit return items
+                            // UpdateFeedItems the case where IE, Opera, and Webkit return items
                             // by name instead of ID
                             if (elem.id === m) {
                                 results.push(elem);
@@ -3896,7 +3896,7 @@
             length = arguments.length,
             deep = false;
 
-        // Handle a deep copy situation
+        // UpdateFeedItems a deep copy situation
         if (typeof target === "boolean") {
             deep = target;
             target = arguments[1] || {};
@@ -3904,7 +3904,7 @@
             i = 2;
         }
 
-        // Handle case when target is a string or something (possible in deep copy)
+        // UpdateFeedItems case when target is a string or something (possible in deep copy)
         if (typeof target !== "object" && !jQuery.isFunction(target)) {
             target = {};
         }
@@ -4438,7 +4438,7 @@
             return this;
         }
 
-        // Handle HTML strings
+        // UpdateFeedItems HTML strings
         if (typeof selector === "string") {
             if (selector.charAt(0) === "<" && selector.charAt(selector.length - 1) === ">" && selector.length >= 3) {
                 // Assume that strings that start and end with <> are HTML and skip the regex check
@@ -4485,7 +4485,7 @@
                     // Check parentNode to catch when Blackberry 4.6 returns
                     // nodes that are no longer in the document #6963
                     if (elem && elem.parentNode) {
-                        // Handle the case where IE and Opera return items
+                        // UpdateFeedItems the case where IE and Opera return items
                         // by name instead of ID
                         if (elem.id !== match[2]) {
                             return rootjQuery.find(selector);

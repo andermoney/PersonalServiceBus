@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using PersonalServiceBus.RSS.Core.Domain.Enum;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
@@ -30,27 +31,12 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             try
             {
                 var nextFeed = _database.Query<RavenFeed>().OrderBy(f => f.FeedRetrieveDate).FirstOrDefault();
-                return new SingleResponse<Feed>
-                    {
-                        Data = Mapper.Map<Feed>(nextFeed),
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.None
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse(Mapper.Map<Feed>(nextFeed), ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return new SingleResponse<Feed>
-                    {
-                        Data = new Feed(),
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Critical,
-                                ErrorMessage = string.Format("Fatal error getting next feed: {0}", ex),
-                                ErrorException = ex
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse<Feed>(ErrorLevel.Critical,
+                    string.Format("Fatal error getting next feed: {0}", ex), ex);
             }
         }
 
@@ -77,7 +63,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 }
                 var ravenUserFeed = Mapper.Map<RavenUserFeed>(userFeed);
                 ravenUserFeed.RavenFeedId = existingFeedId;
-                _database.Store(ravenUserFeed);
+                userFeed.Id = _database.Store(ravenUserFeed);
+                userFeed.Feed.Id = existingFeedId;
                 return new SingleResponse<UserFeed>
                     {
                         Data = userFeed,
@@ -89,16 +76,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new SingleResponse<UserFeed>
-                    {
-                        Data = userFeed,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Critical,
-                                ErrorMessage = string.Format("Fatal error adding feed: {0}", ex),
-                                ErrorException = ex
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse(userFeed, ErrorLevel.Critical,
+                    string.Format("Fatal error adding feed: {0}", ex), ex);
             }
         }
 
@@ -131,16 +110,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new SingleResponse<UserFeed>
-                {
-                    Data = userFeed,
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error updating user feed: {0}", ex),
-                        ErrorException = ex
-                    }
-                };
+                return ResponseBuilder.BuildSingleResponse(userFeed, ErrorLevel.Critical,
+                    string.Format("Fatal error updating user feed: {0}", ex), ex);
             }
         }
 
@@ -154,15 +125,8 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
             catch (Exception ex)
             {
-                return new SingleResponse<Feed>
-                    {
-                        Data = feed,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Critical,
-                                ErrorMessage = string.Format("Fatal error updating feed: {0}", ex)
-                            }
-                    };
+                return ResponseBuilder.BuildSingleResponse(feed, ErrorLevel.Critical,
+                    string.Format("Fatal error updating feed: {0}", ex), ex);
             }
         }
 
@@ -187,27 +151,12 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                     userFeeds.Add(userFeed);
                 }
 
-                return new CollectionResponse<UserFeed>
-                    {
-                        Data = userFeeds,
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.None
-                            }
-                    };
+                return ResponseBuilder.BuildCollectionResponse(userFeeds, ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return new CollectionResponse<UserFeed>
-                    {
-                        Data = new List<UserFeed>(),
-                        Status = new Status
-                            {
-                                ErrorLevel = ErrorLevel.Critical,
-                                ErrorMessage = string.Format("Fatal error getting feeds: {0}", ex),
-                                ErrorException = ex
-                            }
-                    };
+                return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Critical,
+                    string.Format("Fatal error getting feeds: {0}", ex), ex);
             }
         }
 
@@ -227,14 +176,7 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
                 var ravenFeed = _database.Query<RavenFeed>().FirstOrDefault(f => f.Url == url);
                 if (ravenFeed == null)
                 {
-                    return new SingleResponse<UserFeed>
-                    {
-                        Data = null,
-                        Status = new Status
-                        {
-                            ErrorLevel = ErrorLevel.None
-                        }
-                    };
+                    return ResponseBuilder.BuildSingleResponse<UserFeed>(null, ErrorLevel.None);
                 }
                 var ravenUserFeed = _database.Query<RavenUserFeed>()
                     .FirstOrDefault(uf => uf.RavenFeedId == ravenFeed.Id && uf.RavenUserId == user.Id);
@@ -405,33 +347,45 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
-        public CollectionResponse<UserFeedItem> GetUserFeedItems(UserFeed userFeed)
+        public CollectionResponse<FeedItem> GetUserFeedItems(UserFeed userFeed)
         {
             try
             {
                 if (userFeed == null)
                 {
-                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "User feed is required");
+                    return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "User feed is required");
                 }
                 if (string.IsNullOrEmpty(userFeed.RavenUserId))
                 {
-                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "User Id is required");
+                    return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "User Id is required");
                 }
                 if (userFeed.Feed == null || string.IsNullOrEmpty(userFeed.Feed.Id))
                 {
-                    return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Error, "Feed is required");
+                    return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Error, "Feed is required");
                 }
 
                 var feedId = userFeed.Feed.Id;
-                var userFeedItems = _database.Query<UserFeedItem>()
-                    .Where(ufi => ufi.RavenUserId == userFeed.RavenUserId && ufi.FeedId == feedId)
-                    .ToList();
 
-                return ResponseBuilder.BuildCollectionResponse(userFeedItems, ErrorLevel.None);
+                //TODO need to find another way to query this
+                Expression<Func<UserFeedItem, bool>> expression = ufi => ufi.RavenUserId == userFeed.RavenUserId && ufi.FeedId == feedId;
+                var userFeedItems = _database.Query<UserFeedItem>()
+                    .Where(expression)
+                    .ToList();
+                var feedItems = new List<FeedItem>();
+                foreach (var userFeedItem in userFeedItems)
+                {
+                    FeedItem feedItem = _database.Load<FeedItem>(userFeedItem.FeedItemId);
+                    if (feedItem != null)
+                    {
+                        feedItems.Add(feedItem);
+                    }
+                }
+
+                return ResponseBuilder.BuildCollectionResponse(feedItems, ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeedItem>(ErrorLevel.Critical,
+                return ResponseBuilder.BuildCollectionResponse<FeedItem>(ErrorLevel.Critical,
                     string.Format("Fatal error getting feed items: {0}", ex), ex);
             }
         }

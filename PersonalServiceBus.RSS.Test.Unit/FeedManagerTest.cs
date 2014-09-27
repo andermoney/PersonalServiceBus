@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading;
 using NUnit.Framework;
 using Ninject;
@@ -74,6 +75,10 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Assert
             Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
+            Assert.IsNotNullOrEmpty(response.Data.Id);
+            Assert.IsNotNull(response.Data.Feed);
+            Assert.IsNotNullOrEmpty(response.Data.Feed.Id);
             var getFeedResponse = feedManager.GetUserFeedsByUrl(url);
             Assert.AreEqual(ErrorLevel.None, getFeedResponse.Status.ErrorLevel, getFeedResponse.Status.ErrorMessage);
             Assert.IsNotNull(getFeedResponse.Data);
@@ -352,7 +357,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             IFeedManager feedManager = new FeedManager(_database);
 
             //Act
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(null);
+            var response = feedManager.GetUserFeedItems(null);
 
             //Assert
             Assert.IsNotNull(response);
@@ -369,7 +374,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
 
             //Act
             var userFeed = new UserFeed();
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);
@@ -389,7 +394,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
             {
                 RavenUserId = "ravenuser/1"
             };
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);
@@ -410,7 +415,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
                 RavenUserId = "ravenuser/1",
                 Feed = new Feed()
             };
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);
@@ -434,7 +439,7 @@ namespace PersonalServiceBus.RSS.Test.Unit
                     Id = "ravenfeed/1"
                 }
             };
-            CollectionResponse<UserFeedItem> response = feedManager.GetUserFeedItems(userFeed);
+            var response = feedManager.GetUserFeedItems(userFeed);
 
             //Assert
             Assert.IsNotNull(response);

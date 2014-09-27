@@ -26,12 +26,12 @@
         <div class="alert-container"></div>
         <form class="form-addfeed">
             <fieldset>
+                <label>URL</label>
+                <input name="Url" id="AddFeed-Url" type="text" />
+                <label>Name</label>
+                <input name="Name" id="AddFeed-Name" type="text" />
                 <label>Category</label>
                 <input name="Category" type="text" />
-                <label>Name</label>
-                <input name="Name" type="text" />
-                <label>URL</label>
-                <input name="Url" type="text" />
             </fieldset>
         </form>
     </div>
@@ -49,6 +49,9 @@
             });
             $('#subscribe-modal').on('hidden', function() {
                 formHelper.clearForm($addFeedForm);
+            });
+            $('#subscribe-modal #AddFeed-Url').blur(function(e) {
+                feedHub.lookupFeed(formHelper.getFormData($('.form-addfeed')));
             });
             $('#subscribe-modal .btn-save').click(function (e) {
                 var $saveButton = $(this);

@@ -6,5 +6,6 @@ namespace PersonalServiceBus.RSS.Core.Domain.Interface
     public interface IRssManager
     {
         CollectionResponse<FeedItem> GetFeedItems(Feed feed);
+        SingleResponse<UserFeed> LookupUserFeed(UserFeed userFeed);
     }
 }

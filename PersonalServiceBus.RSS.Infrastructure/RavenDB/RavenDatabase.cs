@@ -6,6 +6,7 @@ using System.Reflection;
 using PersonalServiceBus.RSS.Core.Domain.Interface;
 using PersonalServiceBus.RSS.Core.Domain.Model;
 using PersonalServiceBus.RSS.Infrastructure.RavenDB.Model;
+using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
 

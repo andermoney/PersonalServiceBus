@@ -14,7 +14,8 @@
 
     function formatUserFeed(userFeed) {
         return $.extend(userFeed, {
-            Id: userFeed.Id.replace(/\//g, '-'),
+            Id: userFeed.Id.replace(/\//g, '-').replace(/\./g, 'dot'),
+            Category: userFeed.Category.replace(/\//g, '-').replace(/\./g, 'dot'),
             Feed: $.extend(userFeed.Feed, {
                 Id: userFeed.Feed.Id.replace(/\//g, '-')
             })
@@ -28,8 +29,8 @@
     }
 
     function formatFeedCategory(category) {
-        return $.extend(category, {
-            Id: category.Id.replace(/\//g, '-')
+        return $.extend(category, {            
+            Id: category.Id.replace(/\//g, '-').replace(/\./g, 'dot')
                 .replace(/ /g, '-')
         });
     }
@@ -95,6 +96,33 @@
             $category.collapse('show');
         }
         $feed.flash('255, 248, 86', 500);
+    }
+
+    function lookupFeed(feed) {
+        var feedHub = $.connection.feedHub,
+            $form = $('.form-addfeed'),
+            $name = $('#AddFeed-Name', $form);
+
+        loading.addLoadingIcon($form);
+        feedHub.server.lookupUserFeed(feed).done(function (lookupUserFeedResponse) {
+            loading.removeLoadingIcon($form);
+            if (lookupUserFeedResponse.Status.ErrorLevel > 2) {
+                notificationHelper.showError(lookupUserFeedResponse.Status);
+            } else {
+                $(document).trigger('feedLookup');
+            }
+            $name.val(lookupUserFeedResponse.Data.Name);
+            //$.each(lookupUserFeedResponse.Data, function () {
+            //    var feedItem = formatUserFeedItem(this);
+            //    feedItems.push(feedItem);
+            //});
+            //addFeedItems(feedItems);
+        }).fail(function (error) {
+            notificationHelper.showError({
+                ErrorLevel: 4,
+                ErrorMessage: 'Error looking up feed:' + error
+            });
+        });
     }
 
     function addFeed(feed, showAnimation) {
@@ -174,6 +202,7 @@
     return {
         hub: createHub(),
         addFeed: addFeed,
-        addFeedItems: addFeedItems
+        addFeedItems: addFeedItems,
+        lookupFeed: lookupFeed
     };
 });

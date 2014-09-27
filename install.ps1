@@ -1,9 +1,22 @@
+choco install MSMQ-Server -source windowsfeatures
+
+#Set up IIS
+choco install IIS-WebServerRole IIS-WebServer IIS-CommonHttpFeatures IIS-HttpErrors IIS-HttpRedirect IIS-ApplicationDevelopment IIS-NetFxExtensibility IIS-NetFxExtensibility45 IIS-HealthAndDiagnostics IIS-HttpLogging IIS-LoggingLibraries IIS-RequestMonitor IIS-HttpTracing IIS-Security IIS-URLAuthorization IIS-RequestFiltering IIS-IPSecurity IIS-Performance IIS-HttpCompressionDynamic IIS-WebServerManagementTools IIS-ManagementScriptingTools IIS-IIS6ManagementCompatibility IIS-Metabase IIS-HostableWebCore IIS-StaticContent IIS-DefaultDocument IIS-DirectoryBrowsing IIS-WebDAV IIS-WebSockets IIS-ApplicationInit IIS-ASPNET IIS-ASPNET45 IIS-ASP IIS-CGI IIS-ISAPIExtensions IIS-ISAPIFilter IIS-ServerSideIncludes IIS-CustomLogging IIS-BasicAuthentication IIS-HttpCompressionStatic IIS-ManagementConsole IIS-ManagementService IIS-WMICompatibility IIS-LegacyScripts IIS-LegacySnapIn IIS-FTPServer IIS-FTPSvc IIS-FTPExtensibility -source windowsfeatures
+
+
 #Create IIS sites
 $site = Get-Website -Name "Feeds"
 if ($site -eq $null) {
     New-Website -Name "Feeds" -Port 58206 -PhysicalPath "$(Get-Location)\PersonalServiceBus.RSS" -ApplicationPool "FeedsAppPool"
 } else {
     Write-Host "Feeds site already created" -ForegroundColor Yellow
+}
+
+$site = Get-Website -Name "Hub"
+if ($site -eq $null){
+	New-Website -Name "Hub" -Port 15713 -PhysicalPath "$(Get-Location)\PersonalServiceBus.Hub" -ApplicationPool "HubAppPool"
+} else {
+	Write-Host "Hub site already created" -ForegroundColor Yellow
 }
 
 #$site = Get-Website -Name "RavenDB"
