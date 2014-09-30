@@ -49,6 +49,7 @@
     <Compile Include="Domain\Interface\IDatabase.cs" />
     <Compile Include="Domain\Interface\IFeedManager.cs" />
     <Compile Include="Domain\Interface\IRssManager.cs" />
+    <Compile Include="Domain\Model\Connection.cs" />
     <Compile Include="Domain\Model\User.cs" />
     <Compile Include="Domain\Model\EntityBase.cs" />
     <Compile Include="Domain\Model\Feed.cs" />

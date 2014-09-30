@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using NUnit.Framework;
 using Ninject;
 using PersonalServiceBus.RSS.Core.Contract;
@@ -237,6 +238,20 @@ namespace PersonalServiceBus.RSS.Test.Unit
             Assert.AreEqual(ErrorLevel.None, getUserResponse.Status.ErrorLevel, getUserResponse.Status.ErrorMessage);
             Assert.IsNotNull(getUserResponse.Data);
             Assert.AreEqual(lastConnectedDate, getUserResponse.Data.LastConnectedDate);
+        }
+
+        [Test]
+        public void GetAllConnections()
+        {
+            //Arrange
+            var authentication = TestRegistry.GetKernel().Get<IAuthentication>();
+
+            //Act
+            CollectionResponse<Connection> response = authentication.GetAllConnections();
+
+            //Assert
+            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.IsNotNull(response.Data);
         }
 
         [Test]

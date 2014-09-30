@@ -400,27 +400,28 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
                 existingUser.LastConnectedDate = DateTime.Now;
                 _database.Store(existingUser);
-                return new SingleResponse<User>
-                {
-                    Data = Mapper.Map<User>(existingUser),
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.None
-                    }
-                };
+                return ResponseBuilder.BuildSingleResponse(Mapper.Map<User>(existingUser), ErrorLevel.None);
             }
             catch (Exception ex)
             {
-                return new SingleResponse<User>
-                {
-                    Data = user,
-                    Status = new Status
-                    {
-                        ErrorLevel = ErrorLevel.Critical,
-                        ErrorMessage = string.Format("Fatal error updating connection: {0}", "ARG0"),
-                        ErrorException = ex
-                    }
-                };
+                return ResponseBuilder.BuildSingleResponse(user, ErrorLevel.Critical,
+                    string.Format("Fatal error updating connection: {0}", "ARG0"), ex);
+            }
+        }
+
+        public CollectionResponse<Connection> GetAllConnections()
+        {
+            try
+            {
+                var connections = _database.Query<User>()
+                    .Select(u => new Connection { UserId = u.Id, ConnectionIds = u.ConnectionIds })
+                    .ToList();
+                return ResponseBuilder.BuildCollectionResponse(connections, ErrorLevel.None);
+            }
+            catch (Exception ex)
+            {
+                return ResponseBuilder.BuildCollectionResponse<Connection>(ErrorLevel.Critical,
+                    string.Format("Error getting connections: {0}", ex), ex);
             }
         }
 
