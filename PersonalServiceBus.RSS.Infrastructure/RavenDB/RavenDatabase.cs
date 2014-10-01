@@ -149,12 +149,12 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
 
         private void BuildIndexes()
         {
-            DocumentStore.DatabaseCommands.PutIndex("RavenUsersByName",
-                new IndexDefinitionBuilder<RavenUser>
-                {
-                    Map = users => from user in users
-                        select new {user.Username}
-                });
+            //DocumentStore.DatabaseCommands.PutIndex("RavenUsersByName",
+            //    new IndexDefinitionBuilder<RavenUser>
+            //    {
+            //        Map = users => from user in users
+            //            select new {user.Username}
+            //    });
         }
     }
 }

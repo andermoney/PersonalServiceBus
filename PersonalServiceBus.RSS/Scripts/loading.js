@@ -1,4 +1,4 @@
-﻿define(['/Scripts/template.js'], function (template) {
+﻿define(['/Scripts/mustache.js'], function (mustache) {
     var loadingTemplate = '<img src="/Content/img/loading.gif" alt="loading..." class="icon-loading" />';
     
     function addLoadingIcon($elem) {

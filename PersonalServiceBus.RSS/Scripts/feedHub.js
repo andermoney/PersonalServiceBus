@@ -1,4 +1,4 @@
-﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs', '/Scripts/template.js', '/Scripts/loading.js' , '/Scripts/notificationHelper.js'], function(signalR, hubs, template, loading, notificationHelper) {
+﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs', '/Scripts/loading.js' , '/Scripts/notificationHelper.js', '/Scripts/mustache.js'], function(signalR, hubs, loading, notificationHelper, mustache) {
     var $categoryList = $('#feed-category-list');
 
     // A simple background color flash effect that uses jQuery Color plugin
@@ -122,8 +122,6 @@
 
     function addFeed(feed, showAnimation) {
         var feedId = feed.Feed.Id,
-            feedCategoryTemplate = '<div class="accordion-group"><div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#feed-category-list" href="#{Id}">{Name}</a></div><div id="{Id}" class="accordion-body collapse"><div class="accordion-inner"><ul class="nav nav-pills nav-stacked"></ul></div></div></div>',
-            feedTemplate = '<li id="{Id}" class="feed"><a href="#">{Name} <span class="badge badge-important feed-error" style="display:none">!</span>&nbsp;<span class="badge badge-info badge-unread">{UnreadCount}</span></a></li>',
             category = formatFeedCategory({
                 Id: feed.Category,
                 Name: feed.Category
@@ -134,12 +132,13 @@
         feed = formatUserFeed(feed);
 
         if ($category.length == 0) {
-            $categoryList.append(feedCategoryTemplate.supplant(category));
+            var rendered = mustache.render($('#feedCategoryTemplate').html(), category);
+            $categoryList.append(rendered);
             $category = $('#' + category.Id + ' .accordion-inner ul', $categoryList);
         }
         $feed = $('#' + feed.Id, $category);
         if ($feed.length == 0) {
-            $category.append(feedTemplate.supplant(feed));
+            $category.append(mustache.render($('#feedTemplate').html(), feed));
             $feed = $('#' + feed.Id, $category);
             if (feed.Status && feed.Status.ErrorLevel > 2) {
                 $('.feed-error', $feed).show();
