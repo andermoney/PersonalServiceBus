@@ -5,7 +5,7 @@
 <h2>@ViewBag.Message</h2>
 <div class="container-fluid" ng-app>
     <div class="row-fluid">
-        <div class="span3 feed-list">
+        <div class="span3 ng-controller="feedListController">
             <!--Sidebar content-->
             <div class="accordion" id="feed-category-list">
             </div>
@@ -41,35 +41,36 @@
     </div>
 </div>
 <script type="text/javascript">
-    require(['/Scripts/feedHub.js', '/Scripts/formHelper.js', '/Scripts/notificationHelper.js'], function (feedHub, formHelper, notificationHelper) {
-        var $addFeedForm = $('.form-addfeed');
-        $(document).on('hubStarted', function () {
-            $('#subscribe-modal').on('shown', function () {
-                formHelper.selectFirstField($addFeedForm);
-            });
-            $('#subscribe-modal').on('hidden', function() {
-                formHelper.clearForm($addFeedForm);
-            });
-            $('#subscribe-modal #AddFeed-Url').blur(function(e) {
-                feedHub.lookupFeed(formHelper.getFormData($('.form-addfeed')));
-            });
-            $('#subscribe-modal .btn-save').click(function (e) {
-                var $saveButton = $(this);
-                $saveButton.button('loading');
-                var feed = formHelper.getFormData($('.form-addfeed'));
-                feedHub.hub.server.addFeed(feed).done(function (addResponse) {
-                    if (addResponse.Status.ErrorLevel > 2) {
-                        notificationHelper.showError(addResponse.Status, $('.modal-body'));
-                    } else {
-                        $('#subscribe-modal').modal('hide');
-                        feedHub.addFeed(addResponse.Data, true);
-                    }
-                    $saveButton.button('reset');
+    angular.module('FeedModule')
+        .controller('feedListController', ['feedHub', function(feedHub) {
+            var $addFeedForm = $('.form-addfeed');
+            $(document).on('hubStarted', function() {
+                $('#subscribe-modal').on('shown', function() {
+                    formHelper.selectFirstField($addFeedForm);
+                });
+                $('#subscribe-modal').on('hidden', function() {
+                    formHelper.clearForm($addFeedForm);
+                });
+                $('#subscribe-modal #AddFeed-Url').blur(function(e) {
+                    feedHub.lookupFeed(formHelper.getFormData($('.form-addfeed')));
+                });
+                $('#subscribe-modal .btn-save').click(function(e) {
+                    var $saveButton = $(this);
+                    $saveButton.button('loading');
+                    var feed = formHelper.getFormData($('.form-addfeed'));
+                    feedHub.hub.server.addFeed(feed).done(function(addResponse) {
+                        if (addResponse.Status.ErrorLevel > 2) {
+                            notificationHelper.showError(addResponse.Status, $('.modal-body'));
+                        } else {
+                            $('#subscribe-modal').modal('hide');
+                            feedHub.addFeed(addResponse.Data, true);
+                        }
+                        $saveButton.button('reset');
+                    });
                 });
             });
-        });
-        $(document).on('feedListRetrieved', function () {
-            $('#subscribe-feed').show();
-        });
-    });
+            $(document).on('feedListRetrieved', function() {
+                $('#subscribe-feed').show();
+            });
+        }]);
 </script>
