@@ -1,10 +1,9 @@
 ﻿define(['/Scripts/jquery.signalR-1.0.1.min.js', '/signalr/hubs', '/Scripts/loading.js', '/Scripts/notificationHelper.js'], function (signalR, hubs, loading, notificationHelper) {
-    angular.module('FeedModule')
-    .factory('feedHub', function () {
+    var fh = function() {
         var $categoryList = $('#feed-category-list');
 
         // A simple background color flash effect that uses jQuery Color plugin
-        $.fn.flash = function (color, duration) {
+        $.fn.flash = function(color, duration) {
             var current = this.css('backgroundColor');
             this.animate({ backgroundColor: 'rgb(' + color + ')' }, duration / 2)
                 .animate({ backgroundColor: current }, duration / 2)
@@ -48,17 +47,17 @@
 
             function getFeeds() {
                 loading.addLoadingIcon($categoryList);
-                feedHub.server.getFeeds().done(function (feedResponse) {
+                feedHub.server.getFeeds().done(function(feedResponse) {
                     loading.removeLoadingIcon($categoryList);
                     if (feedResponse.Status.ErrorLevel > 2) {
                         notificationHelper.showError(feedResponse.Status);
                     } else {
                         $(document).trigger('feedListRetrieved');
                     }
-                    $.each(feedResponse.Data, function () {
+                    $.each(feedResponse.Data, function() {
                         addFeed(this);
                     });
-                }).fail(function (error) {
+                }).fail(function(error) {
                     notificationHelper.showError({
                         ErrorLevel: 4,
                         ErrorMessage: 'Error getting feeds:' + error
@@ -69,7 +68,7 @@
             function setupClient() {
                 //client methods the server will call back
                 $.extend(feedHub.client, {
-                    UpdateFeedUnreadCount: function (userFeed) {
+                    UpdateFeedUnreadCount: function(userFeed) {
                         var $userFeed;
                         userFeed = formatUserFeed(userFeed);
                         $userFeed = $('#' + userFeed.Id, $categoryList);
@@ -83,7 +82,7 @@
 
             //start the connection
             $.connection.hub.start({ waitForPageLoad: false })
-                .done(function () {
+                .done(function() {
                     $(document).trigger('hubStarted');
                     getFeeds();
                 });
@@ -106,7 +105,7 @@
                 $name = $('#AddFeed-Name', $form);
 
             loading.addLoadingIcon($form);
-            feedHub.server.lookupUserFeed(feed).done(function (lookupUserFeedResponse) {
+            feedHub.server.lookupUserFeed(feed).done(function(lookupUserFeedResponse) {
                 loading.removeLoadingIcon($form);
                 if (lookupUserFeedResponse.Status.ErrorLevel > 2) {
                     notificationHelper.showError(lookupUserFeedResponse.Status);
@@ -114,7 +113,7 @@
                     $(document).trigger('feedLookup');
                 }
                 $name.val(lookupUserFeedResponse.Data.Name);
-            }).fail(function (error) {
+            }).fail(function(error) {
                 notificationHelper.showError({
                     ErrorLevel: 4,
                     ErrorMessage: 'Error looking up feed:' + error
@@ -146,7 +145,7 @@
                 if (feed.Status && feed.Status.ErrorLevel > 2) {
                     $('.feed-error', $feed).show();
                 }
-                $feed.click(function () {
+                $feed.click(function() {
                     getFeedItems(feedId, feed, $feed);
                 });
             }
@@ -165,19 +164,19 @@
                 });
 
             loading.addLoadingIcon($feed);
-            feedHub.server.getFeedItems(feedRequest).done(function (getFeedItemsResponse) {
+            feedHub.server.getFeedItems(feedRequest).done(function(getFeedItemsResponse) {
                 loading.removeLoadingIcon($feed);
                 if (getFeedItemsResponse.Status.ErrorLevel > 2) {
                     notificationHelper.showError(getFeedItemsResponse.Status);
                 } else {
                     $(document).trigger('feedItemsRetrieved');
                 }
-                $.each(getFeedItemsResponse.Data, function () {
+                $.each(getFeedItemsResponse.Data, function() {
                     var feedItem = formatUserFeedItem(this);
                     feedItems.push(feedItem);
                 });
                 addFeedItems(feedItems);
-            }).fail(function (error) {
+            }).fail(function(error) {
                 notificationHelper.showError({
                     ErrorLevel: 4,
                     ErrorMessage: 'Error getting feed items:' + error
@@ -195,12 +194,22 @@
                 $feedView.append(feedItemTemplate.supplant(feedItem));
             }
         }
-    });
+
+        return {
+            createHub: createHub,
+            addFeed: addFeed,
+            addFeedItem: addFeedItems,
+            lookupFeed: lookupFeed
+        };
+    };
+    angular.module('FeedModule')
+        .factory('feedHub', fh);
+    var f = fh();
 
     return {
-        hub: createHub(),
-        addFeed: addFeed,
-        addFeedItems: addFeedItems,
-        lookupFeed: lookupFeed
+        hub: f.createHub(),
+        addFeed: f.addFeed,
+        addFeedItems: f.addFeedItems,
+        lookupFeed: f.lookupFeed
     };
 });
