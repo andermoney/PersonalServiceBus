@@ -1,5 +1,5 @@
 ﻿(function() {
-    angular.module('FeedModule')
+    angular.module('FeedReader')
         .factory('feedHub', function() {
             var $categoryList = $('#feed-category-list');
 
