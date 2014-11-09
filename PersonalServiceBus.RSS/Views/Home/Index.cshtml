@@ -7,8 +7,16 @@
     <div class="row-fluid">
         <div class="span3" ng-controller="feedListController">
             <img src="/Content/img/loading.gif" alt="loading..." class="icon-loading" ng-show="loading" />
+            <div class="alert fade in" ng-show="error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>{{error.ErrorLevel <= 3 ? 'Warning!' : 'Error!'}}</strong>
+                &nbsp;<span class="{{error.ErrorLevel <= 3 ? 'alert-message' : 'alert-error-message'}}">{{error.ErrorMessage}}</span>
+            </div>
             <!--Sidebar content-->
             <div class="accordion" id="feed-category-list">
+                <div ng-repeat="category in categories" id="{{category.id}}" ng-include="'/Scripts/ng/views/feedCategoryView.html'">
+                    {{category.Name}}
+                </div>
             </div>
             <a href="#subscribe-modal" role="button" id="subscribe-feed" style="display:none;" class="btn btn-primary" data-toggle="modal">Subscribe</a>
         </div>
@@ -43,18 +51,38 @@
 </div>
 
 @section Scripts{
-<script type="text/javascript">
-    angular.module('FeedReader', []);
-</script>
-<script type="text/javascript" src="~/Scripts/feedHub.js"></script>
+    <script type="text/javascript">
+        angular.module('FeedReader', []);
+    </script>
+    <script type="text/javascript" src="~/Scripts/feedHub.js"></script>
 }
 
 <script type="text/javascript">
     angular.module('FeedReader')
         .controller('feedListController', [
-            'feedHub', function(feedHub) {
+            '$scope', 'feedHub', function($scope, feedHub) {
                 var $addFeedForm = $('.form-addfeed');
-                $(document).on('hubStarted', function() {
+                $scope.loading = true;
+                feedHub.startHub()
+                    .done(function() {
+                        feedHub.getFeeds().done(function(feedResponse) {
+                            $scope.$root.loading = false;
+                            if (feedResponse.Status.ErrorLevel > 2) {
+                                $scope.$root.error = feedResponse.Status;
+                            } else {
+                                $(document).trigger('feedListRetrieved');
+                            }
+                            $scope.$root.categories = feedResponse.Data;
+                            $scope.$root.$apply();
+                        }).fail(function(error) {
+                            $scope.$root.error = {
+                                ErrorLevel: 4,
+                                ErrorMessage: 'Error getting feeds:' + error
+                            };
+                            $scope.$root.$apply();
+                        });
+                    });
+                $scope.$on('hubStarted', function() {
                     $('#subscribe-modal').on('shown', function() {
                         formHelper.selectFirstField($addFeedForm);
                     });
@@ -78,6 +106,8 @@
                             $saveButton.button('reset');
                         });
                     });
+                });
+                $(document).on('hubStarted', function() {
                 });
                 $(document).on('feedListRetrieved', function() {
                     $('#subscribe-feed').show();
