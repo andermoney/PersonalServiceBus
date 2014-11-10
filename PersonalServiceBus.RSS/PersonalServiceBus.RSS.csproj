@@ -1058,6 +1058,8 @@
     <Content Include="Scripts\ng\services\feedService.js" />
     <Content Include="Scripts\ng\views\feedCategoryView.html" />
     <Content Include="Scripts\notificationHelper.js" />
+    <Content Include="Scripts\ng\services\feedService.js" />
+    <Content Include="Scripts\ng\views\feedCategoryView.html" />
     <Content Include="Scripts\require.js" />
     <Content Include="SignalR.Sample\SignalR.StockTicker.js" />
     <Content Include="SignalR.Sample\StockTicker.css" />
@@ -1096,6 +1098,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Scripts\ng\directives\" />
     <Folder Include="Videos\" />
   </ItemGroup>
   <ItemGroup>
