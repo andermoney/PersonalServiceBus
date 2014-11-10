@@ -66,8 +66,10 @@
                     event.currentScope.loading = false;
                     if (feedResponse.Status.ErrorLevel > 2) {
                         event.currentScope.error = feedResponse.Status;
+                    } else {
+                        var categories = feedHub.constructor(feedResponse.Data);
+                        event.currentScope.categories = feedResponse.Data;
                     }
-                    event.currentScope.categories = feedResponse.Data;
                     event.currentScope.$apply();
                 });
                 feedHub.startHub()

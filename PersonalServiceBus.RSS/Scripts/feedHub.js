@@ -102,6 +102,17 @@
                     });
                 }
 
+                function getCategories(feedList) {
+                    var categories = [];
+                    feedList.each(function(feed) {
+                        categories.append(formatFeedCategory({
+                            Id: feed.Category,
+                            Name: feed.Category
+                        }));
+                    });
+                    return categories;
+                }
+
                 function addFeed(feed, showAnimation) {
                     var feedId = feed.Feed.Id,
                         category = formatFeedCategory({
@@ -179,6 +190,7 @@
                 return {
                     startHub: startHub,
                     getFeeds: getFeeds,
+                    getCategories: getCategories,
                     addFeed: addFeed,
                     addFeedItem: addFeedItems,
                     lookupFeed: lookupFeed
