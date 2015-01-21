@@ -160,6 +160,15 @@ namespace PersonalServiceBus.RSS.Infrastructure.RavenDB
             }
         }
 
+        public CollectionResponse<FeedCategory> GetUserFeedsGroupedByCategory(User user)
+        {
+            var response = GetUserFeeds(user);
+            return ResponseBuilder.BuildCollectionResponse(response.Data
+                .GroupBy(f => f.Category)
+                .Select(f => new FeedCategory { Name = f.Key, Feeds = f.ToList() }),
+                response.Status.ErrorLevel);
+        }
+
         public SingleResponse<UserFeed> GetUserFeedByUserId(User user)
         {
             return new SingleResponse<UserFeed>

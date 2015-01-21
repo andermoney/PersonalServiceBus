@@ -198,20 +198,21 @@ namespace PersonalServiceBus.RSS.Test.Unit
         }
 
         [Test]
-        public void GetUserFeedsTest()
+        public void GetUserFeedsGroupedByCategory()
         {
             //Arrange
-            IFeedManager feedManager = new FeedManager(_database);
+            IFeedManager feedManager = TestRegistry.GetKernel().Get<IFeedManager>();
 
             //Act
-            var user = new User
-                {
-                    Id = "ravenuser/1"
-                };
-            var response = feedManager.GetUserFeeds(user);
+            var response = feedManager.GetUserFeedsGroupedByCategory(new User
+            {
+                Id = "ravenuser/2"
+            });
 
             //Assert
-            Assert.AreEqual(ErrorLevel.None, response.Status.ErrorLevel, response.Status.ErrorMessage);
+            Assert.That(response.Status.ErrorLevel, Is.EqualTo(ErrorLevel.None), response.Status.ErrorMessage);
+            Assert.That(response.Data, Is.Not.Null.Or.Empty);
+            Assert.That(response.Data, Has.All.With.Property("Name").Not.Null.And.Not.Contains("/"));
         }
 
         [Test]

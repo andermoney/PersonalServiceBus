@@ -1056,7 +1056,6 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Scripts\ng\directives\categoryDirective.js" />
     <Content Include="Scripts\ng\services\feedService.js" />
-    <Content Include="Scripts\ng\views\feedCategoryView.html" />
     <Content Include="Scripts\notificationHelper.js" />
     <Content Include="Scripts\ng\services\feedService.js" />
     <Content Include="Scripts\ng\views\feedCategoryView.html" />
@@ -1098,7 +1097,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Scripts\ng\directives\" />
     <Folder Include="Videos\" />
   </ItemGroup>
   <ItemGroup>
