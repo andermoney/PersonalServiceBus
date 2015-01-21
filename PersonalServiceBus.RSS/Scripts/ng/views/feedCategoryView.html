@@ -4,7 +4,9 @@
     </div>
     <div id="{{category.Id}}" class="accordion-body collapse">
         <div class="accordion-inner">
-            <ul class="nav nav-pills nav-stacked"></ul>
+            <ul class="nav nav-pills nav-stacked" ng-repeat="feed in category.Feeds">
+                <a href="#{{feed.Id}}">{{feed.Name}}</a>
+            </ul>
         </div>
     </div>
 </div>

@@ -149,11 +149,11 @@ namespace PersonalServiceBus.RSS.SignalR
             return ResponseBuilder.BuildSingleResponse(addUserFeedResult.Data, ErrorLevel.None);
         }
 
-        public CollectionResponse<UserFeed> GetFeeds()
+        public CollectionResponse<FeedCategory> GetFeeds()
         {
             if (string.IsNullOrEmpty(Context.User.Identity.Name))
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeed>(ErrorLevel.Error, "Please log in to view feeds");
+                return ResponseBuilder.BuildCollectionResponse<FeedCategory>(ErrorLevel.Error, "Please log in to view feeds");
             }
 
             //TODO use client connection for this
@@ -166,13 +166,13 @@ namespace PersonalServiceBus.RSS.SignalR
             var userResponse = _authentication.GetUserByUsername(userQuery);
             if (userResponse.Status.ErrorLevel > ErrorLevel.Warning || userResponse.Data == null)
             {
-                return ResponseBuilder.BuildCollectionResponse<UserFeed>(userResponse.Status.ErrorLevel,
+                return ResponseBuilder.BuildCollectionResponse<FeedCategory>(userResponse.Status.ErrorLevel,
                     string.Format("Unable to retrieve feeds for user \"{0}\": {1}", userQuery.Username,
                         userResponse.Status.ErrorMessage));
             }
 
             var user = userResponse.Data;
-            return _feedManager.GetUserFeeds(user);
+            return _feedManager.GetUserFeedsGroupedByCategory(user);
         }
 
         public CollectionResponse<FeedItem> GetFeedItems(UserFeed userFeed)
